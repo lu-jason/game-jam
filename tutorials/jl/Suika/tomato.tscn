@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxdmywqr64d1l"]
+
+[ext_resource type="Script" path="res://Tomato.cs" id="1_8xvxr"]
+[ext_resource type="Texture2D" uid="uid://gofon01g8kpg" path="res://art/circle1.png" id="2_f2tbj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn125"]
+radius = 48.0
+height = 104.0
+
+[node name="Tomato" type="RigidBody2D"]
+script = ExtResource("1_8xvxr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.52588e-05, 1.52588e-05)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_f2tbj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -2)
+shape = SubResource("CapsuleShape2D_tn125")
+
+[node name="TomatoCollision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TomatoCollision"]
+position = Vector2(-1, -2)
+shape = SubResource("CapsuleShape2D_tn125")
+
+[connection signal="body_entered" from="TomatoCollision" to="." method="OnAppleCollisonBodyEntered"]

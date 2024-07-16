@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://damdjpfls5mrh"]
+
+[ext_resource type="Script" path="res://Main.cs" id="1_4xv8c"]
+[ext_resource type="PackedScene" uid="uid://cfux05fxq2r2k" path="res://apple.tscn" id="2_pwf7j"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_uiodg"]
+a = Vector2(-540, 540)
+b = Vector2(540, 540)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_bsk0m"]
+b = Vector2(0, 1080)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_vvxqy"]
+a = Vector2(1080, 0)
+b = Vector2(1080, 1080)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_4xv8c")
+AppleScene = ExtResource("2_pwf7j")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1080.0
+offset_bottom = 1080.0
+color = Color(0.164706, 0.552941, 1, 1)
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(512, 64)
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+position = Vector2(540, 540)
+shape = SubResource("SegmentShape2D_uiodg")
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("SegmentShape2D_bsk0m")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("SegmentShape2D_vvxqy")
