@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://b00o40stqj15n"]
+
+[ext_resource type="Texture2D" uid="uid://sfqlpfl8745o" path="res://art/Boids.png" id="1_7t7l6"]
+[ext_resource type="Script" path="res://source/Boid.cs" id="1_yh00p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tlp30"]
+radius = 128.0
+
+[node name="Boid" type="Area2D"]
+script = ExtResource("1_yh00p")
+metadata/_edit_group_ = true
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tlp30")
+debug_color = Color(0.933143, 0.217245, 0.364868, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7t7l6")
+
+[node name="DebugButton" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[connection signal="pressed" from="DebugButton" to="." method="OnDebugButtonPressed"]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo4x0in7t4kxg"]
+
+[ext_resource type="Script" path="res://source/Main.cs" id="1_0qi22"]
+[ext_resource type="PackedScene" uid="uid://b00o40stqj15n" path="res://scenes/Boid.tscn" id="2_l0sk0"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_0qi22")
+BoidScene = ExtResource("2_l0sk0")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 800.0
+color = Color(0.641718, 0.950308, 0.93443, 1)
