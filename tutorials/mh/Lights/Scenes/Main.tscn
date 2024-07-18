@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlokfy4r8nrum"]
+
+[ext_resource type="PackedScene" uid="uid://cwrr33rmhwsqe" path="res://Scenes/Character.tscn" id="1_8j8sf"]
+[ext_resource type="PackedScene" uid="uid://ca8mtiijpbb6a" path="res://Scenes/Wall.tscn" id="2_fq82o"]
+
+[node name="Main" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 800.0
+color = Color(1, 0.839216, 0.780392, 1)
+
+[node name="Character" parent="." instance=ExtResource("1_8j8sf")]
+position = Vector2(352, 360)
+
+[node name="Wall" parent="." instance=ExtResource("2_fq82o")]
+position = Vector2(544, 296)
+
+[node name="Wall2" parent="." instance=ExtResource("2_fq82o")]
+position = Vector2(272, 536)
+
+[node name="Wall3" parent="." instance=ExtResource("2_fq82o")]
+position = Vector2(488, 488)
