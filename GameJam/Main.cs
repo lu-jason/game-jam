@@ -48,4 +48,14 @@ public partial class Main : Node2D
 			DrawLine(new Vector2(0,y), new Vector2(width, y), Color.Color8(0,0,0), 2);
 		}
 	}
+
+    void OnDebugButtonPressed()
+    {
+        GD.Print("hit");
+        var levelViewer = GetNode<LevelViewer>("LevelViewer");
+        if (levelViewer != null)
+        {
+            levelViewer.DebugPollTileMapData();
+        }
+    }
 }
