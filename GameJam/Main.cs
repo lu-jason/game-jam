@@ -17,7 +17,7 @@ public partial class Main : Node2D
 
 	public override void _Draw() {
 		int width = 1152;
-		int height = 648;
+		int height = 640;
 		int tileSize = 32;
 		for (int x = 0; x < width; x += tileSize) {
 			DrawLine(new Vector2(x,0), new Vector2(x, height), Color.Color8(0,0,0), (float)1.5);

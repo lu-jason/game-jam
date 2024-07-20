@@ -43,7 +43,6 @@ public partial class Player : Area2D {
 
 	private async void Move(string dir) {
 		var offset = inputs[dir] * tileSize;
-		GD.Print(dir, ray);
 		ray.TargetPosition = offset;
 		ray.ForceRaycastUpdate();
 		if (!ray.IsColliding()) {
