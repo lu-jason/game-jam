@@ -16,11 +16,14 @@ public partial class Main : Node2D
 	}
 
 	public override void _Draw() {
-		for (int x = 0; x < 2048; x += 64) {
-			DrawLine(new Vector2(x,0), new Vector2(x, 768), Color.Color8(0,0,0), (float)1.5);
+		int width = 1152;
+		int height = 648;
+		int tileSize = 64;
+		for (int x = 0; x < width; x += tileSize) {
+			DrawLine(new Vector2(x,0), new Vector2(x, height), Color.Color8(0,0,0), (float)1.5);
 		}
-		for (int y = 0; y < 768; y += 64) {
-			DrawLine(new Vector2(0,y), new Vector2(2048, y), Color.Color8(0,0,0), 2);
+		for (int y = 0; y < height; y += tileSize) {
+			DrawLine(new Vector2(0,y), new Vector2(width, y), Color.Color8(0,0,0), 2);
 		}
 	}
 }
