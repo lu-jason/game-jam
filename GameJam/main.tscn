@@ -11,4 +11,3 @@ format = 2
 
 [node name="Player" parent="." instance=ExtResource("2_cm3nu")]
 position = Vector2(490, 257)
-
