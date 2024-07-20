@@ -1,10 +1,78 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdak7ct67s1gl"]
+[gd_scene load_steps=9 format=3 uid="uid://cdak7ct67s1gl"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_m252d"]
 [ext_resource type="Texture2D" uid="uid://fn3ats00hpd7" path="res://assets/sokoban_character.png" id="2_u1it4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6136t"]
 size = Vector2(33, 39)
+
+[sub_resource type="Animation" id="Animation_ngcve"]
+resource_name = "ui_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_4xjda"]
+resource_name = "ui_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_cqryf"]
+resource_name = "ui_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_chlk1"]
+resource_name = "ui_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kaju1"]
+_data = {
+"ui_down": SubResource("Animation_chlk1"),
+"ui_left": SubResource("Animation_4xjda"),
+"ui_right": SubResource("Animation_ngcve"),
+"ui_up": SubResource("Animation_cqryf")
+}
 
 [node name="Player" type="Area2D"]
 script = ExtResource("1_m252d")
@@ -21,3 +89,8 @@ shape = SubResource("RectangleShape2D_6136t")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collide_with_areas = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kaju1")
+}
