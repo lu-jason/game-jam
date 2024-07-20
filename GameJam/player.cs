@@ -6,7 +6,7 @@ public partial class Player : Area2D {
 	// Called when the node enters the scene tree for the first time.
 	public int animationSpeed = 2;
 	public bool moving = false;
-	public int tileSize = 64;
+	public int tileSize = 32;
 	public Dictionary<string, Vector2> inputs = new Dictionary<string, Vector2>();
 	public RayCast2D ray;
 
