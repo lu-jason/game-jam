@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdak7ct67s1gl"]
+
+[ext_resource type="Script" path="res://player.cs" id="1_m252d"]
+
+[node name="Player" type="Area2D"]
+script = ExtResource("1_m252d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
