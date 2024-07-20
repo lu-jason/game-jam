@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://daq70bu4kme72"]
+
+[ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
+[ext_resource type="PackedScene" uid="uid://dgdjt66fxorl7" path="res://tilesets/map1.tscn" id="2_efqcc"]
+
+[node name="LevelViewer" type="Node2D"]
+script = ExtResource("1_wgqmp")
+Map = ExtResource("2_efqcc")
