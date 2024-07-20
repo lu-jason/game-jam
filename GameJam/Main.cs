@@ -12,6 +12,21 @@ public partial class Main : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Morphing state
+		// TODO - may need throttling/debounce to ensure not super spam of morphing
+		if (Input.IsActionPressed("morph_witch")) {
+			GD.Print("morphing into witch"); // 1 + num1
+		}
+		if (Input.IsActionPressed("morph_fox")) {
+			GD.Print("morphing into fox"); // 2 + num2
+		}
+		if (Input.IsActionPressed("morph_salamander")) {
+			GD.Print("morphing into salamander"); // 3 + num3
+		}
+		if (Input.IsActionPressed("morph_gargoyle")) {
+			GD.Print("morphing into gargoyle"); // 4 + num4
+		}
+
 
 	}
 
