@@ -23,19 +23,20 @@ public partial class Player : Area2D {
 	}
 
 	public override void _UnhandledInput(InputEvent @event) {
-		// if (moving){
-		// 	return;
-		// }
+		if (moving){
+			return;
+		}
 		foreach (var direction in inputs.Keys) {
 			if (@event.IsActionPressed(direction)){
-				MoveBasic(direction);
+				// MoveBasic(direction);
+				Move(direction);
 			}
 		}
 	}
 
-	public void MoveBasic(string direction){
-		Position += inputs[direction] * tileSize;
-	}
+	// public void MoveBasic(string direction){
+	// 	Position += inputs[direction] * tileSize;
+	// }
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
 	}
@@ -47,7 +48,7 @@ public partial class Player : Area2D {
 		ray.ForceRaycastUpdate();
 		if (!ray.IsColliding()) {
 			var tween = GetTree().CreateTween();
-			tween.TweenProperty(this, "Position", Position + offset, 1.0/animationSpeed).SetTrans(Tween.TransitionType.Sine);
+			tween.TweenProperty(this, "position", Position + offset, 1.0/animationSpeed).SetTrans(Tween.TransitionType.Sine);
 			moving = true;
 			GetNode<AnimationPlayer>("AnimationPlayer").Play(dir);
 			await ToSignal(tween, Tween.SignalName.Finished);
