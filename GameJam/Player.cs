@@ -39,6 +39,21 @@ public partial class Player : Area2D {
 	// }
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
+		if (Input.IsActionPressed("ui_right") && !moving) {
+			Move("ui_right");
+		}
+
+		if (Input.IsActionPressed("ui_left") && !moving) {
+			Move("ui_left");
+		}
+
+		if (Input.IsActionPressed("ui_down") && !moving) {
+			Move("ui_down");
+		}
+
+		if (Input.IsActionPressed("ui_up") && !moving) {
+			Move("ui_up");
+		}
 	}
 
 	private async void Move(string dir) {
