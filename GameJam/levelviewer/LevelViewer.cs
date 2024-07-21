@@ -51,9 +51,13 @@ public partial class LevelViewer : Node2D {
 		var playerCurrentXY = Level.LocalToMap(player.Position);
 		var nextCell = Level.GetNeighborCell(playerCurrentXY, neighbour);
 		var nextCellCoordinates = Level.MapToLocal(nextCell);
+		var nextCellLayerZero = Level.GetCellTileData(0, nextCell);	
 
 		if (Level.GetCellTileData(1, nextCell) == null) {
 			player.MoveToPosition(nextCellCoordinates, direction);
+			if (nextCellLayerZero.GetCustomData("Hole").AsBool()) {
+				GD.Print("Is Hole");
+			}
 		} else {
 			player.Face(direction);
 		}
