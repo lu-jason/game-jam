@@ -65,6 +65,8 @@ public partial class Player : Area2D
 		{
 			Move("ui_up");
 		}
+
+
 	}
 
 	private async void Move(string dir)

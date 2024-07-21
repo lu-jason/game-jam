@@ -9,7 +9,7 @@ public partial class LevelViewer : Node2D
     [Export]
     public PackedScene Map { get; set; }
 
-    private TileMap loadedLevel;
+    public TileMap loadedLevel;
 
     //private TileMap LightingTileMap;
 

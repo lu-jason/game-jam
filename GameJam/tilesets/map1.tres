@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cibcntstf71xs" path="res://assets/sokoban_tilesheet.png" id="1_yfb58"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ckdp3"]
+resource_name = "sokoban"
 texture = ExtResource("1_yfb58")
 texture_region_size = Vector2i(64, 64)
 1:0/0 = 0
@@ -81,6 +82,7 @@ texture_region_size = Vector2i(64, 64)
 11:0/0 = 0
 11:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 11:0/0/physics_layer_0/angular_velocity = 0.0
+11:0/0/custom_data_0 = true
 12:1/0 = 0
 12:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 12:1/0/physics_layer_0/angular_velocity = 0.0
@@ -313,4 +315,6 @@ texture_region_size = Vector2i(64, 64)
 [resource]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
+custom_data_layer_0/name = "hole"
+custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_ckdp3")
