@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6v1dahl1om4c"]
+
+[ext_resource type="PackedScene" uid="uid://b3jat8st78qh2" path="res://fruit.tscn" id="1_wak80"]
+[ext_resource type="Texture2D" uid="uid://dolp1uyj8kn5l" path="res://art/circle7.png" id="2_hykj4"]
+
+[node name="Peach" instance=ExtResource("1_wak80")]
+FruitType = 7
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_hykj4")

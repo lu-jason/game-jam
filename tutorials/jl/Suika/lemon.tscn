@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://yvshym4aylvy"]
+
+[ext_resource type="PackedScene" uid="uid://b3jat8st78qh2" path="res://fruit.tscn" id="1_r3wiy"]
+[ext_resource type="Texture2D" uid="uid://dnyhwfjb1pdym" path="res://art/circle3.png" id="2_3n106"]
+
+[node name="Lemon" instance=ExtResource("1_r3wiy")]
+FruitType = 3
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_3n106")

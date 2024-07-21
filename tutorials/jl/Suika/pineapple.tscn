@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://emwhpi57ofjc"]
+
+[ext_resource type="PackedScene" uid="uid://b3jat8st78qh2" path="res://fruit.tscn" id="1_h0y5o"]
+[ext_resource type="Texture2D" uid="uid://bxvb3mr6im3v7" path="res://art/circle8.png" id="2_05v80"]
+
+[node name="Pineapple" instance=ExtResource("1_h0y5o")]
+FruitType = 8
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_05v80")

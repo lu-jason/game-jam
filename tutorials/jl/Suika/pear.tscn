@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://drf8hhm6ax56h"]
+
+[ext_resource type="PackedScene" uid="uid://b3jat8st78qh2" path="res://fruit.tscn" id="1_ckpnc"]
+[ext_resource type="Texture2D" uid="uid://c1ohm1ofhwcwh" path="res://art/circle6.png" id="2_raew7"]
+
+[node name="Pear" instance=ExtResource("1_ckpnc")]
+FruitType = 6
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_raew7")
