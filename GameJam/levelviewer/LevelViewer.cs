@@ -67,6 +67,8 @@ public partial class LevelViewer : Node2D
         GD.Print("Size of level: ", LightingTileMap.GetUsedRect().End);
         GD.Print("Tile Size: ", LightingTileMap.TileSet.TileSize);
 
+        // Test 
+
         //Vector2I pixelSize = tileSize * tileBounds; 
 
         // 4 for r g b a
