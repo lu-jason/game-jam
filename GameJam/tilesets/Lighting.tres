@@ -13,4 +13,4 @@ texture_region_size = Vector2i(32, 32)
 
 [resource]
 tile_size = Vector2i(32, 32)
-sources/2 = SubResource("TileSetAtlasSource_nyh1i")
+sources/0 = SubResource("TileSetAtlasSource_nyh1i")

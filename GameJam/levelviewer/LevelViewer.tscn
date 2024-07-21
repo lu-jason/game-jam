@@ -9,5 +9,7 @@ script = ExtResource("1_wgqmp")
 Map = ExtResource("2_0atgn")
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
+z_index = 1
 
+[connection signal="OnLightsChanged" from="." to="LightingManager" method="OnLightsChanged"]
 [connection signal="OnLoadLevel" from="." to="LightingManager" method="UpdateBaseLevelLighting"]

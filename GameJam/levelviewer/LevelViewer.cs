@@ -12,6 +12,9 @@ public partial class LevelViewer : Node2D {
     [Signal]
     public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
 
+    [Signal]
+    public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
+
 	public Object[] objects;
 
 	private TileMap Level;
@@ -25,7 +28,10 @@ public partial class LevelViewer : Node2D {
 		AddChild(Level);
         EmitSignal(SignalName.OnLoadLevel,Level);
 
-		player = GetNode<Player>("Player");
+        // Later change this to be called whenever we move a light or something can change it maybe?
+        EmitSignal(SignalName.OnLightsChanged,Level);
+
+        player = GetNode<Player>("Player");
 
 		//var rock = Rock.Instantiate<Rock>();
 		//rock.Position = Level.MapToLocal(new Vector2I(2, 2));
