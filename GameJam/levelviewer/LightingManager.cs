@@ -174,7 +174,7 @@ public partial class LightingManager : Node2D
                 int adjustLevel = lightValue - lightAdjusted[adjustedPos.X, adjustedPos.Y];
 
                 AddLightLevel(tilemapPos.X, tilemapPos.Y, adjustLevel);
-                lightAdjusted[adjustedPos.X, adjustedPos.Y] = adjustLevel;
+                lightAdjusted[adjustedPos.X, adjustedPos.Y] = lightValue;
                 return true;
             }
             return false;
