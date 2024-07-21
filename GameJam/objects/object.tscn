@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://3koxbh7vkspp"]
+
+[ext_resource type="Script" path="res://objects/Object.cs" id="1_kqndn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vst5f"]
+size = Vector2(162, 156)
+
+[node name="Object" type="Area2D"]
+script = ExtResource("1_kqndn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vst5f")

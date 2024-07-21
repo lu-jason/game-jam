@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdom2iy6itxkn"]
+
+[ext_resource type="PackedScene" uid="uid://b3jat8st78qh2" path="res://fruit.tscn" id="1_7cksu"]
+[ext_resource type="Texture2D" uid="uid://cattwxk78qwec" path="res://art/circle9.png" id="2_xkpua"]
+
+[node name="Melon" instance=ExtResource("1_7cksu")]
+FruitType = 9
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_xkpua")

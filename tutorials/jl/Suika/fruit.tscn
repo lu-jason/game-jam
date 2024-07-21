@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3jat8st78qh2"]
+
+[ext_resource type="Script" path="res://Fruit.cs" id="1_1qujc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e36fl"]
+radius = 79.9567
+height = 183.711
+
+[node name="Fruit" type="RigidBody2D"]
+max_contacts_reported = 15
+contact_monitor = true
+script = ExtResource("1_1qujc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.52588e-05, 1.52588e-05)
+scale = Vector2(0.1, 0.1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_e36fl")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
