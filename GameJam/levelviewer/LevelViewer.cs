@@ -9,6 +9,9 @@ public partial class LevelViewer : Node2D {
 	[Export]
 	public PackedScene Rock { get; set; }
 
+    [Signal]
+    public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
+
 	public Object[] objects;
 
 	private TileMap Level;
@@ -20,6 +23,7 @@ public partial class LevelViewer : Node2D {
 		Level.ZIndex = -1;
 
 		AddChild(Level);
+        EmitSignal(SignalName.OnLoadLevel,Level);
 
 		player = GetNode<Player>("Player");
 

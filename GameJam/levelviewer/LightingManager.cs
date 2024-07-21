@@ -36,12 +36,11 @@ public partial class LightingManager : Node2D
 	{
 	}
 
-    public void SetLightingTileMapPosition(Vector2 position)
+    public void UpdateBaseLevelLighting(TileMap loadedLevel) 
     {
         TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
-        if (LightingTileMap != null)
-        {
-            LightingTileMap.Position = position;
+        if (LightingTileMap != null) {
+            LightingTileMap.Position = loadedLevel.Position;
         }
     }
 }
