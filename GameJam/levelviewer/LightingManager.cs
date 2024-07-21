@@ -11,24 +11,24 @@ public partial class LightingManager : Node2D
 
         TileSet lighting = LightingTileMap.TileSet;
         //LightingTileMap.Position = loadedLevel.Position;
-        LightingTileMap.SetCell(0, new Vector2I(1, 1), 0, new Vector2I(0, 0));
-        LightingTileMap.SetCell(0, new Vector2I(1, 2), 0, new Vector2I(0, 0));
-        LightingTileMap.SetCell(0, new Vector2I(1, 3), 0, new Vector2I(0, 0));
-        LightingTileMap.SetCell(0, new Vector2I(1, 4), 1, new Vector2I(1, 0));
-        LightingTileMap.SetCell(0, new Vector2I(1, 5), 1, new Vector2I(2, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(1, 1), 0, new Vector2I(0, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(1, 2), 0, new Vector2I(0, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(1, 3), 0, new Vector2I(0, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(1, 4), 1, new Vector2I(1, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(1, 5), 1, new Vector2I(2, 0));
 
-        LightingTileMap.SetCell(0, new Vector2I(2, 1), 1, new Vector2I(0, 0));
-        LightingTileMap.SetCell(0, new Vector2I(2, 2), 1, new Vector2I(0, 0));
-        LightingTileMap.SetCell(0, new Vector2I(3, 1), 1, new Vector2I(0, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(2, 1), 1, new Vector2I(0, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(2, 2), 1, new Vector2I(0, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(3, 1), 1, new Vector2I(0, 0));
 
 
-        LightingTileMap.SetCell(0, new Vector2I(4, 1), 1, new Vector2I(1, 0));
-        LightingTileMap.SetCell(0, new Vector2I(3, 2), 1, new Vector2I(1, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(4, 1), 1, new Vector2I(1, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(3, 2), 1, new Vector2I(1, 0));
 
-        LightingTileMap.SetCell(0, new Vector2I(5, 1), 1, new Vector2I(2, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(5, 1), 1, new Vector2I(2, 0));
 
-        LightingTileMap.SetCell(0, new Vector2I(4, 2), 1, new Vector2I(2, 0));
-        LightingTileMap.SetCell(0, new Vector2I(3, 1), 1, new Vector2I(2, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(4, 2), 1, new Vector2I(2, 0));
+        //LightingTileMap.SetCell(0, new Vector2I(3, 1), 1, new Vector2I(2, 0));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
