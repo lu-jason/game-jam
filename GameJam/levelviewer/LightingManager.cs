@@ -4,15 +4,6 @@ using System;
 
 public partial class LightingManager : Node2D
 {
-    // If we want different lights
-    // figure out dafuq these do.
-    enum LightType 
-    {
-        Point = 1,
-        Directional = 2,
-        Left = 3,
-    }
-
     const int MAX_LIGHT_LEVEL = 4; // We can adjust as needed. 
 
     private int[,] lightLevels;
@@ -33,32 +24,9 @@ public partial class LightingManager : Node2D
     //    { 0,0,0,0,1,0,0,0,0 },
     //};
 
-    Dictionary<Vector2I, LightType> lights = new Dictionary<Vector2I,LightType>();
+    Dictionary<Vector2I, int> lights = new Dictionary<Vector2I,int>();
     public override void _Ready()
     {
-
-        TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
-
-        TileSet lighting = LightingTileMap.TileSet;
-        //LightingTileMap.Position = loadedLevel.Position;
-        //LightingTileMap.SetCell(0, new Vector2I(1, 1), 0, new Vector2I(0, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(1, 2), 0, new Vector2I(0, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(1, 3), 0, new Vector2I(0, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(1, 4), 1, new Vector2I(1, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(1, 5), 1, new Vector2I(2, 0));
-
-        //LightingTileMap.SetCell(0, new Vector2I(2, 1), 1, new Vector2I(0, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(2, 2), 1, new Vector2I(0, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(3, 1), 1, new Vector2I(0, 0));
-
-
-        //LightingTileMap.SetCell(0, new Vector2I(4, 1), 1, new Vector2I(1, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(3, 2), 1, new Vector2I(1, 0));
-
-        //LightingTileMap.SetCell(0, new Vector2I(5, 1), 1, new Vector2I(2, 0));
-
-        //LightingTileMap.SetCell(0, new Vector2I(4, 2), 1, new Vector2I(2, 0));
-        //LightingTileMap.SetCell(0, new Vector2I(3, 1), 1, new Vector2I(2, 0));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -80,7 +48,6 @@ public partial class LightingManager : Node2D
     // NOTE update lights based on the whole Tile map kinda sucks could be way more optimal
     public void OnLightsChanged(TileMap loadedLevel) 
     {
-        GD.Print("lights changed!");
         // Update the list of lights based on layer 2 for now
         lights.Clear();
         Vector2I tileBounds = loadedLevel.GetUsedRect().End;
@@ -89,12 +56,11 @@ public partial class LightingManager : Node2D
                 var cellData = loadedLevel.GetCellTileData(2, new Vector2I(x, y));
                 if (cellData != null) 
                 {
+                    // WARNING DO NOT SET THIS TOO HIGH
+                    // My point source algorithm is slow as kek
+                    int lightIntensity = cellData.GetCustomData("LightIntensity").AsInt16();
                     // Default to Point light for now
-                    lights.Add(new Vector2I(x, y), LightType.Point);
-                    GD.Print("Found light at Poistion:", x, y);
-                    // TODO read custom data for light type here
-                    //var Type = cellData.GetCustomData("LightType");
-                    //Type.AsInt16();  
+                    lights.Add(new Vector2I(x, y), lightIntensity);
                 }
             }
         }
@@ -112,15 +78,35 @@ public partial class LightingManager : Node2D
         }
 
         foreach (var light in lights) {
-            ApplyPointLight(light.Key);
+            ApplyPointLight(light.Key,light.Value);
         }
 
         // Update the tileMap 
         TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
+        TileMap ShadowTileMap = GetNode<TileMap>("ShadowTileMap");
+        LightingTileMap.Clear();
+        ShadowTileMap.Clear();
         // Update light tilemap based on light levels
-        for (int x = 0; x < lightLevels.GetLength(0); x++) {
-            for (int y = 0; y < lightLevels.GetLength(1); y++) {
-                LightingTileMap.SetCell(0, new Vector2I(x, y), 0, new Vector2I(lightLevels[x, y], 0));
+        for (int x = 0; x < lightLevels.GetLength(0); x++) 
+        {
+            for (int y = 0; y < lightLevels.GetLength(1); y++) 
+            {
+                if (lightLevels[x, y] != 0) 
+                {
+
+                    int lightIndex = lightLevels[x, y];
+                    if (lightIndex > MAX_LIGHT_LEVEL) 
+                    {
+                        lightIndex = MAX_LIGHT_LEVEL;
+                    }
+                    LightingTileMap.SetCell(0, new Vector2I(x, y), 0, new Vector2I(lightIndex, 0));
+                } 
+                else 
+                {
+                    // This will have to be in sync with the atlas entrys to the shadow tile set
+                    uint randVal = GD.Randi() % 9;
+                    ShadowTileMap.SetCell(0, new Vector2I(x, y), 0, new Vector2I((int)randVal, 0));
+                }
             }
         }
 
@@ -144,19 +130,22 @@ public partial class LightingManager : Node2D
      * 
      */
 
-    private void ApplyPointLight(Vector2I lightPosition) 
+    private void ApplyPointLight(Vector2I lightPosition, int LightIntensity) 
     {
         // reset hasLightBeenAdjusted for this new point light should default to false
-        lightAdjusted = new int[9, 9];
-        Vector2I AdjustedMapLocation = new Vector2I(4, 4);
+        int arraySize = LightIntensity * 2 - 1;
+        lightAdjusted = new int[arraySize, arraySize];
+
+        // Set as midPoint
+        Vector2I AdjustedMapLocation = new Vector2I(LightIntensity-1, LightIntensity - 1);
 
         // Always apply strongest light light to tile the light is on
-        AddLightLevel(lightPosition.X, lightPosition.Y,MAX_LIGHT_LEVEL);
+        AddLightLevel(lightPosition.X, lightPosition.Y, LightIntensity);
         lightAdjusted[AdjustedMapLocation.X, AdjustedMapLocation.Y] = 4;
 
         // TODO - Don't do this if we are on a wall
 
-        LightUpNeighbours(lightPosition, AdjustedMapLocation, MAX_LIGHT_LEVEL);
+        LightUpNeighbours(lightPosition, AdjustedMapLocation, LightIntensity-1);
 
     }
 
@@ -220,10 +209,6 @@ public partial class LightingManager : Node2D
         if (newLight < 0) 
         {
             newLight = 0;
-        }
-        else if (newLight > MAX_LIGHT_LEVEL) 
-        {
-            newLight = MAX_LIGHT_LEVEL;
         }
 
         lightLevels[x, y] = newLight;

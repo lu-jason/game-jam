@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://gbxsupoukqmf"]
+[gd_scene load_steps=6 format=3 uid="uid://gbxsupoukqmf"]
 
 [ext_resource type="Script" path="res://levelviewer/LightingManager.cs" id="1_3rbk2"]
 [ext_resource type="TileSet" uid="uid://cmxlfnl37730l" path="res://tilesets/Lighting.tres" id="1_cwmam"]
 [ext_resource type="Shader" path="res://shaders/lighting.gdshader" id="1_vs8yr"]
+[ext_resource type="TileSet" uid="uid://nrw0phweh8fq" path="res://tilesets/Shadows.tres" id="4_ij536"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8bgtx"]
 shader = ExtResource("1_vs8yr")
@@ -13,4 +14,8 @@ script = ExtResource("1_3rbk2")
 [node name="LightingTileMap" type="TileMap" parent="."]
 material = SubResource("ShaderMaterial_8bgtx")
 tile_set = ExtResource("1_cwmam")
+format = 2
+
+[node name="ShadowTileMap" type="TileMap" parent="."]
+tile_set = ExtResource("4_ij536")
 format = 2

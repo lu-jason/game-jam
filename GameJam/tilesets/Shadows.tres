@@ -1,0 +1,21 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://nrw0phweh8fq"]
+
+[ext_resource type="Texture2D" uid="uid://b0nj7808jkt5q" path="res://assets/HardShadows.png" id="1_pwkid"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h6shi"]
+texture = ExtResource("1_pwkid")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_h6shi")
