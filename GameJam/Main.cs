@@ -5,13 +5,6 @@ public partial class Main : Node2D {
 	public double morphTimer = 0.0;
 	public bool canMorph = true;
 
-	private Vector2I playerPos2I;
-
-
-	// Nodes
-	private LevelViewer levelViewer;
-	private Player player;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 	}
@@ -39,21 +32,6 @@ public partial class Main : Node2D {
 				morphTimer = 0;
 			}
 		}
-
-		// TODO - move into LevelViewer when player gets moved into there as well?? Maybe?
-		levelViewer = GetNode<LevelViewer>("LevelViewer");
-		player = GetNode<Player>("Player");
-
-		playerPos2I = new Vector2I((int)player.Position.X, (int)player.Position.Y)/32;
-
-		var tileBelow = levelViewer.loadedLevel.GetCellTileData(0, playerPos2I);	
-		var holeTile = tileBelow.GetCustomData("hole").AsBool();
-
-		GD.Print("Player Pos 2I Co-ord", playerPos2I);
-		if (holeTile) {
-			GD.Print("HOLE TILE");
-			// restart level
-		}
 	}
 
 	public override void _Draw() {
@@ -74,7 +52,8 @@ public partial class Main : Node2D {
         var levelViewer = GetNode<LevelViewer>("LevelViewer");
         if (levelViewer != null)
         {
-            levelViewer.DebugPollTileMapData();
+            // TODO hook this up (Mabye a debug signal would be better)
+            //levelViewer.DebugPollTileMapData();
         }
     }
 }

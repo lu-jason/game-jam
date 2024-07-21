@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class Player : Area2D {
 	// Called when the node enters the scene tree for the first time.
-	public int animationSpeed = 2;
+	public int animationSpeed = 5;
 	public bool moving = false;
 	public int tileSize = 32;
 	public Dictionary<string, Vector2> inputs = new Dictionary<string, Vector2>();

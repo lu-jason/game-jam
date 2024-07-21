@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://wrt32pmxna4p"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cxyf44fabq8dx"]
 
 [ext_resource type="Texture2D" uid="uid://d0hlb1n20rihm" path="res://assets/sokoban_tilesheet_32.png" id="1_k2rfb"]
 
