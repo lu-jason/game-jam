@@ -1,15 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3ro1t67hjq0s"]
+[gd_scene load_steps=4 format=3 uid="uid://c3ro1t67hjq0s"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
 [ext_resource type="PackedScene" uid="uid://cdak7ct67s1gl" path="res://Player.tscn" id="2_l38x1"]
-[ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="3_687jm"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_6on18")
 
 [node name="LevelViewer" parent="." instance=ExtResource("2_j6pm2")]
-Map = ExtResource("3_687jm")
 
 [node name="Player" parent="LevelViewer" instance=ExtResource("2_l38x1")]
 position = Vector2(490, 257)
