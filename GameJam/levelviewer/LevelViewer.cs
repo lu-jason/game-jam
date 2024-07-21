@@ -23,8 +23,8 @@ public partial class LevelViewer : Node2D {
 
 		player = GetNode<Player>("Player");
 
-		var rock = Rock.Instantiate<Rock>();
-		rock.Position = Level.MapToLocal(new Vector2I(2, 2));
+		//var rock = Rock.Instantiate<Rock>();
+		//rock.Position = Level.MapToLocal(new Vector2I(2, 2));
 
 		// AddChild(rock);
 	}

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
 [ext_resource type="PackedScene" uid="uid://cdak7ct67s1gl" path="res://Player.tscn" id="2_l38x1"]
-[ext_resource type="PackedScene" path="res://tilesets/map2.tscn" id="3_687jm"]
+[ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="3_687jm"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_6on18")
@@ -19,4 +19,5 @@ remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="LevelViewer"]
 position = Vector2(490, 257)
+scale = Vector2(0.5, 0.5)
 zoom = Vector2(1.25, 1.25)

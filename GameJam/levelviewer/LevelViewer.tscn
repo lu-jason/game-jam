@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://daq70bu4kme72"]
 
 [ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
-[ext_resource type="PackedScene" uid="uid://dgdjt66fxorl7" path="res://tilesets/map1.tscn" id="2_efqcc"]
+[ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="2_0atgn"]
 [ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
 
 [node name="LevelViewer" type="Node2D"]
 script = ExtResource("1_wgqmp")
-Map = ExtResource("2_efqcc")
+Map = ExtResource("2_0atgn")
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
