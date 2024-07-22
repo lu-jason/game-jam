@@ -30,5 +30,4 @@ offset_right = 11.0
 offset_bottom = 11.0
 text = "Toggle Lighting"
 
-[connection signal="OnLightsChanged" from="LevelViewer" to="LevelViewer/LightingManager" method="OnLightsChanged"]
 [connection signal="pressed" from="HUD/ToggleLighting" to="LevelViewer" method="OnToggleLightingPressed"]

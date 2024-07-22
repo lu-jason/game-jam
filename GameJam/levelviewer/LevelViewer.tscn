@@ -1,16 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://daq70bu4kme72"]
+[gd_scene load_steps=8 format=3 uid="uid://daq70bu4kme72"]
 
 [ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
-[ext_resource type="PackedScene" uid="uid://dmi7a6fhtimxa" path="res://tilesets/testMap.tscn" id="2_0atgn"]
+[ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="2_0atgn"]
 [ext_resource type="PackedScene" uid="uid://lft5grql5hym" path="res://characters/ArcticFox.tscn" id="3_g6slx"]
-[ext_resource type="PackedScene" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
+[ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
 [ext_resource type="PackedScene" uid="uid://cdak7ct67s1gl" path="res://Player.tscn" id="4_ubs42"]
+[ext_resource type="PackedScene" uid="uid://jrcgk8k568xl" path="res://characters/Salamander.tscn" id="5_rvk1b"]
+[ext_resource type="PackedScene" uid="uid://drv6t6g6e1m2v" path="res://characters/Gargoyle.tscn" id="6_kx77p"]
 
 [node name="LevelViewer" type="Node2D"]
 script = ExtResource("1_wgqmp")
 Map = ExtResource("2_0atgn")
 ArcticFoxScene = ExtResource("3_g6slx")
 PlayerScene = ExtResource("4_ubs42")
+SalamanderScene = ExtResource("5_rvk1b")
+GargoyleScene = ExtResource("6_kx77p")
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
 z_index = 1

@@ -13,6 +13,10 @@ public partial class LevelViewer : Node2D {
 	public PackedScene ArcticFoxScene { get; set; }
 	[Export]
 	public PackedScene PlayerScene { get; set; }
+	[Export]
+	public PackedScene SalamanderScene { get; set; }
+	[Export]
+	public PackedScene GargoyleScene { get; set; }
 
     [Signal]
     public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
@@ -23,6 +27,8 @@ public partial class LevelViewer : Node2D {
 	private TileMap Level;
 	private Player player;
 	private ArcticFox fox;
+	private Salamander salamander;
+	private Gargoyle gargoyle;
 
 	private enum MorphState { witch, fox, salamander, gargoyle }
 	private MorphState currentMorph;
@@ -76,27 +82,49 @@ public partial class LevelViewer : Node2D {
 				FoxMovement("ui_down", TileSet.CellNeighbor.BottomSide);
 			}
 		}
+		if (currentMorph == MorphState.salamander) {
+			if (@event.IsActionPressed("ui_left")) {
+				SalamanderMovement("ui_left", TileSet.CellNeighbor.LeftSide);
+			} else if (@event.IsActionPressed("ui_right")) {
+				SalamanderMovement("ui_right", TileSet.CellNeighbor.RightSide);
+			} else if (@event.IsActionPressed("ui_up")) {
+				SalamanderMovement("ui_up", TileSet.CellNeighbor.TopSide);
+			} else if (@event.IsActionPressed("ui_down")) {
+				SalamanderMovement("ui_down", TileSet.CellNeighbor.BottomSide);
+			}
+		}
+		if (currentMorph == MorphState.gargoyle) {
+			if (@event.IsActionPressed("ui_left")) {
+				GargoyleMovement("ui_left", TileSet.CellNeighbor.LeftSide);
+			} else if (@event.IsActionPressed("ui_right")) {
+				GargoyleMovement("ui_right", TileSet.CellNeighbor.RightSide);
+			} else if (@event.IsActionPressed("ui_up")) {
+				GargoyleMovement("ui_up", TileSet.CellNeighbor.TopSide);
+			} else if (@event.IsActionPressed("ui_down")) {
+				GargoyleMovement("ui_down", TileSet.CellNeighbor.BottomSide);
+			}
+		}
 
 		// Morphing state
 		if (canMorph) { // ! Mainly here for conditions where player is not allowed to morph (idk what that is yet) - Josh
 			if (@event.IsActionPressed("morph_witch") && currentMorph != MorphState.witch  && morphTimer > morphTimeout) {
 				GD.Print("morphing into witch"); // 1 + num1
-				
 				MorphPlayer(MorphState.witch);
 				morphTimer = 0;
 			}
 			if (@event.IsActionPressed("morph_fox") && currentMorph != MorphState.fox && morphTimer > morphTimeout) {
 				GD.Print("morphing into fox");  // 2 + num2
-
 				MorphPlayer(MorphState.fox);
 				morphTimer = 0;
 			}	
 			if (@event.IsActionPressed("morph_salamander") && morphTimer > morphTimeout) {
 				GD.Print("morphing into salamander"); // 3 + num3
+				MorphPlayer(MorphState.salamander);
 				morphTimer = 0;
 			}
 			if (@event.IsActionPressed("morph_gargoyle") && morphTimer > morphTimeout) {
 				GD.Print("morphing into gargoyle"); // 4 + num4
+				MorphPlayer(MorphState.gargoyle);
 				morphTimer = 0;
 			}
 		}
@@ -126,8 +154,16 @@ public partial class LevelViewer : Node2D {
 			player.Face(direction);
 		}
 	}
+
+	// TODO - Move these into respective character scripts (potentially the input events too)
 	private void FoxMovement(string direction, TileSet.CellNeighbor neighbour) {
-		GD.Print("Move ", direction);
+		GD.Print("Move Fox ", direction);
+	}
+	private void SalamanderMovement(string direction, TileSet.CellNeighbor neighbour) {
+		GD.Print("Move Salamander ", direction);
+	}
+	private void GargoyleMovement(string direction, TileSet.CellNeighbor neighbour) {
+		GD.Print("Move Gargoyle", direction);
 	}
 
 	private void MorphPlayer(MorphState morphInto) {
@@ -143,36 +179,50 @@ public partial class LevelViewer : Node2D {
 				fox.QueueFree();		
 				break;
 			case MorphState.salamander:
+				currentPos = salamander.Position;
+				salamander.SetPhysicsProcess(false);
+				salamander.QueueFree();		
 				break;
 			case MorphState.gargoyle:
+				currentPos = gargoyle.Position;
+				gargoyle.SetPhysicsProcess(false);
+				gargoyle.QueueFree();		
 				break;
 		}
+
+
+		RemoteTransform2D cameraPathingNode = new RemoteTransform2D {
+                    RemotePath = GetNode<Camera2D>("CharacterCamera").GetPath()
+                };
 
 
 		switch (morphInto) {
 			case MorphState.witch:
 				player = PlayerScene.Instantiate<Player>();
-
-                var cameraPathingNode = new RemoteTransform2D {
-                    RemotePath = GetNode<Camera2D>("CharacterCamera").GetPath()
-                };
-
                 player.AddChild(cameraPathingNode);
 				AddChild(player);
-
 				player.Position = currentPos;
 				currentMorph = MorphState.witch;
 				break;
 			case MorphState.fox:
-				fox = ArcticFoxScene.Instantiate<ArcticFox>();		
+				fox = ArcticFoxScene.Instantiate<ArcticFox>();
+                fox.AddChild(cameraPathingNode);
 				AddChild(fox);
 				fox.Position = currentPos;
 				currentMorph = MorphState.fox;
 				break;
 			case MorphState.salamander:
+				salamander = SalamanderScene.Instantiate<Salamander>();
+                salamander.AddChild(cameraPathingNode);
+				AddChild(salamander);
+				salamander.Position = currentPos;
 				currentMorph = MorphState.salamander;
 				break;
 			case MorphState.gargoyle:
+				gargoyle = GargoyleScene.Instantiate<Gargoyle>();
+                gargoyle.AddChild(cameraPathingNode);
+				AddChild(gargoyle);
+				gargoyle.Position = currentPos;
 				currentMorph = MorphState.gargoyle;
 				break;
 		}
