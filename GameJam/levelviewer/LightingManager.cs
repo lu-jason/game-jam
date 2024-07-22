@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Reflection.Emit;
 
 public partial class LightingManager : Node2D
 {
@@ -25,6 +26,9 @@ public partial class LightingManager : Node2D
     //};
 
     Dictionary<Vector2I, int> lights = new Dictionary<Vector2I,int>();
+
+    // Pretty sure C# passes by reference
+    TileMap levelRef;
     public override void _Ready()
     {
     }
@@ -45,9 +49,18 @@ public partial class LightingManager : Node2D
         lightLevels = new int[tileBounds.X, tileBounds.Y];
     }
 
+    public void ClearTiles() 
+    {
+        TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
+        TileMap ShadowTileMap = GetNode<TileMap>("ShadowTileMap");
+        LightingTileMap.Clear();
+        ShadowTileMap.Clear();
+
+    }
     // NOTE update lights based on the whole Tile map kinda sucks could be way more optimal
     public void OnLightsChanged(TileMap loadedLevel) 
     {
+        levelRef = loadedLevel;
         // Update the list of lights based on layer 2 for now
         lights.Clear();
         Vector2I tileBounds = loadedLevel.GetUsedRect().End;
@@ -143,9 +156,12 @@ public partial class LightingManager : Node2D
         AddLightLevel(lightPosition.X, lightPosition.Y, LightIntensity);
         lightAdjusted[AdjustedMapLocation.X, AdjustedMapLocation.Y] = 4;
 
-        // TODO - Don't do this if we are on a wall
-
-        LightUpNeighbours(lightPosition, AdjustedMapLocation, LightIntensity-1);
+        // Maybe doing the first one is fine
+        // Depends if we want to be able to have point lines on a wall
+        //if (!IsWall(lightPosition.X, lightPosition.Y)) 
+        //{
+            LightUpNeighbours(lightPosition, AdjustedMapLocation, LightIntensity - 1);
+        //}
 
     }
 
@@ -185,12 +201,24 @@ public partial class LightingManager : Node2D
         LightUpPosition(DPos, DAdj);      // DOWN
         LightUpPosition(LPos, LAdj);    // LEFT
 
+        Func<Vector2I, Vector2I, int, bool> LightUpNeighbour = (Vector2I UPos, Vector2I UAdj, int lightLevel) => {
+            if (!IsWall(UPos.X, UPos.Y)) {
+                LightUpNeighbours(UPos, UAdj, lightLevel - 1);
+                return true;
+            }
+            return false;
+        };
+
         if (lightValue > 1) {
-            // TODO Add wall check
-            LightUpNeighbours(UPos, UAdj, lightValue - 1);
-            LightUpNeighbours(RPos, RAdj, lightValue - 1);
-            LightUpNeighbours(DPos, DAdj, lightValue - 1);
-            LightUpNeighbours(LPos, LAdj, lightValue - 1);
+            // TODO Add wall 
+            LightUpNeighbour(UPos, UAdj, lightValue);
+            LightUpNeighbour(RPos, RAdj, lightValue);
+            LightUpNeighbour(DPos, DAdj, lightValue);
+            LightUpNeighbour(LPos, LAdj, lightValue);
+            //LightUpNeighbours(UPos, UAdj, lightValue - 1);
+            //LightUpNeighbours(RPos, RAdj, lightValue - 1);
+            //LightUpNeighbours(DPos, DAdj, lightValue - 1);
+            //LightUpNeighbours(LPos, LAdj, lightValue - 1);
         }
     }
 
@@ -213,5 +241,16 @@ public partial class LightingManager : Node2D
 
         lightLevels[x, y] = newLight;
         return true;
+    }
+
+    // This should probably live somewhere more global
+    // Tests if cell at x,y is a wall
+    private bool IsWall(int x, int y) {
+        bool result = false;
+        var cellData = levelRef.GetCellTileData(1, new Vector2I(x, y));
+        if (cellData != null) {
+            result = true;
+        }
+        return result;
     }
 }

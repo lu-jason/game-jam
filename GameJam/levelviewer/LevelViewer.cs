@@ -54,7 +54,7 @@ public partial class LevelViewer : Node2D {
         }
 
         // We can move this later if we want just adding for testing sake
-        if (@event.IsActionPressed("use_action")) 
+        if (@event.IsActionPressed("place_light")) 
         {
             CreateLightSource();
         }
@@ -78,6 +78,25 @@ public partial class LevelViewer : Node2D {
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
 	}
+
+    public void OnToggleLightingPressed() 
+    {
+        LightingManager lightingManager = GetNode<LightingManager>("LightingManager");
+        // Weirdly lightManager.Visible didn't like it when I tried to use it in a ternary operator.
+        bool isVisible = lightingManager.Visible;
+        if (isVisible) 
+        {
+            lightingManager.Hide();
+            lightingManager.ClearTiles();
+        }
+        else 
+        { 
+            lightingManager.Show();
+            // Repopulate tiles
+            EmitSignal(SignalName.OnLightsChanged, Level);
+        }
+    }
+
 
     private void CreateLightSource() 
     {

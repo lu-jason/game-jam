@@ -19,3 +19,14 @@ remote_path = NodePath("../../Camera2D")
 position = Vector2(490, 257)
 scale = Vector2(0.5, 0.5)
 zoom = Vector2(1.25, 1.25)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ToggleLighting" type="Button" parent="HUD"]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 11.0
+offset_bottom = 11.0
+text = "Toggle Lighting"
+
+[connection signal="pressed" from="HUD/ToggleLighting" to="LevelViewer" method="OnToggleLightingPressed"]
