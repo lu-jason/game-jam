@@ -13,5 +13,7 @@ ArcticFoxScene = ExtResource("3_g6slx")
 PlayerScene = ExtResource("4_ubs42")
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
+z_index = 1
 
+[connection signal="OnLightsChanged" from="." to="LightingManager" method="OnLightsChanged"]
 [connection signal="OnLoadLevel" from="." to="LightingManager" method="UpdateBaseLevelLighting"]

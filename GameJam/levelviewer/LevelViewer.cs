@@ -3,11 +3,11 @@ using System;
 using System.Numerics;
 
 public partial class LevelViewer : Node2D {
-	[Export]
-	public PackedScene Map { get; set; }
+    [Export]
+    public PackedScene Map { get; set; }
 
-	[Export]
-	public PackedScene Rock { get; set; }
+    [Export]
+    public PackedScene Rock { get; set; }
 
 	[Export]
 	public PackedScene ArcticFoxScene { get; set; }
@@ -17,39 +17,42 @@ public partial class LevelViewer : Node2D {
     [Signal]
     public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
 
-	public Object[] objects;
+    [Signal]
+    public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
 
 	private TileMap Level;
 	private Player player;
 	private ArcticFox fox;
 
 	private enum MorphState { witch, fox, salamander, gargoyle }
-	private MorphState currentMorph;
+	private MorphState currentMorph = MorphState.witch;
 	private Godot.Vector2 currentPos;
 	private double morphTimer = 0.0;
 	private double morphTimeout = 0.3;
 	private bool canMorph = true;
+    public Object[] objects;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready() {
-		Level = Map.Instantiate<TileMap>();
-		Level.ZIndex = -1;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready() {
+        Level = Map.Instantiate<TileMap>();
+        Level.ZIndex = -1;
 
-		// fox = ArcticFoxScene.Instantiate<ArcticFox>();
+        AddChild(Level);
+        EmitSignal(SignalName.OnLoadLevel, Level);
 
-		AddChild(Level);
-        EmitSignal(SignalName.OnLoadLevel,Level);
-
-		player = GetNode<Player>("Player");
-
-		currentMorph = MorphState.witch;
 		//var rock = Rock.Instantiate<Rock>();
 		//rock.Position = Level.MapToLocal(new Vector2I(2, 2));
 
-		// AddChild(rock);
+        // Later change this to be called whenever we move a light or something can change it maybe
+        EmitSignal(SignalName.OnLightsChanged, Level);
+
+        player = GetNode<Player>("Player");
+
+        //var rock = Rock.Instantiate<Rock>();
+        //rock.Position = Level.MapToLocal(new Vector2I(2, 2));
 	}
 
-	public override void _Input(InputEvent @event) {
+    public override void _Input(InputEvent @event) {
 
 		if (currentMorph == MorphState.witch && !player.moving) {
 			if (@event.IsActionPressed("ui_left")) {
@@ -98,14 +101,23 @@ public partial class LevelViewer : Node2D {
 			}
 		}
 
-	}
-	private void PlayerMovement(string direction, TileSet.CellNeighbor neighbour) {
-		var playerCurrentXY = Level.LocalToMap(player.Position);
-		var nextCell = Level.GetNeighborCell(playerCurrentXY, neighbour);
-		var nextCellCoordinates = Level.MapToLocal(nextCell);
-		var nextCellLayerZero = Level.GetCellTileData(0, nextCell);	
+        // We can move this later if we want just adding for testing sake
+        if (@event.IsActionPressed("place_light")) 
+        {
+            CreateLightSource();
+        }
+    }
+	
+    private void PlayerMovement(string direction, TileSet.CellNeighbor neighbour) {
+        var playerCurrentXY = Level.LocalToMap(player.Position);
+        var nextCell = Level.GetNeighborCell(playerCurrentXY, neighbour);
+        var nextCellCoordinates = Level.MapToLocal(nextCell);
+        var nextCellLayerZero = Level.GetCellTileData(0, nextCell);
+        // For now adding shadows check here as well
+        LightingManager LightingManager = GetNode<LightingManager>("LightingManager");
+        TileMap ShadowTileMap = LightingManager.GetNode<TileMap>("ShadowTileMap");
 
-		if (Level.GetCellTileData(1, nextCell) == null) {
+        if ((Level.GetCellTileData(1, nextCell) == null) && (ShadowTileMap.GetCellTileData(0, nextCell) == null)) {
 			player.MoveToPosition(nextCellCoordinates, direction);
 			if (nextCellLayerZero.GetCustomData("Hole").AsBool()) {
 				GD.Print("Is Hole");
@@ -182,5 +194,35 @@ public partial class LevelViewer : Node2D {
 	public override void _Process(double delta) {
 		morphTimer += delta;
 	}
+
+    public void OnToggleLightingPressed() 
+    {
+        LightingManager lightingManager = GetNode<LightingManager>("LightingManager");
+        // Weirdly lightManager.Visible didn't like it when I tried to use it in a ternary operator.
+        bool isVisible = lightingManager.Visible;
+        if (isVisible) 
+        {
+            lightingManager.Hide();
+            lightingManager.ClearTiles();
+        }
+        else 
+        { 
+            lightingManager.Show();
+            // Repopulate tiles
+            EmitSignal(SignalName.OnLightsChanged, Level);
+        }
+    }
+
+
+    private void CreateLightSource() 
+    {
+        // TODO place in front of the user instead of on the player.
+        // perhaps storing the direction the player is facing could be good
+        var playerPos = Level.LocalToMap(player.Position);
+        // Layer 2 is lights
+        Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 0, new Vector2I(9, 5));
+        EmitSignal(SignalName.OnLightsChanged, Level);
+
+    }
 }
 

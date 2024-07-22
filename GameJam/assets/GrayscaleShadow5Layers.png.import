@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cykk4gxciwak"
-path="res://.godot/imported/TileSetShadow2.png-320754e777d3358b4c15def04d80fed2.ctex"
+uid="uid://foxqme5kojp0"
+path="res://.godot/imported/GrayscaleShadow5Layers.png-ec19894f8f2884e9e1af732dcf0a6fd6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/TileSetShadow2.png"
-dest_files=["res://.godot/imported/TileSetShadow2.png-320754e777d3358b4c15def04d80fed2.ctex"]
+source_file="res://assets/GrayscaleShadow5Layers.png"
+dest_files=["res://.godot/imported/GrayscaleShadow5Layers.png-ec19894f8f2884e9e1af732dcf0a6fd6.ctex"]
 
 [params]
 

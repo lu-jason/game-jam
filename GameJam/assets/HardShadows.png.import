@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cykk4gxciwak"
-path="res://.godot/imported/TileSetShadow2.png-320754e777d3358b4c15def04d80fed2.ctex"
+uid="uid://b0nj7808jkt5q"
+path="res://.godot/imported/HardShadows.png-06bb0035b4c9bf94c85192339d8cf213.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/TileSetShadow2.png"
-dest_files=["res://.godot/imported/TileSetShadow2.png-320754e777d3358b4c15def04d80fed2.ctex"]
+source_file="res://assets/HardShadows.png"
+dest_files=["res://.godot/imported/HardShadows.png-06bb0035b4c9bf94c85192339d8cf213.ctex"]
 
 [params]
 
