@@ -195,7 +195,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6136t"]
-size = Vector2(38, 38)
+size = Vector2(32, 32)
 
 [sub_resource type="Animation" id="Animation_1lx61"]
 resource_name = "ui_down"
@@ -207,10 +207,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [6, 7, 6, 8, 6]
+"values": [8, 6]
 }
 
 [sub_resource type="Animation" id="Animation_6k5od"]

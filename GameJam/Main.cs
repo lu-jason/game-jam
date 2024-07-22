@@ -12,27 +12,7 @@ public partial class Main : Node2D {
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
-		// Morphing state
-		if (canMorph) { // ! Mainly here for conditions where player is not allowed to morph (idk what that is yet) - Josh
-			morphTimer += delta;
 
-			if (Input.IsActionPressed("morph_witch") && morphTimer > morphTimeout) {
-				GD.Print("morphing into witch"); // 1 + num1
-				morphTimer = 0;
-			}
-			if (Input.IsActionPressed("morph_fox") && morphTimer > morphTimeout) {
-				GD.Print("morphing into fox"); // 2 + num2
-				morphTimer = 0;
-			}
-			if (Input.IsActionPressed("morph_salamander") && morphTimer > morphTimeout) {
-				GD.Print("morphing into salamander"); // 3 + num3
-				morphTimer = 0;
-			}
-			if (Input.IsActionPressed("morph_gargoyle") && morphTimer > morphTimeout) {
-				GD.Print("morphing into gargoyle"); // 4 + num4
-				morphTimer = 0;
-			}
-		}
 	}
 
 	public override void _Draw() {
