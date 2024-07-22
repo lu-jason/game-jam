@@ -1,6 +1,7 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cxyf44fabq8dx"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://cxyf44fabq8dx"]
 
 [ext_resource type="Texture2D" uid="uid://d0hlb1n20rihm" path="res://assets/sokoban_tilesheet_32.png" id="1_k2rfb"]
+[ext_resource type="Texture2D" uid="uid://pjqk1tnjfjtu" path="res://assets/rock_32.png" id="2_esmh6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_70hfa"]
 texture = ExtResource("1_k2rfb")
@@ -137,6 +138,7 @@ texture_region_size = Vector2i(32, 32)
 11:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 11:0/0/physics_layer_0/angular_velocity = 0.0
 11:0/0/custom_data_0 = 1
+11:0/0/custom_data_1 = true
 10:0/0 = 0
 10:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 10:0/0/physics_layer_0/angular_velocity = 0.0
@@ -152,9 +154,6 @@ texture_region_size = Vector2i(32, 32)
 6:0/0 = 0
 6:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 6:0/0/physics_layer_0/angular_velocity = 0.0
-0:4/0 = 0
-0:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:4/0/physics_layer_0/angular_velocity = 0.0
 0:5/0 = 0
 0:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:5/0/physics_layer_0/angular_velocity = 0.0
@@ -319,6 +318,17 @@ texture_region_size = Vector2i(32, 32)
 12:4/0 = 0
 12:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 12:4/0/physics_layer_0/angular_velocity = 0.0
+1:4/0 = 0
+1:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:4/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7lh8"]
+texture = ExtResource("2_esmh6")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_2 = true
 
 [resource]
 tile_size = Vector2i(32, 32)
@@ -327,4 +337,7 @@ custom_data_layer_0/name = "LightIntensity"
 custom_data_layer_0/type = 2
 custom_data_layer_1/name = "Hole"
 custom_data_layer_1/type = 1
+custom_data_layer_2/name = "Rock"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_70hfa")
+sources/1 = SubResource("TileSetAtlasSource_t7lh8")

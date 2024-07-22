@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://levelviewer/LightingManager.cs" id="1_3rbk2"]
 [ext_resource type="TileSet" uid="uid://cmxlfnl37730l" path="res://tilesets/Lighting.tres" id="1_cwmam"]
 [ext_resource type="Shader" path="res://shaders/lighting.gdshader" id="1_vs8yr"]
-[ext_resource type="TileSet" uid="uid://nrw0phweh8fq" path="res://tilesets/Shadows.tres" id="4_ij536"]
+[ext_resource type="TileSet" uid="uid://dx7r2fxwvacu5" path="res://tilesets/Shadows.tres" id="4_ij536"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8bgtx"]
 shader = ExtResource("1_vs8yr")

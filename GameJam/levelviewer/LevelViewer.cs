@@ -1,13 +1,14 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Numerics;
 
 public partial class LevelViewer : Node2D {
-    [Export]
-    public PackedScene Map { get; set; }
+	[Export]
+	public PackedScene Map { get; set; }
 
-    [Export]
-    public PackedScene Rock { get; set; }
+	[Export]
+	public PackedScene Rock { get; set; }
 
 	[Export]
 	public PackedScene ArcticFoxScene { get; set; }
@@ -18,13 +19,16 @@ public partial class LevelViewer : Node2D {
 	[Export]
 	public PackedScene GargoyleScene { get; set; }
 
-    [Signal]
-    public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
+	[Signal]
+	public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
 
-    [Signal]
-    public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
+	[Signal]
+	public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
 
 	private TileMap Level;
+
+	private Dictionary<string, int> LayerMap = new Dictionary<string, int>();
+
 	private Player player;
 	private ArcticFox fox;
 	private Salamander salamander;
@@ -36,29 +40,36 @@ public partial class LevelViewer : Node2D {
 	private double morphTimer = 0.0;
 	private double morphTimeout = 0.3;
 	private bool canMorph = true;
-    public Object[] objects;
+	public Object[] objects;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready() {
-        Level = Map.Instantiate<TileMap>();
-        Level.ZIndex = -1;
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready() {
+		Level = Map.Instantiate<TileMap>();
+		Level.ZIndex = -1;
 
-        AddChild(Level);
-        EmitSignal(SignalName.OnLoadLevel, Level);
+		AddChild(Level);
+		EmitSignal(SignalName.OnLoadLevel, Level);
+
+		for (int i = 0; i < Level.GetLayersCount(); i++) {
+			LayerMap.Add(Level.GetLayerName(i), i);
+		}
 
 		//var rock = Rock.Instantiate<Rock>();
 		//rock.Position = Level.MapToLocal(new Vector2I(2, 2));
-        // Later change this to be called whenever we move a light or something can change it maybe
-        EmitSignal(SignalName.OnLightsChanged, Level);
+		// Later change this to be called whenever we move a light or something can change it maybe
+		EmitSignal(SignalName.OnLightsChanged, Level);
 
-        player = GetNode<Player>("Player");
+		player = GetNode<Player>("Player");
 		currentMorph = MorphState.witch;
 
-        //var rock = Rock.Instantiate<Rock>();
-        //rock.Position = Level.MapToLocal(new Vector2I(2, 2));
+		//var rock = Rock.Instantiate<Rock>();
+		//rock.Position = Level.MapToLocal(new Vector2I(2, 2));
 	}
 
-    public override void _Input(InputEvent @event) {
+	private int GetLayerNumber(string layerName) {
+		return LayerMap[layerName];
+	}
+	public override void _Input(InputEvent @event) {
 
 		if (currentMorph == MorphState.witch && !player.moving) {
 			if (@event.IsActionPressed("ui_left")) {
@@ -107,7 +118,7 @@ public partial class LevelViewer : Node2D {
 
 		// Morphing state
 		if (canMorph) { // ! Mainly here for conditions where player is not allowed to morph (idk what that is yet) - Josh
-			if (@event.IsActionPressed("morph_witch") && currentMorph != MorphState.witch  && morphTimer > morphTimeout) {
+			if (@event.IsActionPressed("morph_witch") && currentMorph != MorphState.witch && morphTimer > morphTimeout) {
 				GD.Print("morphing into witch"); // 1 + num1
 				MorphPlayer(MorphState.witch);
 				morphTimer = 0;
@@ -116,7 +127,7 @@ public partial class LevelViewer : Node2D {
 				GD.Print("morphing into fox");  // 2 + num2
 				MorphPlayer(MorphState.fox);
 				morphTimer = 0;
-			}	
+			}
 			if (@event.IsActionPressed("morph_salamander") && morphTimer > morphTimeout) {
 				GD.Print("morphing into salamander"); // 3 + num3
 				MorphPlayer(MorphState.salamander);
@@ -129,27 +140,33 @@ public partial class LevelViewer : Node2D {
 			}
 		}
 
-        // We can move this later if we want just adding for testing sake
-        if (@event.IsActionPressed("place_light")) 
-        {
-            CreateLightSource();
-        }
-    }
-	
-    private void PlayerMovement(string direction, TileSet.CellNeighbor neighbour) {
-        var playerCurrentXY = Level.LocalToMap(player.Position);
-        var nextCell = Level.GetNeighborCell(playerCurrentXY, neighbour);
-        var nextCellCoordinates = Level.MapToLocal(nextCell);
-        var nextCellLayerZero = Level.GetCellTileData(0, nextCell);
-        // For now adding shadows check here as well
-        LightingManager LightingManager = GetNode<LightingManager>("LightingManager");
-        TileMap ShadowTileMap = LightingManager.GetNode<TileMap>("ShadowTileMap");
+		// We can move this later if we want just adding for testing sake
+		if (@event.IsActionPressed("place_light")) {
+			CreateLightSource();
+		}
+	}
 
-        if ((Level.GetCellTileData(1, nextCell) == null) && (ShadowTileMap.GetCellTileData(0, nextCell) == null)) {
-			player.MoveToPosition(nextCellCoordinates, direction);
-			if (nextCellLayerZero.GetCustomData("Hole").AsBool()) {
+	private void PlayerMovement(string direction, TileSet.CellNeighbor neighbour) {
+		var playerCurrentXY = Level.LocalToMap(player.Position);
+		var nextCell = Level.GetNeighborCell(playerCurrentXY, neighbour);
+		var nextCellCoordinates = Level.MapToLocal(nextCell);
+		var nextFloorCell = Level.GetCellTileData(GetLayerNumber("floors"), nextCell);
+		var nextCellObject = Level.GetCellTileData(GetLayerNumber("objects"), nextCell);
+
+		// For now adding shadows check here as well
+		LightingManager LightingManager = GetNode<LightingManager>("LightingManager");
+		TileMap ShadowTileMap = LightingManager.GetNode<TileMap>("ShadowTileMap");
+
+		if ((Level.GetCellTileData(GetLayerNumber("walls"), nextCell) == null) && (ShadowTileMap.GetCellTileData(GetLayerNumber("floors"), nextCell) == null)) {
+			if (nextFloorCell != null && nextFloorCell.GetCustomData("Hole").AsBool()) {
 				GD.Print("Is Hole");
 			}
+			if (nextCellObject != null && nextCellObject.GetCustomData("Rock").AsBool()) {
+				GD.Print("Is Rock");
+				player.Face(direction);
+				return;
+			}
+			player.MoveToPosition(nextCellCoordinates, direction);
 		} else {
 			player.Face(direction);
 		}
@@ -176,51 +193,51 @@ public partial class LevelViewer : Node2D {
 			case MorphState.fox:
 				currentPos = fox.Position;
 				fox.SetPhysicsProcess(false);
-				fox.QueueFree();		
+				fox.QueueFree();
 				break;
 			case MorphState.salamander:
 				currentPos = salamander.Position;
 				salamander.SetPhysicsProcess(false);
-				salamander.QueueFree();		
+				salamander.QueueFree();
 				break;
 			case MorphState.gargoyle:
 				currentPos = gargoyle.Position;
 				gargoyle.SetPhysicsProcess(false);
-				gargoyle.QueueFree();		
+				gargoyle.QueueFree();
 				break;
 		}
 
 
 		RemoteTransform2D cameraPathingNode = new RemoteTransform2D {
-                    RemotePath = GetNode<Camera2D>("CharacterCamera").GetPath()
-                };
+			RemotePath = GetNode<Camera2D>("CharacterCamera").GetPath()
+		};
 
 
 		switch (morphInto) {
 			case MorphState.witch:
 				player = PlayerScene.Instantiate<Player>();
-                player.AddChild(cameraPathingNode);
+				player.AddChild(cameraPathingNode);
 				AddChild(player);
 				player.Position = currentPos;
 				currentMorph = MorphState.witch;
 				break;
 			case MorphState.fox:
 				fox = ArcticFoxScene.Instantiate<ArcticFox>();
-                fox.AddChild(cameraPathingNode);
+				fox.AddChild(cameraPathingNode);
 				AddChild(fox);
 				fox.Position = currentPos;
 				currentMorph = MorphState.fox;
 				break;
 			case MorphState.salamander:
 				salamander = SalamanderScene.Instantiate<Salamander>();
-                salamander.AddChild(cameraPathingNode);
+				salamander.AddChild(cameraPathingNode);
 				AddChild(salamander);
 				salamander.Position = currentPos;
 				currentMorph = MorphState.salamander;
 				break;
 			case MorphState.gargoyle:
 				gargoyle = GargoyleScene.Instantiate<Gargoyle>();
-                gargoyle.AddChild(cameraPathingNode);
+				gargoyle.AddChild(cameraPathingNode);
 				AddChild(gargoyle);
 				gargoyle.Position = currentPos;
 				currentMorph = MorphState.gargoyle;
@@ -252,34 +269,29 @@ public partial class LevelViewer : Node2D {
 		morphTimer += delta;
 	}
 
-    public void OnToggleLightingPressed() 
-    {
-        LightingManager lightingManager = GetNode<LightingManager>("LightingManager");
-        // Weirdly lightManager.Visible didn't like it when I tried to use it in a ternary operator.
-        bool isVisible = lightingManager.Visible;
-        if (isVisible) 
-        {
-            lightingManager.Hide();
-            lightingManager.ClearTiles();
-        }
-        else 
-        { 
-            lightingManager.Show();
-            // Repopulate tiles
-            EmitSignal(SignalName.OnLightsChanged, Level);
-        }
-    }
+	public void OnToggleLightingPressed() {
+		LightingManager lightingManager = GetNode<LightingManager>("LightingManager");
+		// Weirdly lightManager.Visible didn't like it when I tried to use it in a ternary operator.
+		bool isVisible = lightingManager.Visible;
+		if (isVisible) {
+			lightingManager.Hide();
+			lightingManager.ClearTiles();
+		} else {
+			lightingManager.Show();
+			// Repopulate tiles
+			EmitSignal(SignalName.OnLightsChanged, Level);
+		}
+	}
 
 
-    private void CreateLightSource() 
-    {
-        // TODO place in front of the user instead of on the player.
-        // perhaps storing the direction the player is facing could be good
-        var playerPos = Level.LocalToMap(player.Position);
-        // Layer 2 is lights
-        Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 0, new Vector2I(9, 5));
-        EmitSignal(SignalName.OnLightsChanged, Level);
+	private void CreateLightSource() {
+		// TODO place in front of the user instead of on the player.
+		// perhaps storing the direction the player is facing could be good
+		var playerPos = Level.LocalToMap(player.Position);
+		// Layer 2 is lights
+		Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 0, new Vector2I(9, 5));
+		EmitSignal(SignalName.OnLightsChanged, Level);
 
-    }
+	}
 }
 
