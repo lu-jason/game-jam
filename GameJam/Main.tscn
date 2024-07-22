@@ -13,11 +13,12 @@ script = ExtResource("1_6on18")
 position = Vector2(490, 257)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="LevelViewer/Player"]
-remote_path = NodePath("../../Camera2D")
+scale = Vector2(1, 0.996063)
+remote_path = NodePath("../../CharacterCamera")
 
-[node name="Camera2D" type="Camera2D" parent="LevelViewer"]
+[node name="CharacterCamera" type="Camera2D" parent="LevelViewer"]
 position = Vector2(490, 257)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.5, 0.498031)
 zoom = Vector2(1.25, 1.25)
 
 [node name="HUD" type="CanvasLayer" parent="."]

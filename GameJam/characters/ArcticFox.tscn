@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://lft5grql5hym"]
+
+[ext_resource type="Texture2D" uid="uid://by6vkxarg7v7b" path="res://assets/playerGrey_walk1.png" id="1_8qcrp"]
+[ext_resource type="Script" path="res://characters/ArcticFox.cs" id="1_cn63y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rir03"]
+size = Vector2(32, 32)
+
+[node name="ArcticFox" type="Area2D"]
+script = ExtResource("1_cn63y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.38419e-07, 4.76837e-07)
+scale = Vector2(0.375, 0.3)
+texture = ExtResource("1_8qcrp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rir03")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 25)
+collide_with_areas = true
