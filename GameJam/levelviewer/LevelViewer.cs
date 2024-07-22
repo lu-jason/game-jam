@@ -25,7 +25,7 @@ public partial class LevelViewer : Node2D {
 	private ArcticFox fox;
 
 	private enum MorphState { witch, fox, salamander, gargoyle }
-	private MorphState currentMorph = MorphState.witch;
+	private MorphState currentMorph;
 	private Godot.Vector2 currentPos;
 	private double morphTimer = 0.0;
 	private double morphTimeout = 0.3;
@@ -42,11 +42,11 @@ public partial class LevelViewer : Node2D {
 
 		//var rock = Rock.Instantiate<Rock>();
 		//rock.Position = Level.MapToLocal(new Vector2I(2, 2));
-
         // Later change this to be called whenever we move a light or something can change it maybe
         EmitSignal(SignalName.OnLightsChanged, Level);
 
         player = GetNode<Player>("Player");
+		currentMorph = MorphState.witch;
 
         //var rock = Rock.Instantiate<Rock>();
         //rock.Position = Level.MapToLocal(new Vector2I(2, 2));
@@ -152,7 +152,14 @@ public partial class LevelViewer : Node2D {
 		switch (morphInto) {
 			case MorphState.witch:
 				player = PlayerScene.Instantiate<Player>();
+
+                var cameraPathingNode = new RemoteTransform2D {
+                    RemotePath = GetNode<Camera2D>("CharacterCamera").GetPath()
+                };
+
+                player.AddChild(cameraPathingNode);
 				AddChild(player);
+
 				player.Position = currentPos;
 				currentMorph = MorphState.witch;
 				break;
