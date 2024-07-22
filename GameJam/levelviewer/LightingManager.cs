@@ -215,10 +215,6 @@ public partial class LightingManager : Node2D
             LightUpNeighbour(RPos, RAdj, lightValue);
             LightUpNeighbour(DPos, DAdj, lightValue);
             LightUpNeighbour(LPos, LAdj, lightValue);
-            //LightUpNeighbours(UPos, UAdj, lightValue - 1);
-            //LightUpNeighbours(RPos, RAdj, lightValue - 1);
-            //LightUpNeighbours(DPos, DAdj, lightValue - 1);
-            //LightUpNeighbours(LPos, LAdj, lightValue - 1);
         }
     }
 
