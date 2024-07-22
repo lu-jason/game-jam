@@ -1,15 +1,10 @@
 using Godot;
 using System;
 
-public partial class ArcticFox : Area2D
+public partial class ArcticFox : CharacterClass
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
+    public override void Move(string direction, TileSet.CellNeighbor neighbour){
+		GD.Print("Move Fox ", direction);
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 }
