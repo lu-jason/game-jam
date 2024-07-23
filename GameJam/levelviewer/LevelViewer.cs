@@ -289,7 +289,7 @@ public partial class LevelViewer : Node2D {
 		// perhaps storing the direction the player is facing could be good
 		var playerPos = Level.LocalToMap(player.Position);
 		// Layer 2 is lights
-		Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 0, new Vector2I(9, 5));
+		Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 2, new Vector2I(0, 0));
 		EmitSignal(SignalName.OnLightsChanged, Level);
 
 	}
