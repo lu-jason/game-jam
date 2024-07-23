@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0hlb1n20rihm"
-path="res://.godot/imported/sokoban_tilesheet_32.png-9a6f052e93961e5d045361ce09622c26.ctex"
+uid="uid://bx46lyijhi62f"
+path="res://.godot/imported/Fox.png-a677fefb6f2ab82f822caf49971cfff6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sokoban_tilesheet_32.png"
-dest_files=["res://.godot/imported/sokoban_tilesheet_32.png-9a6f052e93961e5d045361ce09622c26.ctex"]
+source_file="res://assets/Aseprite/Fox.png"
+dest_files=["res://.godot/imported/Fox.png-a677fefb6f2ab82f822caf49971cfff6.ctex"]
 
 [params]
 

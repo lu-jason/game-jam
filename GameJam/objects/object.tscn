@@ -1,12 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://3koxbh7vkspp"]
+[gd_scene load_steps=3 format=3 uid="uid://cls55c8oy65k0"]
 
-[ext_resource type="Script" path="res://objects/Object.cs" id="1_kqndn"]
+[sub_resource type="CSharpScript" id="CSharpScript_lkf4v"]
+script/source = "using Godot;
+using System;
+
+public partial class Object : Area2D
+{
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
+}
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vst5f"]
 size = Vector2(162, 156)
 
 [node name="Object" type="Area2D"]
-script = ExtResource("1_kqndn")
+script = SubResource("CSharpScript_lkf4v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

@@ -2,9 +2,6 @@ using Godot;
 using System;
 
 public partial class Main : Node2D {
-	public double morphTimer = 0.0;
-	public double morphTimeout = 0.3;
-	public bool canMorph = true;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {

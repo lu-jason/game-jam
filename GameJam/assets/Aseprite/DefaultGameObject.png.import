@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fn3ats00hpd7"
-path="res://.godot/imported/sokoban_character.png-db20e081c3ea15b476d3a83e0251c071.ctex"
+uid="uid://xa1irggxsnkm"
+path="res://.godot/imported/DefaultGameObject.png-5558a689e177fde206ed8c6a09b333ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sokoban_character.png"
-dest_files=["res://.godot/imported/sokoban_character.png-db20e081c3ea15b476d3a83e0251c071.ctex"]
+source_file="res://assets/Aseprite/DefaultGameObject.png"
+dest_files=["res://.godot/imported/DefaultGameObject.png-5558a689e177fde206ed8c6a09b333ab.ctex"]
 
 [params]
 

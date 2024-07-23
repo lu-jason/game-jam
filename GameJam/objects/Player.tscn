@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dm80h6dn52mbv"]
+
+[ext_resource type="PackedScene" uid="uid://lhbvgcxp5nq6" path="res://objects/GameObject.tscn" id="1_v50ct"]
+[ext_resource type="Script" path="res://objects/Player.cs" id="2_jimom"]
+[ext_resource type="Texture2D" uid="uid://xa1irggxsnkm" path="res://assets/Aseprite/DefaultGameObject.png" id="2_tyysv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h03in"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tyysv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Player" instance=ExtResource("1_v50ct")]
+script = ExtResource("2_jimom")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_h03in")
+animation = &"idle"

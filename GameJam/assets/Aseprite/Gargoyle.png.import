@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhkqpsri2h3hr"
-path="res://.godot/imported/TileSetShadow.png-4350642ff195c38e757f9281fc5f1e4f.ctex"
+uid="uid://nf8xqhyqqeyr"
+path="res://.godot/imported/Gargoyle.png-676d6c9667d4be42087bef4efe0e4a52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/TileSetShadow.png"
-dest_files=["res://.godot/imported/TileSetShadow.png-4350642ff195c38e757f9281fc5f1e4f.ctex"]
+source_file="res://assets/Aseprite/Gargoyle.png"
+dest_files=["res://.godot/imported/Gargoyle.png-676d6c9667d4be42087bef4efe0e4a52.ctex"]
 
 [params]
 

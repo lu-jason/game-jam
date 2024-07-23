@@ -1,23 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3ro1t67hjq0s"]
+[gd_scene load_steps=3 format=3 uid="uid://c3ro1t67hjq0s"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
-[ext_resource type="PackedScene" uid="uid://cdak7ct67s1gl" path="res://Player.tscn" id="2_l38x1"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_6on18")
 
 [node name="LevelViewer" parent="." instance=ExtResource("2_j6pm2")]
 
-[node name="Player" parent="LevelViewer" instance=ExtResource("2_l38x1")]
-position = Vector2(490, 257)
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="LevelViewer/Player"]
-scale = Vector2(1, 0.996063)
-remote_path = NodePath("../../CharacterCamera")
-
 [node name="CharacterCamera" type="Camera2D" parent="LevelViewer"]
-position = Vector2(490, 257)
+position = Vector2(464, 256)
 scale = Vector2(0.5, 0.498031)
 zoom = Vector2(1.25, 1.25)
 
@@ -30,4 +22,5 @@ offset_right = 11.0
 offset_bottom = 11.0
 text = "Toggle Lighting"
 
+[connection signal="OnLightsChanged" from="LevelViewer" to="LevelViewer/LightingManager" method="OnLightsChanged"]
 [connection signal="pressed" from="HUD/ToggleLighting" to="LevelViewer" method="OnToggleLightingPressed"]

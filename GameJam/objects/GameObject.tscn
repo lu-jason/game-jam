@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://lhbvgcxp5nq6"]
+
+[ext_resource type="Script" path="res://objects/GameObject.cs" id="1_1hcb3"]
+[ext_resource type="Texture2D" uid="uid://xa1irggxsnkm" path="res://assets/Aseprite/DefaultGameObject.png" id="1_i8hyb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eevha"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_i8hyb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GameObject" type="Node2D"]
+script = ExtResource("1_1hcb3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(16, 16)
+sprite_frames = SubResource("SpriteFrames_eevha")

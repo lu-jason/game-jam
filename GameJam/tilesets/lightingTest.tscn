@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://0a433qfhlkjp"]
+[gd_scene load_steps=4 format=3 uid="uid://bm8lxxl43m6kt"]
 
-[ext_resource type="Texture2D" uid="uid://cibcntstf71xs" path="res://assets/sokoban_tilesheet.png" id="1_lqjm4"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jerfa"]
+load_path = "res://.godot/imported/sokoban_tilesheet.png-40f1029de4e6a234f19e812d6ab0e52a.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ckdp3"]
-texture = ExtResource("1_lqjm4")
+texture = SubResource("CompressedTexture2D_jerfa")
 texture_region_size = Vector2i(64, 64)
 1:0/0 = 0
 1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)

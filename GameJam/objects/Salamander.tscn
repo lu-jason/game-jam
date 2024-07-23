@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b37dx2kkwh01l"]
+
+[ext_resource type="PackedScene" uid="uid://dm80h6dn52mbv" path="res://objects/Player.tscn" id="1_7o5lp"]
+[ext_resource type="Texture2D" uid="uid://cd4ji8yhgcje1" path="res://assets/Aseprite/Salamander.png" id="2_mabs4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wq5a5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mabs4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Salamander" instance=ExtResource("1_7o5lp")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_wq5a5")
+animation = &"default"

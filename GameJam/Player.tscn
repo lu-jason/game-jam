@@ -1,102 +1,133 @@
-[gd_scene load_steps=34 format=3 uid="uid://cdak7ct67s1gl"]
+[gd_scene load_steps=34 format=3 uid="uid://vlllmugjmq62"]
 
-[ext_resource type="Script" path="res://Player.cs" id="1_m252d"]
-[ext_resource type="Texture2D" uid="uid://fn3ats00hpd7" path="res://assets/sokoban_character.png" id="2_u1it4"]
+[sub_resource type="CSharpScript" id="CSharpScript_613c7"]
+script/source = "using Godot;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
+public partial class Player : CharacterClass {
+	// Called when the node enters the scene tree for the first time.
+
+    public override void Move(string direction, TileSet.CellNeighbor neighbour){
+		var playerCurrentXY = currentLevel.LocalToMap(Position);
+        var nextCell = currentLevel.GetNeighborCell(playerCurrentXY, neighbour);
+        var nextCellCoordinates = currentLevel.MapToLocal(nextCell);
+        var nextCellLayerZero = currentLevel.GetCellTileData(0, nextCell);
+
+        // For now adding shadows check here as well
+        LightingManager LightingManager = GetNode<LightingManager>(\"/root/Main/LevelViewer/LightingManager\");
+        TileMap ShadowTileMap = LightingManager.GetNode<TileMap>(\"ShadowTileMap\");
+
+        if ((currentLevel.GetCellTileData(1, nextCell) == null) && (ShadowTileMap.GetCellTileData(0, nextCell) == null)) {
+			MoveToPosition(nextCellCoordinates, direction);
+			if (nextCellLayerZero.GetCustomData(\"Hole\").AsBool()) {
+				GD.Print(\"Is Hole\");
+			}
+		} else {
+			Face(direction);
+		}
+	}
+}
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_55t1l"]
+load_path = "res://.godot/imported/sokoban_character.png-db20e081c3ea15b476d3a83e0251c071.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53qc2"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jo67y"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ws03"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k5yqf"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(0, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2t2gk"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(64, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y8mx6"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(128, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bkqdh"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(192, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x77b6"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(256, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r5jrk"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(320, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dkvy2"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(192, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_85tb7"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(256, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w7c6f"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(320, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a3d3u"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(0, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iausr"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(64, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nakeq"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(128, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qv5nd"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(0, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_llkfm"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(64, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n4pda"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(128, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ylfvy"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gmair"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qcj26"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8okcb"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(192, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gah5q"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(256, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fx1ef"]
-atlas = ExtResource("2_u1it4")
+atlas = SubResource("CompressedTexture2D_55t1l")
 region = Rect2(320, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5txt4"]
@@ -271,7 +302,7 @@ _data = {
 
 [node name="Player" type="Area2D"]
 scale = Vector2(0.5, 0.5)
-script = ExtResource("1_m252d")
+script = SubResource("CSharpScript_613c7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -279,7 +310,7 @@ sprite_frames = SubResource("SpriteFrames_5txt4")
 animation = &"down"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_u1it4")
+texture = SubResource("CompressedTexture2D_55t1l")
 hframes = 6
 vframes = 4
 frame = 6

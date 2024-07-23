@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cibcntstf71xs"
-path="res://.godot/imported/sokoban_tilesheet.png-40f1029de4e6a234f19e812d6ab0e52a.ctex"
+uid="uid://c1ml38ui0wcln"
+path="res://.godot/imported/Witch.png-8b79d33f267edcef0b3332ee8e7f0aa2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sokoban_tilesheet.png"
-dest_files=["res://.godot/imported/sokoban_tilesheet.png-40f1029de4e6a234f19e812d6ab0e52a.ctex"]
+source_file="res://assets/Aseprite/Witch.png"
+dest_files=["res://.godot/imported/Witch.png-8b79d33f267edcef0b3332ee8e7f0aa2.ctex"]
 
 [params]
 

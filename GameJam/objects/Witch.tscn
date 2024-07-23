@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://yi6ygeviiymu"]
+
+[ext_resource type="PackedScene" uid="uid://dm80h6dn52mbv" path="res://objects/Player.tscn" id="1_fkj80"]
+[ext_resource type="Texture2D" uid="uid://c1ml38ui0wcln" path="res://assets/Aseprite/Witch.png" id="2_7ue0s"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2u3l2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7ue0s")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Witch" instance=ExtResource("1_fkj80")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_2u3l2")
