@@ -31,8 +31,7 @@ public partial class PlayerManager : Node2D {
     public override void _Process(double delta) {
     }
 
-    public override void _Input(InputEvent @event) 
-    {
+    public override void _Input(InputEvent @event) {
         if (@event.IsActionPressed("ui_left")) {
             player.MoveLeft();
         } else if (@event.IsActionPressed("ui_right")) {
@@ -42,19 +41,17 @@ public partial class PlayerManager : Node2D {
         } else if (@event.IsActionPressed("ui_down")) {
             player.MoveDown();
         }
-        Func<MorphState, bool> Morph = (MorphState state) => 
-        {
+        Func<MorphState, bool> Morph = (MorphState state) => {
             if (state != currentMorph) {
                 Vector2I oldTileCoords = player.tileCoords;
 
                 player.QueueFree();
-                GD.Print("Morphing To,", state);
+                GD.Print("Morphing to: ", state);
                 switch (state) {
                     case MorphState.witch:
                         player = WitchScene.Instantiate<Player>();
                         break;
                     case MorphState.fox:
-                        GD.Print("morph fox");
                         player = FoxScene.Instantiate<Player>();
                         break;
                     case MorphState.salamander:
@@ -72,26 +69,18 @@ public partial class PlayerManager : Node2D {
             return false;
         };
 
-        if (@event.IsActionPressed("morph_witch"))
-        {
+        if (@event.IsActionPressed("morph_witch")) {
             Morph(MorphState.witch);
-        }
-        else if (@event.IsActionPressed("morph_fox"))
-        {
+        } else if (@event.IsActionPressed("morph_fox")) {
             Morph(MorphState.fox);
-        }
-        else if(@event.IsActionPressed("morph_salamander"))
-        {
+        } else if (@event.IsActionPressed("morph_salamander")) {
             Morph(MorphState.salamander);
-        }
-        else if(@event.IsActionPressed("morph_gargoyle"))
-        {
+        } else if (@event.IsActionPressed("morph_gargoyle")) {
             Morph(MorphState.gargoyle);
-        }        
+        }
     }
 
-        public void MovePlayerTo(Vector2I coords) 
-    {
-        player.MoveTo(coords);
+    public void MovePlayerTo(Vector2I coords) {
+        player.MoveTo(coords, "none");
     }
 }

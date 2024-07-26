@@ -24,14 +24,12 @@ public partial class Main : Node2D {
 		// }
 	}
 
-    void OnDebugButtonPressed()
-    {
-        GD.Print("hit");
-        var levelViewer = GetNode<LevelViewer>("LevelViewer");
-        if (levelViewer != null)
-        {
-            // TODO hook this up (Mabye a debug signal would be better)
-            //levelViewer.DebugPollTileMapData();
-        }
-    }
+	void OnDebugButtonPressed() {
+		GD.Print("hit");
+		var levelViewer = GetNode<LevelViewer>("LevelViewer");
+		if (levelViewer != null) {
+			// TODO hook this up (Mabye a debug signal would be better)
+			//levelViewer.DebugPollTileMapData();
+		}
+	}
 }

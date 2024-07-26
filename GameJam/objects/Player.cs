@@ -1,8 +1,7 @@
 using Godot;
 using System;
 
-public partial class Player : GameObject 
-    {
+public partial class Player : GameObject {
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready() {
@@ -12,8 +11,7 @@ public partial class Player : GameObject
     public override void _Process(double delta) {
     }
 
-    public override bool CanMove(Vector2I coords) 
-    {
+    public override bool CanMove(Vector2I coords, string direction) {
         // Later we could hold a reference to these so we don't need to look them up with this "hardcodey" way
 
         LevelViewer levelViewer = GetNode<LevelViewer>("/root/Main/LevelViewer");
@@ -24,6 +22,17 @@ public partial class Player : GameObject
         LightingManager lightingManager = GetNode<LightingManager>("/root/Main/LevelViewer/LightingManager");
         TileMap shadowTileMap = lightingManager.GetNode<TileMap>("ShadowTileMap");
         TileData shadowData = shadowTileMap.GetCellTileData(0, coords);
+
+        if (levelViewer.IsObject(coords)) {
+            GD.Print("Object is here");
+            var moved = levelViewer.MoveObject(coords, direction);
+            if (moved) {
+                GD.Print("Object moved");
+            } else {
+                GD.Print("Object not moved");
+                return false;
+            }
+        }
 
         // If the walls and shadows are empty we can move there
         if ((wallData == null) && (shadowData == null)) {
