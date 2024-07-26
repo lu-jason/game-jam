@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3ro1t67hjq0s"]
+[gd_scene load_steps=5 format=3 uid="uid://c3ro1t67hjq0s"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
+[ext_resource type="Script" path="res://HUD.cs" id="3_tvo1a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vpa51"]
+font_size = 40
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_6on18")
@@ -14,6 +18,7 @@ scale = Vector2(0.5, 0.498031)
 zoom = Vector2(1.25, 1.25)
 
 [node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_tvo1a")
 
 [node name="ToggleLighting" type="Button" parent="HUD"]
 offset_left = 3.0
@@ -22,5 +27,20 @@ offset_right = 11.0
 offset_bottom = 11.0
 text = "Toggle Lighting"
 
-[connection signal="OnLightsChanged" from="LevelViewer" to="LevelViewer/LightingManager" method="OnLightsChanged"]
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+offset_left = 134.0
+offset_top = 1.0
+offset_right = 262.0
+offset_bottom = 67.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="HUD"]
+offset_left = 153.0
+offset_top = 6.0
+offset_right = 179.0
+offset_bottom = 61.0
+label_settings = SubResource("LabelSettings_vpa51")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="HUD/ToggleLighting" to="LevelViewer" method="OnToggleLightingPressed"]

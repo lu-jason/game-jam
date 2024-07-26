@@ -3,8 +3,7 @@ using Godot.Collections;
 using System;
 using System.Reflection.Emit;
 
-public partial class LightingManager : Node2D
-{
+public partial class LightingManager : Node2D {
     const int MAX_LIGHT_LEVEL = 4; // We can adjust as needed. 
 
     private int[,] lightLevels;
@@ -25,21 +24,18 @@ public partial class LightingManager : Node2D
     //    { 0,0,0,0,1,0,0,0,0 },
     //};
 
-    Dictionary<Vector2I, int> lights = new Dictionary<Vector2I,int>();
+    Dictionary<Vector2I, int> lights = new Dictionary<Vector2I, int>();
 
     // Pretty sure C# passes by reference
     TileMap levelRef;
-    public override void _Ready()
-    {
+    public override void _Ready() {
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) 
-    {
+    public override void _Process(double delta) {
     }
 
-    public void UpdateBaseLevelLighting(TileMap loadedLevel) 
-    {
+    public void UpdateBaseLevelLighting(TileMap loadedLevel) {
         TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
         if (LightingTileMap != null) {
             LightingTileMap.Position = loadedLevel.Position;
@@ -49,8 +45,7 @@ public partial class LightingManager : Node2D
         lightLevels = new int[tileBounds.X, tileBounds.Y];
     }
 
-    public void ClearTiles() 
-    {
+    public void ClearTiles() {
         TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
         TileMap ShadowTileMap = GetNode<TileMap>("ShadowTileMap");
         LightingTileMap.Clear();
@@ -58,8 +53,7 @@ public partial class LightingManager : Node2D
 
     }
     // NOTE update lights based on the whole Tile map kinda sucks could be way more optimal
-    public void OnLightsChanged(TileMap loadedLevel) 
-    {
+    public void OnLightsChanged(TileMap loadedLevel) {
         levelRef = loadedLevel;
         // Update the list of lights based on layer 2 for now
         lights.Clear();
@@ -67,8 +61,7 @@ public partial class LightingManager : Node2D
         for (int x = 0; x < tileBounds.X; x++) {
             for (int y = 0; y < tileBounds.Y; y++) {
                 var cellData = loadedLevel.GetCellTileData(2, new Vector2I(x, y));
-                if (cellData != null) 
-                {
+                if (cellData != null) {
                     // WARNING DO NOT SET THIS TOO HIGH
                     // My point source algorithm is slow as kek
                     int lightIntensity = cellData.GetCustomData("LightIntensity").AsInt16();
@@ -91,7 +84,7 @@ public partial class LightingManager : Node2D
         }
 
         foreach (var light in lights) {
-            ApplyPointLight(light.Key,light.Value);
+            ApplyPointLight(light.Key, light.Value);
         }
 
         // Update the tileMap 
@@ -100,22 +93,16 @@ public partial class LightingManager : Node2D
         LightingTileMap.Clear();
         ShadowTileMap.Clear();
         // Update light tilemap based on light levels
-        for (int x = 0; x < lightLevels.GetLength(0); x++) 
-        {
-            for (int y = 0; y < lightLevels.GetLength(1); y++) 
-            {
-                if (lightLevels[x, y] != 0) 
-                {
+        for (int x = 0; x < lightLevels.GetLength(0); x++) {
+            for (int y = 0; y < lightLevels.GetLength(1); y++) {
+                if (lightLevels[x, y] != 0) {
 
                     int lightIndex = lightLevels[x, y];
-                    if (lightIndex > MAX_LIGHT_LEVEL) 
-                    {
+                    if (lightIndex > MAX_LIGHT_LEVEL) {
                         lightIndex = MAX_LIGHT_LEVEL;
                     }
                     LightingTileMap.SetCell(0, new Vector2I(x, y), 0, new Vector2I(lightIndex, 0));
-                } 
-                else 
-                {
+                } else {
                     // This will have to be in sync with the atlas entrys to the shadow tile set
                     uint randVal = GD.Randi() % 9;
                     ShadowTileMap.SetCell(0, new Vector2I(x, y), 0, new Vector2I((int)randVal, 0));
@@ -143,14 +130,13 @@ public partial class LightingManager : Node2D
      * 
      */
 
-    private void ApplyPointLight(Vector2I lightPosition, int LightIntensity) 
-    {
+    private void ApplyPointLight(Vector2I lightPosition, int LightIntensity) {
         // reset hasLightBeenAdjusted for this new point light should default to false
         int arraySize = LightIntensity * 2 - 1;
         lightAdjusted = new int[arraySize, arraySize];
 
         // Set as midPoint
-        Vector2I AdjustedMapLocation = new Vector2I(LightIntensity-1, LightIntensity - 1);
+        Vector2I AdjustedMapLocation = new Vector2I(LightIntensity - 1, LightIntensity - 1);
 
         // Always apply strongest light light to tile the light is on
         AddLightLevel(lightPosition.X, lightPosition.Y, LightIntensity);
@@ -160,21 +146,18 @@ public partial class LightingManager : Node2D
         // Depends if we want to be able to have point lines on a wall
         //if (!IsWall(lightPosition.X, lightPosition.Y)) 
         //{
-            LightUpNeighbours(lightPosition, AdjustedMapLocation, LightIntensity - 1);
+        LightUpNeighbours(lightPosition, AdjustedMapLocation, LightIntensity - 1);
         //}
 
     }
 
-    private void LightUpNeighbours(Vector2I lightPos, Vector2I adjustedPos, int lightValue) 
-    {
+    private void LightUpNeighbours(Vector2I lightPos, Vector2I adjustedPos, int lightValue) {
         // This code could be more efficient by adding some early outs, but can't be bothered right now.
 
         // Setup lambda function to reduce duplicate code
         // Also why the hell can't I set the return type to void
-        Func<Vector2I, Vector2I, bool> LightUpPosition = (Vector2I tilemapPos, Vector2I adjustedPos) => 
-        { 
-            if (lightValue > lightAdjusted[adjustedPos.X, adjustedPos.Y]) 
-            {
+        Func<Vector2I, Vector2I, bool> LightUpPosition = (Vector2I tilemapPos, Vector2I adjustedPos) => {
+            if (lightValue > lightAdjusted[adjustedPos.X, adjustedPos.Y]) {
                 // Figure out how much higher we need to set the light if it has already been set for that position
                 int adjustLevel = lightValue - lightAdjusted[adjustedPos.X, adjustedPos.Y];
 
@@ -219,19 +202,16 @@ public partial class LightingManager : Node2D
     }
 
     // return true if valid tile.
-    private bool AddLightLevel(int x, int y, int value) 
-    {
+    private bool AddLightLevel(int x, int y, int value) {
         // exit out early if out of bounds
-        if (x<0 || y<0 || x>=lightLevels.GetLength(0) || y>=lightLevels.GetLength(1)) 
-        {
+        if (x < 0 || y < 0 || x >= lightLevels.GetLength(0) || y >= lightLevels.GetLength(1)) {
             return false;
         }
 
         int newLight = lightLevels[x, y] + value;
 
         // Clamp value
-        if (newLight < 0) 
-        {
+        if (newLight < 0) {
             newLight = 0;
         }
 

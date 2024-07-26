@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbklp0g64escc"]
+
+[ext_resource type="Script" path="res://objects/Rock.cs" id="1_4q2w2"]
+[ext_resource type="PackedScene" uid="uid://lhbvgcxp5nq6" path="res://objects/GameObject.tscn" id="1_oo6nv"]
+[ext_resource type="Texture2D" uid="uid://pjqk1tnjfjtu" path="res://assets/rock_32.png" id="2_tseqn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ewd3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tseqn")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Rock" instance=ExtResource("1_oo6nv")]
+script = ExtResource("1_4q2w2")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ewd3p")
+animation = &"idle"
