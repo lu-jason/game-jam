@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
 [ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="2_0atgn"]
-[ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/Rock.tscn" id="3_lwloq"]
+[ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/rock.tscn" id="3_lwloq"]
 [ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
 [ext_resource type="PackedScene" uid="uid://cqi3aksygmfb3" path="res://objects/PlayerManager.tscn" id="8_hr6kg"]
 

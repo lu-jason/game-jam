@@ -3,13 +3,6 @@ using System;
 
 public partial class Player : GameObject {
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready() {
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) {
-    }
 
     public override bool CanMove(Vector2I coords, string direction) {
         // Later we could hold a reference to these so we don't need to look them up with this "hardcodey" way

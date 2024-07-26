@@ -77,7 +77,7 @@ public partial class LevelViewer : Node2D
 					GD.Print("Found rock at ", x, y);
 					var rock = RockScene.Instantiate<Rock>();
 					AddChild(rock);
-					rock.MoveTo(position, "");
+                    rock.OverrideTileCoords(position);//, "");
 					AddGameObject(rock, position);
 				}
 			}

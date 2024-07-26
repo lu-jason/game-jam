@@ -20,6 +20,8 @@ public partial class PlayerManager : Node2D {
     private enum MorphState { witch, fox, salamander, gargoyle };
     private MorphState currentMorph;
 
+    static public bool lockInput = false;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         player = WitchScene.Instantiate<Player>();
@@ -32,6 +34,12 @@ public partial class PlayerManager : Node2D {
     }
 
     public override void _Input(InputEvent @event) {
+        // Instead of just fully exiting here we could maybe buffer inputs, idk
+        if (lockInput)
+        {
+            return;
+        }
+
         if (@event.IsActionPressed("ui_left")) {
             player.MoveLeft();
         } else if (@event.IsActionPressed("ui_right")) {
@@ -81,6 +89,11 @@ public partial class PlayerManager : Node2D {
     }
 
     public void MovePlayerTo(Vector2I coords) {
-        player.MoveTo(coords, "none");
+        player.OverrideTileCoords(coords);//, "none");
+    }
+
+    public static void SetLockInput(bool value)
+    {
+        lockInput = value;
     }
 }
