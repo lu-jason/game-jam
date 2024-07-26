@@ -1,5 +1,6 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://cxyf44fabq8dx"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://cxyf44fabq8dx"]
 
+[ext_resource type="Texture2D" uid="uid://c3mrdw4g01vyk" path="res://assets/Aseprite/LightingTilemap.png" id="1_2ruxf"]
 [ext_resource type="Texture2D" uid="uid://pjqk1tnjfjtu" path="res://assets/rock_32.png" id="2_esmh6"]
 [ext_resource type="Texture2D" uid="uid://db1tkwqratcn1" path="res://assets/Aseprite/Fire.png" id="3_llmjc"]
 [ext_resource type="Texture2D" uid="uid://cl612j1tfk5tv" path="res://assets/Aseprite/Terrain.png" id="4_qi7xd"]
@@ -11,6 +12,30 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/custom_data_2 = true
+0:0/0/custom_data_3 = "Rock"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ebejv"]
+texture = ExtResource("1_2ruxf")
+texture_region_size = Vector2i(32, 32)
+0:0/animation_columns = 4
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
+0:0/animation_frame_3/duration = 1.0
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_0 = 8
+0:1/animation_columns = 1
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/custom_data_3 = "ToggleLight"
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/custom_data_0 = 8
+1:1/0/custom_data_3 = "ToggleLight"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6x27c"]
 resource_name = "Lights"
@@ -50,6 +75,9 @@ custom_data_layer_1/name = "Hole"
 custom_data_layer_1/type = 1
 custom_data_layer_2/name = "Rock"
 custom_data_layer_2/type = 1
+custom_data_layer_3/name = "ItemId"
+custom_data_layer_3/type = 4
 sources/1 = SubResource("TileSetAtlasSource_t7lh8")
 sources/2 = SubResource("TileSetAtlasSource_6x27c")
 sources/3 = SubResource("TileSetAtlasSource_mtpwg")
+sources/10 = SubResource("TileSetAtlasSource_ebejv")
