@@ -9,17 +9,17 @@ using System.Runtime.InteropServices;
 public partial class Player : CharacterClass {
 	// Called when the node enters the scene tree for the first time.
 
-    public override void Move(string direction, TileSet.CellNeighbor neighbour){
+	public override void Move(string direction, TileSet.CellNeighbor neighbour){
 		var playerCurrentXY = currentLevel.LocalToMap(Position);
-        var nextCell = currentLevel.GetNeighborCell(playerCurrentXY, neighbour);
-        var nextCellCoordinates = currentLevel.MapToLocal(nextCell);
-        var nextCellLayerZero = currentLevel.GetCellTileData(0, nextCell);
+		var nextCell = currentLevel.GetNeighborCell(playerCurrentXY, neighbour);
+		var nextCellCoordinates = currentLevel.MapToLocal(nextCell);
+		var nextCellLayerZero = currentLevel.GetCellTileData(0, nextCell);
 
-        // For now adding shadows check here as well
-        LightingManager LightingManager = GetNode<LightingManager>(\"/root/Main/LevelViewer/LightingManager\");
-        TileMap ShadowTileMap = LightingManager.GetNode<TileMap>(\"ShadowTileMap\");
+		// For now adding shadows check here as well
+		LightingManager LightingManager = GetNode<LightingManager>(\"/root/Main/LevelViewer/LightingManager\");
+		TileMap ShadowTileMap = LightingManager.GetNode<TileMap>(\"ShadowTileMap\");
 
-        if ((currentLevel.GetCellTileData(1, nextCell) == null) && (ShadowTileMap.GetCellTileData(0, nextCell) == null)) {
+		if ((currentLevel.GetCellTileData(1, nextCell) == null) && (ShadowTileMap.GetCellTileData(0, nextCell) == null)) {
 			MoveToPosition(nextCellCoordinates, direction);
 			if (nextCellLayerZero.GetCustomData(\"Hole\").AsBool()) {
 				GD.Print(\"Is Hole\");
@@ -32,7 +32,6 @@ public partial class Player : CharacterClass {
 "
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_55t1l"]
-load_path = "res://.godot/imported/sokoban_character.png-db20e081c3ea15b476d3a83e0251c071.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53qc2"]
 atlas = SubResource("CompressedTexture2D_55t1l")

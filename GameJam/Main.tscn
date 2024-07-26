@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3ro1t67hjq0s"]
+[gd_scene load_steps=6 format=3 uid="uid://c3ro1t67hjq0s"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
+[ext_resource type="PackedScene" uid="uid://dwjeuw7d0g0qi" path="res://objects/ToggleLight/ToggleLight.tscn" id="3_pquql"]
 [ext_resource type="Script" path="res://HUD.cs" id="3_tvo1a"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vpa51"]
@@ -11,6 +12,7 @@ font_size = 40
 script = ExtResource("1_6on18")
 
 [node name="LevelViewer" parent="." instance=ExtResource("2_j6pm2")]
+ToggleLightScene = ExtResource("3_pquql")
 
 [node name="CharacterCamera" type="Camera2D" parent="LevelViewer"]
 position = Vector2(464, 256)

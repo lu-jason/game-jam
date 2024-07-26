@@ -199,6 +199,24 @@ public partial class LevelViewer : Node2D
         return Level.GetCellTileData(layer, coords);
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="layerName"></param>
+    /// <param name="coords"></param>
+    /// <param name="data"></param>
+    ///
+    public void SetTileData(
+        string layerName,
+        Vector2I coords,
+        int data,
+        Vector2I atlasPos
+    )
+    {
+        int layer = GetLayerNumber(layerName);
+        Level.SetCell (layer, coords, data, atlasPos);
+    }
+
     public void OnToggleLightingPressed()
     {
         LightingManager lightingManager =
