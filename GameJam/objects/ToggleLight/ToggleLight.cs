@@ -17,6 +17,8 @@ public partial class ToggleLight : GameObject
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        base._Ready();
+
         // setup the things.
         Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         Trigger = GetNode<CollisionShape2D>("CollisionShape2D");
@@ -33,6 +35,7 @@ public partial class ToggleLight : GameObject
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        base._Process(delta);
     }
 
     public override void _Input(InputEvent @event)
