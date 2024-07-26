@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbklp0g64escc"]
+[gd_scene load_steps=6 format=3 uid="uid://bbklp0g64escc"]
 
 [ext_resource type="Script" path="res://objects/Rock.cs" id="1_4q2w2"]
 [ext_resource type="PackedScene" uid="uid://lhbvgcxp5nq6" path="res://objects/GameObject.tscn" id="1_oo6nv"]
@@ -15,9 +15,17 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fd6ou"]
+
 [node name="Rock" groups=["Movable"] instance=ExtResource("1_oo6nv")]
 script = ExtResource("1_4q2w2")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_ewd3p")
 animation = &"idle"
+
+[node name="Area2D" type="Area2D" parent="." index="1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(16, 17)
+shape = SubResource("RectangleShape2D_fd6ou")

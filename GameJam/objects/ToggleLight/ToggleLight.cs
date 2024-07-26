@@ -7,12 +7,15 @@ public partial class ToggleLight : GameObject
 
     private AnimatedSprite2D Sprite;
 
-    private CollisionShape2D Trigger;
+    private Area2D Trigger;
 
     private LevelViewer Level;
 
-    [Signal]
-    public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
+    // the tilemap atlas position that refers to on.
+    private static Vector2I OnState = new Vector2I(3, 1);
+
+    // the tilemap atlas position that refers to off.
+    private static Vector2I OffState = new Vector2I(1, 1);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -21,15 +24,11 @@ public partial class ToggleLight : GameObject
 
         // setup the things.
         Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        Trigger = GetNode<CollisionShape2D>("CollisionShape2D");
+        Trigger = GetNode<Area2D>("Area2D");
         Level = GetParent<LevelViewer>();
 
         // set the tile at the current position.
-        Level
-            .SetTileData("lights",
-            tileCoords,
-            10,
-            ToggleState ? new Vector2I(1, 1) : new Vector2I(0, 1));
+        handleToggle (ToggleState);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,18 +39,20 @@ public partial class ToggleLight : GameObject
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_left"))
-        {
-            ToggleOn();
-        }
-        else if (@event.IsActionPressed("ui_right"))
-        {
-            ToggleOff();
-        }
+    }
+
+    public void OnTriggerEnter(Area2D area)
+    {
+        ToggleOn();
+    }
+
+    public void OnTriggerExit(Area2D area)
+    {
+        ToggleOff();
     }
 
     /// <summary>
-    ///
+    /// /// handleToggle will manage the light toggle, changing the sprite status and enabling or disabling the light source.
     /// </summary>
     /// <param name="state"></param>
     private void handleToggle(bool state)
@@ -65,7 +66,7 @@ public partial class ToggleLight : GameObject
             .SetTileData("lights",
             tileCoords,
             10,
-            ToggleState ? new Vector2I(1, 1) : new Vector2I(0, 1));
+            ToggleState ? OnState : OffState);
         Level.OnToggleLightingPressed();
     }
 
