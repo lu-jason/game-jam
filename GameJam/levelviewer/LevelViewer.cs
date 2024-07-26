@@ -120,6 +120,7 @@ public partial class LevelViewer : Node2D
         return false;
     }
 
+    // IsObject returns whether an object is at the provided position.
     public bool IsObject(Vector2I position)
     {
         if (gameObjects[position.X, position.Y] != null)
@@ -127,6 +128,12 @@ public partial class LevelViewer : Node2D
             return true;
         }
         return false;
+    }
+
+    // ObjectAtPosition returns an object that is at the provided position.
+    public GameObject ObjectAtPosition(Vector2I position)
+    {
+        return IsObject(position) ? gameObjects[position.X, position.Y] : null;
     }
 
     public bool MoveObject(Vector2I position, string direction)

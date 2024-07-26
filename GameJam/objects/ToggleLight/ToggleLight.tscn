@@ -27,14 +27,15 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xikt0"]
 
-[node name="ToggleLight" type="Node2D"]
+[node name="ToggleLight" type="Node2D" groups=["Solid"]]
 script = ExtResource("1_ma0qr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
 sprite_frames = SubResource("SpriteFrames_vhbye")
 frame = 1
 frame_progress = 1.0
+offset = Vector2(16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_xikt0")

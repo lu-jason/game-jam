@@ -15,7 +15,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Rock" instance=ExtResource("1_oo6nv")]
+[node name="Rock" groups=["Movable"] instance=ExtResource("1_oo6nv")]
 script = ExtResource("1_4q2w2")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
