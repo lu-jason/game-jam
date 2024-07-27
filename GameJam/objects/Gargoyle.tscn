@@ -15,6 +15,7 @@ animations = [{
 }]
 
 [node name="Gargoyle" instance=ExtResource("1_cueai")]
+Strength = 10
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_34bpg")

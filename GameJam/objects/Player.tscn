@@ -17,6 +17,7 @@ animations = [{
 
 [node name="Player" instance=ExtResource("1_v50ct")]
 script = ExtResource("2_jimom")
+Strength = 0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_h03in")

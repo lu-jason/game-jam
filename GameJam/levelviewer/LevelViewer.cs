@@ -73,11 +73,13 @@ public partial class LevelViewer : Node2D
 				if (tileData != null && tileData.GetCustomData("Rock").AsBool())
 				{
 					var position = new Vector2I(x, y);
+					var objectStrength = GetObjectTileData(position).GetCustomData("Strength").AsInt32();
 					Level.SetCell(GetLayerNumber("objects"), position, -1);
 					GD.Print("Found rock at ", x, y);
 					var rock = RockScene.Instantiate<Rock>();
 					AddChild(rock);
 					rock.MoveTo(position, "");
+					rock.ObjectStrength = objectStrength;
 					AddGameObject(rock, position);
 				}
 			}
@@ -96,11 +98,17 @@ public partial class LevelViewer : Node2D
 
 	public bool IsObject(Vector2I position)
 	{
-		if (gameObjects[position.X, position.Y] != null)
-		{
-			return true;
-		}
-		return false;
+		return gameObjects[position.X, position.Y] != null;
+	}
+
+	public GameObject GetObject(Vector2I position)
+	{
+		return gameObjects[position.X, position.Y];
+	}
+
+	public TileData GetObjectTileData(Vector2I position)
+	{
+		return GetTileData("objects", position);
 	}
 
 	public bool MoveObject(Vector2I position, string direction)

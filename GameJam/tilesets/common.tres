@@ -11,6 +11,7 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/custom_data_2 = true
+0:0/0/custom_data_3 = 5
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6x27c"]
 resource_name = "Lights"
@@ -50,6 +51,8 @@ custom_data_layer_1/name = "Hole"
 custom_data_layer_1/type = 1
 custom_data_layer_2/name = "Rock"
 custom_data_layer_2/type = 1
+custom_data_layer_3/name = "Strength"
+custom_data_layer_3/type = 2
 sources/1 = SubResource("TileSetAtlasSource_t7lh8")
 sources/2 = SubResource("TileSetAtlasSource_6x27c")
 sources/3 = SubResource("TileSetAtlasSource_mtpwg")

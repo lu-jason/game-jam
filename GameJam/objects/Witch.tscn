@@ -15,6 +15,7 @@ animations = [{
 }]
 
 [node name="Witch" instance=ExtResource("1_fkj80")]
+Strength = 4
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2u3l2")
