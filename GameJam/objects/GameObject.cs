@@ -7,7 +7,7 @@ using static Godot.TextServer;
 // i.e player, rocks etc.
 public partial class GameObject : Node2D {
     // Fuck it hard code the pixel size herePixel Size
-    const int cPixelSize = 32;
+    public const int cPixelSize = 32;
 
     public Vector2I tileCoords = new Vector2I(0, 0);
 
@@ -21,7 +21,7 @@ public partial class GameObject : Node2D {
     const int cAnimationFrames = 20;
 
     // Technically would be better to rework this to use some enum rather than passing strings around everywhere
-    private string facingDirection = "left";
+    public string facingDirection = "left";
 
     public LevelViewer levelViewer;
     public LightingManager lightingManager;

@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3 uid="uid://cyuidmjhkndxq"]
+
+[ext_resource type="PackedScene" uid="uid://cokjxm5dxwgeh" path="res://objects/AbilityAnimation.tscn" id="1_5inxs"]
+[ext_resource type="Texture2D" uid="uid://b6f0es3pjwdaq" path="res://assets/Aseprite/SalamanderFire.png" id="1_xurfg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kyqj"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7nk7d"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nytll"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jaojh"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ajps"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5eoe1"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8eou"]
+atlas = ExtResource("1_xurfg")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2pnio"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kyqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7nk7d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nytll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jaojh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ajps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5eoe1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8eou")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="AbilityAnimation" instance=ExtResource("1_5inxs")]
+sprite_frames = SubResource("SpriteFrames_2pnio")

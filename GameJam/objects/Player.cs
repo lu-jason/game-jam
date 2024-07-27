@@ -48,9 +48,20 @@ public partial class Player : GameObject {
 
             // This is gonna spam the debugger when we don't have animations set up
             // Turning off for now
-            //animSprite.Play(animationName);
+            animSprite.Play(animationName);
 
             
         }
+    }
+
+    public virtual void UseAbility(Vector2I affectedTile)
+    {
+        GD.Print("This should be overidden");
+    }
+
+    public virtual AnimatedSprite2D GetAbilityAnimation()
+    {
+        GD.Print("This should be overidden");
+        return null;
     }
 }

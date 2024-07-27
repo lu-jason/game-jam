@@ -1,7 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://b37dx2kkwh01l"]
+[gd_scene load_steps=22 format=3 uid="uid://b37dx2kkwh01l"]
 
 [ext_resource type="PackedScene" uid="uid://dm80h6dn52mbv" path="res://objects/Player.tscn" id="1_7o5lp"]
+[ext_resource type="Script" path="res://objects/Salamander.cs" id="2_54jnr"]
 [ext_resource type="Texture2D" uid="uid://cd4ji8yhgcje1" path="res://assets/Aseprite/Salamander.png" id="2_mabs4"]
+[ext_resource type="PackedScene" uid="uid://cyuidmjhkndxq" path="res://objects/SalamanderFire.tscn" id="3_jo1gy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k4b15"]
 atlas = ExtResource("2_mabs4")
@@ -159,8 +161,10 @@ animations = [{
 }]
 
 [node name="Salamander" instance=ExtResource("1_7o5lp")]
+script = ExtResource("2_54jnr")
+SalamanderFireScene = ExtResource("3_jo1gy")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_wq5a5")
 animation = &"idle_down"
-frame_progress = 0.990785
+frame_progress = 0.0699677
