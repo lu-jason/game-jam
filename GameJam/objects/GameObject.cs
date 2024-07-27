@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static Godot.TextServer;
 
 // This scene represents anything that can move around on the tile map
 // And requires that logic
@@ -12,14 +13,15 @@ public partial class GameObject : Node2D {
 
 
     // This is mush
-
     private Vector2 desiredPosition = new Vector2I(0, 0);
     private Vector2 originalPosition = new Vector2I(0, 0);
 
     private int currentFrame = 0;
     // idk how many frames we want with this
-    const int cAnimationFrames = 5;
+    const int cAnimationFrames = 20;
 
+    // Technically would be better to rework this to use some enum rather than passing strings around everywhere
+    private string facingDirection = "left";
 
     public LevelViewer levelViewer;
     public LightingManager lightingManager;
@@ -45,6 +47,7 @@ public sealed override void _Process(double delta) {
         if (currentFrame == cAnimationFrames)
         {
             PlayerManager.SetLockInput(false);
+            SetAnimationState("idle", facingDirection);
         }
 
 
@@ -66,7 +69,8 @@ public sealed override void _Process(double delta) {
             PlayerManager.SetLockInput(true);
             currentFrame = 0;
 
-            // TODO set correct animation frames.
+            SetAnimationState("move",direction);
+            facingDirection = direction;
 
             tileCoords = coords;
             GD.Print("Moving to ", tileCoords);
@@ -108,5 +112,10 @@ public sealed override void _Process(double delta) {
         Position = new Vector2(coords.X * cPixelSize, coords.Y * cPixelSize);
         desiredPosition = Position;
         originalPosition = Position;
+    }
+
+    virtual public void SetAnimationState(string action, string direction)
+    {
+        // default do nothing?
     }
 }

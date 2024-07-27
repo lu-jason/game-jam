@@ -37,4 +37,20 @@ public partial class Player : GameObject {
         return false;
     }
 
+    public override void SetAnimationState(string action, string direction)
+    {
+        AnimatedSprite2D animSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        if (animSprite != null)
+        {
+            // Construct animation name
+            string animationName = action + "_" + direction;
+            GD.Print("Setting animation to: ", animationName);
+
+            // This is gonna spam the debugger when we don't have animations set up
+            // Turning off for now
+            //animSprite.Play(animationName);
+
+            
+        }
+    }
 }
