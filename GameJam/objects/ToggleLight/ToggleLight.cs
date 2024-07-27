@@ -34,6 +34,7 @@ public partial class ToggleLight : GameObject
     }
 
     public void SetItemData(string data) {
+        GD.Print("SetItemData: ", data);
         string[] parts = data.Split(",");
         ToggleState = (parts.Length >= 1) && (parts[0] == "On");
         ToggleChannel = (parts.Length >= 2) ? int.Parse(parts[1]) : -1;
@@ -66,6 +67,11 @@ public partial class ToggleLight : GameObject
             ToggleState ? OnState : OffState);
     }
 
+    public void TriggerChannel(int channel, int state) {
+        if (channel != ToggleChannel) return;
+        HandleToggle(state != 0);
+    }
+
     /// <summary>
     /// handleToggle will manage the light toggle, changing the sprite status and enabling or disabling the light source.
     /// </summary>
@@ -78,8 +84,6 @@ public partial class ToggleLight : GameObject
         ToggleState = state;
         Sprite.SetFrameAndProgress(ToggleState ? 1 : 0, 0);
         UpdateTile();
-
-        GD.Print("signal sent for", ToggleState, ToggleChannel);
     }
 
     /// <summary>

@@ -14,10 +14,11 @@ public partial class PressureSwitch : GameObject
     private LevelViewer Level;
 
     // the tilemap atlas position that refers to on.
-    private static Vector2I OnState = new(3, 1);
+    private static Vector2I OnState = new(1, 1);
 
     // the tilemap atlas position that refers to off.
-    private static Vector2I OffState = new(2, 1);
+    private static Vector2I OffState = new(0, 1);
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -30,11 +31,12 @@ public partial class PressureSwitch : GameObject
         Level = GetParent<LevelViewer>();
 
         // set the tile at the current position.
-        UpdateTile();
+        // UpdateTile();
     }
 
     public void SetItemData(string data) {
-        ToggleChannel = int.Parse(data);
+        GD.Print("SetItemData: ", data);
+        // ToggleChannel = int.Parse(data);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -72,11 +74,14 @@ public partial class PressureSwitch : GameObject
     {   
         if (state == ToggleState) return;
 
+        GD.Print("signal sent for", ToggleState, ToggleChannel);
+        EmitSignal(SignalManager.SignalName.TriggerChannel, ToggleChannel, ToggleState ? 1 : 0);
+
         // update the internal state.
         ToggleState = state;
         Sprite.SetFrameAndProgress(ToggleState ? 1 : 0, 0);
-        UpdateTile();
-        Level.UpdateLighting();
+        // UpdateTile();
+        // Level.UpdateLighting();
     }
 
     /// <summary>

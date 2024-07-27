@@ -14,6 +14,9 @@ public partial class LevelViewer : Node2D
     [Export]
     public PackedScene ToggleLightScene { get; set; }
 
+    [Export]
+    public PackedScene PressureSwitchScene { get; set; }
+
     [Signal]
     public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
 
@@ -107,6 +110,14 @@ public partial class LevelViewer : Node2D
                         obj.SetItemData(itemData);
                         obj.MoveTo(position, "");
                         AddGameObject (obj, position);
+                        break;
+                    case "Switch":
+                        GD.Print("Found PressureSwitch at ", x, y);
+                        PressureSwitch pSwitch =PressureSwitchScene.Instantiate<PressureSwitch>();
+                        AddChild (pSwitch);
+                        pSwitch.SetItemData(itemData);
+                        pSwitch.MoveTo(position, "");
+                        AddGameObject (pSwitch, position);
                         break;
                     default:
                         continue;
