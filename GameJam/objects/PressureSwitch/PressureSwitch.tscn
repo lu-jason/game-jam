@@ -1,14 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwjeuw7d0g0qi"]
+[gd_scene load_steps=7 format=3 uid="uid://djleint8a1rce"]
 
-[ext_resource type="Texture2D" uid="uid://c3mrdw4g01vyk" path="res://assets/Aseprite/LightingTilemap.png" id="1_fwgbw"]
-[ext_resource type="Script" path="res://objects/ToggleLight/ToggleLight.cs" id="1_ma0qr"]
+[ext_resource type="Script" path="res://objects/ToggleLight/ToggleLight.cs" id="1_agcmq"]
+[ext_resource type="Texture2D" uid="uid://c3mrdw4g01vyk" path="res://assets/Aseprite/LightingTilemap.png" id="2_1v6lt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b8nj0"]
-atlas = ExtResource("1_fwgbw")
+atlas = ExtResource("2_1v6lt")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_swe5h"]
-atlas = ExtResource("1_fwgbw")
+atlas = ExtResource("2_1v6lt")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vhbye"]
@@ -28,7 +28,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xikt0"]
 
 [node name="ToggleLight" type="Node2D"]
-script = ExtResource("1_ma0qr")
+script = ExtResource("1_agcmq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vhbye")

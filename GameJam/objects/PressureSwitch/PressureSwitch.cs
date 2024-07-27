@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-public partial class ToggleLight : GameObject
+public partial class PressureSwitch : GameObject
 {
     public bool ToggleState = true;
     public int ToggleChannel = 0;
@@ -14,10 +14,10 @@ public partial class ToggleLight : GameObject
     private LevelViewer Level;
 
     // the tilemap atlas position that refers to on.
-    private static Vector2I OnState = new(1, 1);
+    private static Vector2I OnState = new(3, 1);
 
     // the tilemap atlas position that refers to off.
-    private static Vector2I OffState = new(0, 1);
+    private static Vector2I OffState = new(2, 1);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -34,9 +34,7 @@ public partial class ToggleLight : GameObject
     }
 
     public void SetItemData(string data) {
-        string[] parts = data.Split(",");
-        ToggleState = (parts.Length >= 1) && (parts[0] == "On");
-        ToggleChannel = (parts.Length >= 2) ? int.Parse(parts[1]) : -1;
+        ToggleChannel = int.Parse(data);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -78,8 +76,7 @@ public partial class ToggleLight : GameObject
         ToggleState = state;
         Sprite.SetFrameAndProgress(ToggleState ? 1 : 0, 0);
         UpdateTile();
-
-        GD.Print("signal sent for", ToggleState, ToggleChannel);
+        Level.UpdateLighting();
     }
 
     /// <summary>

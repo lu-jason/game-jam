@@ -38,8 +38,14 @@ public partial class LightingManager : Node2D
     // Pretty sure C# passes by reference
     TileMap levelRef;
 
+    private TileMap LightingTileMap;
+
+    private TileMap ShadowTileMap;
+
     public override void _Ready()
     {
+        LightingTileMap = GetNode<TileMap>("LightingTileMap");
+        ShadowTileMap = GetNode<TileMap>("ShadowTileMap");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,8 +68,6 @@ public partial class LightingManager : Node2D
 
     public void ClearTiles()
     {
-        TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
-        TileMap ShadowTileMap = GetNode<TileMap>("ShadowTileMap");
         LightingTileMap.Clear();
         ShadowTileMap.Clear();
     }
@@ -71,8 +75,6 @@ public partial class LightingManager : Node2D
     // NOTE update lights based on the whole Tile map kinda sucks could be way more optimal
     public void OnLightsChanged(TileMap loadedLevel)
     {
-        levelRef = loadedLevel;
-
         // Update the list of lights based on layer 2 for now
         lights.Clear();
         Vector2I tileBounds = loadedLevel.GetUsedRect().End;
@@ -80,20 +82,22 @@ public partial class LightingManager : Node2D
         {
             for (int y = 0; y < tileBounds.Y; y++)
             {
+                Vector2I position = new(x, y);
                 var cellData =
                     loadedLevel
                         .GetCellTileData((int) Layers.LIGHTS,
-                        new Vector2I(x, y));
-                if (cellData != null)
-                {
-                    // WARNING DO NOT SET THIS TOO HIGH
-                    // My point source algorithm is slow as kek
-                    int lightIntensity =
-                        cellData.GetCustomData("LightIntensity").AsInt16();
+                        position);
+                if (cellData == null) continue;
 
-                    // Default to Point light for now
-                    lights.Add(new Vector2I(x, y), lightIntensity);
-                }
+                // WARNING DO NOT SET THIS TOO HIGH
+                // My point source algorithm is slow as kek
+                int lightIntensity =
+                    cellData.GetCustomData("LightIntensity").AsInt32();
+
+                if (lightIntensity <= 0) continue;
+
+                // Default to Point light for now
+                lights.Add(new(x, y), lightIntensity);
             }
         }
 
@@ -115,10 +119,7 @@ public partial class LightingManager : Node2D
         }
 
         // Update the tileMap
-        TileMap LightingTileMap = GetNode<TileMap>("LightingTileMap");
-        TileMap ShadowTileMap = GetNode<TileMap>("ShadowTileMap");
-        LightingTileMap.Clear();
-        ShadowTileMap.Clear();
+        ClearTiles();
 
         // Update light tilemap based on light levels
         for (int x = 0; x < lightLevels.GetLength(0); x++)
@@ -129,9 +130,7 @@ public partial class LightingManager : Node2D
                 {
                     int lightIndex = lightLevels[x, y];
                     if (lightIndex > MAX_LIGHT_LEVEL)
-                    {
                         lightIndex = MAX_LIGHT_LEVEL;
-                    }
                     LightingTileMap
                         .SetCell(0,
                         new Vector2I(x, y),
@@ -294,12 +293,6 @@ public partial class LightingManager : Node2D
     // Tests if cell at x,y is a wall
     private bool IsWall(int x, int y)
     {
-        bool result = false;
-        var cellData = levelRef.GetCellTileData(1, new Vector2I(x, y));
-        if (cellData != null)
-        {
-            result = true;
-        }
-        return result;
+        return (levelRef != null) && (levelRef.GetCellTileData(1, new Vector2I(x, y)) != null);
     }
 }

@@ -63,6 +63,12 @@ public partial class LevelViewer : Node2D
         gameObjects = new GameObject[tileBounds.X, tileBounds.Y];
     }
 
+    public static (string, string) GetItemData(string itemString) {
+        if (itemString.Length <= 0) return ("", "");
+        string[] parts = itemString.Split(":");
+        return (parts[0], (parts.Length >= 2) ? parts[1] : "");
+    }
+
     private void CreateObjects()
     {
         // Iterate through all the objects in the "objects" layer in the tilemap
@@ -78,7 +84,8 @@ public partial class LevelViewer : Node2D
 
                 var position = new Vector2I(x, y);
 
-                string itemId = tileData.GetCustomData("ItemId").AsString();
+                string itemString = tileData.GetCustomData("ItemId").AsString();
+                (string itemId, string itemData) = GetItemData(itemString);
                 switch (itemId)
                 {
                     case "Rock":
@@ -97,7 +104,7 @@ public partial class LevelViewer : Node2D
                         ToggleLight obj =
                             ToggleLightScene.Instantiate<ToggleLight>();
                         AddChild (obj);
-
+                        obj.SetItemData(itemData);
                         obj.MoveTo(position, "");
                         AddGameObject (obj, position);
                         break;
@@ -243,6 +250,17 @@ public partial class LevelViewer : Node2D
             // Repopulate tiles
             EmitSignal(SignalName.OnLightsChanged, Level);
         }
+    }
+
+    public void UpdateLighting()
+    {
+        LightingManager lightingManager =
+            GetNode<LightingManager>("LightingManager");
+
+        lightingManager.Show();
+
+        // Repopulate tiles
+        EmitSignal(SignalName.OnLightsChanged, Level);
     }
 
     private void CreateLightSource()
