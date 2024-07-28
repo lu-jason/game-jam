@@ -1,233 +1,298 @@
-using Godot;
-using Godot.Collections;
 using System;
 using System.Numerics;
+using Godot;
+using Godot.Collections;
 
 public partial class LevelViewer : Node2D
 {
-	[Export]
-	public PackedScene Map { get; set; }
+    [Export]
+    public PackedScene Map { get; set; }
 
-	[Export]
-	public PackedScene RockScene { get; set; }
+    [Export]
+    public PackedScene RockScene { get; set; }
 
-	[Export]
-	public PackedScene DoorScene { get; set; }
+    [Export]
+    public PackedScene ToggleLightScene { get; set; }
 
-	[Signal]
-	public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
+    [Export]
+    public PackedScene PressureSwitchScene { get; set; }
 
-	[Signal]
-	public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
+    [Signal]
+    public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
 
-	[Signal]
-	public delegate void OnObjectChangedEventHandler(GameObject go, Vector2I position);
+    [Signal]
+    public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
 
-	private TileMap Level;
+    private TileMap Level;
 
-	private Vector2I tileBounds;
+    private Vector2I tileBounds;
 
-	private GameObject[,] gameObjects;
+    private GameObject[,] gameObjects;
 
-	private Dictionary<string, int> LayerMap = new Dictionary<string, int>();
+    private Dictionary<string, int> LayerMap = new Dictionary<string, int>();
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Level = Map.Instantiate<TileMap>();
-		Level.ZIndex = -1;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        Level = Map.Instantiate<TileMap>();
+        Level.ZIndex = -1;
 
-		AddChild(Level);
-		EmitSignal(SignalName.OnLoadLevel, Level);
+        AddChild (Level);
+        EmitSignal(SignalName.OnLoadLevel, Level);
 
-		SetupLevelInfo();
+        SetupLevelInfo();
 
-		// Later change this to be called whenever we move a light or something can change it maybe
-		EmitSignal(SignalName.OnLightsChanged, Level);
+        // Later change this to be called whenever we move a light or something can change it maybe
+        EmitSignal(SignalName.OnLightsChanged, Level);
 
-		// TODO Find spawn point
-		// For now hardcoded
-		PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
-		playerManager.MovePlayerTo(new Vector2I(10, 10));
+        // TODO Find spawn point
+        // For now hardcoded
+        PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
+        playerManager.MovePlayerTo(new Vector2I(10, 10));
 
-		// InteractionManager
-		GetNode<InteractionManager>("InteractionManager").Setup(Level);
+        CreateObjects();
+    }
 
-		// Instantiating objects
-		CreateObjects();
-	}
+    private void SetupLevelInfo()
+    {
+        for (int i = 0; i < Level.GetLayersCount(); i++)
+        {
+            LayerMap.Add(Level.GetLayerName(i), i);
+        }
 
-	private void SetupLevelInfo()
-	{
-		for (int i = 0; i < Level.GetLayersCount(); i++)
-		{
-			LayerMap.Add(Level.GetLayerName(i), i);
-		}
+        // Initiate lightLevels to match loadedLevel size
+        tileBounds = Level.GetUsedRect().End;
 
-		// Initiate lightLevels to match loadedLevel size
-		tileBounds = Level.GetUsedRect().End;
+        gameObjects = new GameObject[tileBounds.X, tileBounds.Y];
+    }
 
-		gameObjects = new GameObject[tileBounds.X, tileBounds.Y];
-	}
+    public static (string, string) GetItemData(string itemString) {
+        if (itemString.Length <= 0) return ("", "");
+        string[] parts = itemString.Split(":");
+        return (parts[0], (parts.Length >= 2) ? parts[1] : "");
+    }
 
-	private void CreateObjects() {
-		// Iterate through all the objects in the "objects" layer in the tilemap
-		// and create the corresponding object and delete the cell from the map
-		for (int x = 0; x < tileBounds.X; x++) {
-			for (int y = 0; y < tileBounds.Y; y++) {
-				var tileData = GetTileData("objects", new Vector2I(x, y));
+    private void CreateObjects()
+    {
+        // Iterate through all the objects in the "objects" layer in the tilemap
+        // and create the corresponding object and delete the cell from the map
+        for (int x = 0; x < tileBounds.X; x++)
+        {
+            for (int y = 0; y < tileBounds.Y; y++)
+            {
+                var tileData = GetTileData("objects", new Vector2I(x, y));
 
-				if (tileData != null && tileData.GetCustomData("Rock").AsBool()) {
-					var position = new Vector2I(x, y);
-					Level.SetCell(GetLayerNumber("objects"), position, -1);
-					GD.Print("Found rock at ", x, y);
-					var rock = RockScene.Instantiate<Rock>();
-					AddChild(rock);
-					rock.MoveTo(position, "");
-					AddGameObject(rock, position);
-				}
-				else if (tileData != null && tileData.GetCustomData("Door").AsBool()) {
-					var position = new Vector2I(x, y);
-					Level.SetCell(GetLayerNumber("objects"), position, -1);
-					GD.Print("Found door at ", x, y);
-					var door = DoorScene.Instantiate<Door>();
-					AddChild(door);
-					door.MoveTo(position, "");
-					AddGameObject(door, position);
-				}
-			}
-		}
-	}
+                // skip missing tiledata.
+                if (tileData == null) continue;
 
-	private bool AddGameObject(GameObject obj, Vector2I position)
-	{
-		// Using try-finally block to trigger a code block after a return
-		try {
-			if (gameObjects[position.X, position.Y] == null)
-			{
-				gameObjects[position.X, position.Y] = obj;
-				return true;
-			}
-			return false;
-		} finally {
-			EmitSignal(SignalName.OnObjectChanged, obj, position);
-		}
-	}
+                var position = new Vector2I(x, y);
 
-	public bool IsObject(Vector2I position)
-	{
-		if (gameObjects[position.X, position.Y] != null)
-		{
-			return true;
-		}
-		return false;
-	}
+                string itemString = tileData.GetCustomData("ItemId").AsString();
+                (string itemId, string itemData) = GetItemData(itemString);
+                switch (itemId)
+                {
+                    case "Rock":
+                        GD.Print("Found rock at ", x, y);
+                        var rock = RockScene.Instantiate<Rock>();
+                        AddChild (rock);
 
-	public bool MoveObject(Vector2I position, string direction)
-	{
-		// Using try-finally block to trigger a code block after a return
-		try {
-			if (IsObject(position))
-			{
-				var gameObject = gameObjects[position.X, position.Y];
-				switch (direction)
-				{
-					case "left":
-						if (gameObject.MoveLeft())
-						{
-							gameObjects[position.X - 1, position.Y] = gameObject;
-							gameObjects[position.X, position.Y] = null;
-							return true;
-						}
-						break;
-					case "right":
-						if (gameObject.MoveRight())
-						{
-							gameObjects[position.X + 1, position.Y] = gameObject;
-							gameObjects[position.X, position.Y] = null;
-							return true;
-						}
-						break;
-					case "up":
-						if (gameObject.MoveUp())
-						{
-							gameObjects[position.X, position.Y - 1] = gameObject;
-							gameObjects[position.X, position.Y] = null;
-							return true;
-						}
-						break;
-					case "down":
-						if (gameObject.MoveDown())
-						{
-							gameObjects[position.X, position.Y + 1] = gameObject;
-							gameObjects[position.X, position.Y] = null;
-							return true;
-						}
-						break;
-				}
-			}
+                        rock.OverrideTileCoords(position);
+                        AddGameObject (rock, position);
+                        break;
+                    case "Light":
+                        GD.Print("Found Light at ", x, y);
+                        break;
+                    case "ToggleLight":
+                        GD.Print("Found ToggleLight at ", x, y);
+                        ToggleLight obj =
+                            ToggleLightScene.Instantiate<ToggleLight>();
+                        AddChild (obj);
+                        obj.SetItemData(itemData);
+                        obj.OverrideTileCoords(position);
+                        AddGameObject (obj, position);
+                        break;
+                    case "Switch":
+                        GD.Print("Found PressureSwitch at ", x, y);
+                        PressureSwitch pSwitch = PressureSwitchScene.Instantiate<PressureSwitch>();
+                        AddChild(pSwitch);
+                        pSwitch.SetItemData(itemData);
+                        pSwitch.OverrideTileCoords(position);
+                        AddGameObject (pSwitch, position);
+                        break;
+                    default:
+                        continue;
+                }
 
-			return false;
-		} finally {
-			EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
-		}
-	}
+                Level.SetCell(GetLayerNumber("objects"), position, -1);
+            }
+        }
+    }
 
-	private int GetLayerNumber(string layerName)
-	{
-		return LayerMap[layerName];
-	}
-	public override void _Input(InputEvent @event)
-	{
+    private bool AddGameObject(GameObject obj, Vector2I position)
+    {
+        if (gameObjects[position.X, position.Y] == null)
+        {
+            gameObjects[position.X, position.Y] = obj;
+            return true;
+        }
+        return false;
+    }
 
+    // IsObject returns whether an object is at the provided position.
+    public bool IsObject(Vector2I position)
+    {
+        if (gameObjects[position.X, position.Y] != null)
+        {
+            return true;
+        }
+        return false;
+    }
 
-		// We can move this later if we want just adding for testing sake`
-		if (@event.IsActionPressed("place_light"))
-		{
-			CreateLightSource();
-		}
-	}
+    // ObjectAtPosition returns an object that is at the provided position.
+    public GameObject ObjectAtPosition(Vector2I position)
+    {
+        return IsObject(position) ? gameObjects[position.X, position.Y] : null;
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    public bool MoveObject(Vector2I position, string direction)
+    {
+        if (IsObject(position))
+        {
+            var gameObject = gameObjects[position.X, position.Y];
+            switch (direction)
+            {
+                case "left":
+                    if (gameObject.MoveLeft())
+                    {
+                        gameObjects[position.X - 1, position.Y] = gameObject;
+                        gameObjects[position.X, position.Y] = null;
+                        return true;
+                    }
+                    break;
+                case "right":
+                    if (gameObject.MoveRight())
+                    {
+                        gameObjects[position.X + 1, position.Y] = gameObject;
+                        gameObjects[position.X, position.Y] = null;
+                        return true;
+                    }
+                    break;
+                case "up":
+                    if (gameObject.MoveUp())
+                    {
+                        gameObjects[position.X, position.Y - 1] = gameObject;
+                        gameObjects[position.X, position.Y] = null;
+                        return true;
+                    }
+                    break;
+                case "down":
+                    if (gameObject.MoveDown())
+                    {
+                        gameObjects[position.X, position.Y + 1] = gameObject;
+                        gameObjects[position.X, position.Y] = null;
+                        return true;
+                    }
+                    break;
+            }
+        }
 
-	public TileData GetTileData(string layerName, Vector2I coords)
-	{
-		int layer = GetLayerNumber(layerName);
-		return Level.GetCellTileData(layer, coords);
-	}
+        return false;
+    }
 
-	public void OnToggleLightingPressed()
-	{
-		LightingManager lightingManager = GetNode<LightingManager>("LightingManager");
-		// Weirdly lightManager.Visible didn't like it when I tried to use it in a ternary operator.
-		bool isVisible = lightingManager.Visible;
-		if (isVisible)
-		{
-			lightingManager.Hide();
-			lightingManager.ClearTiles();
-		}
-		else
-		{
-			lightingManager.Show();
-			// Repopulate tiles
-			EmitSignal(SignalName.OnLightsChanged, Level);
-		}
-	}
+    public int GetLayerNumber(string layerName)
+    {
+        return LayerMap[layerName];
+    }
 
+    public override void _Input(InputEvent @event)
+    {
+        // We can move this later if we want just adding for testing sake`
+        if (@event.IsActionPressed("place_light"))
+        {
+            CreateLightSource();
+        }
+    }
 
-	private void CreateLightSource()
-	{
-		GD.Print("WARNING: CreateLightSource has been deactivated while I rework a bunch of shit");
-		// TODO place in front of the user instead of on the player.
-		// perhaps storing the direction the player is facing could be good
-		//var playerPos = Level.LocalToMap(player.Position);
-		//// Layer 2 is lights
-		//Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 2, new Vector2I(0, 0));
-		//EmitSignal(SignalName.OnLightsChanged, Level);
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+    }
 
-	}
+    public TileData GetTileData(string layerName, Vector2I coords)
+    {
+        int layer = GetLayerNumber(layerName);
+        return Level.GetCellTileData(layer, coords);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="layerName"></param>
+    /// <param name="coords"></param>
+    /// <param name="data"></param>
+    ///
+    public void SetTileData(
+        string layerName,
+        Vector2I coords,
+        int data,
+        Vector2I atlasPos
+    )
+    {
+        int layer = GetLayerNumber(layerName);
+        Level.SetCell (layer, coords, data, atlasPos);
+    }
+
+    public void OnToggleLightingPressed()
+    {
+        LightingManager lightingManager =
+            GetNode<LightingManager>("LightingManager");
+
+        // Weirdly lightManager.Visible didn't like it when I tried to use it in a ternary operator.
+        bool isVisible = lightingManager.Visible;
+        if (isVisible)
+        {
+            lightingManager.Hide();
+            lightingManager.ClearTiles();
+        }
+        else
+        {
+            lightingManager.Show();
+
+            // Repopulate tiles
+            EmitSignal(SignalName.OnLightsChanged, Level);
+        }
+    }
+
+    public void UpdateLighting()
+    {
+        LightingManager lightingManager =
+            GetNode<LightingManager>("LightingManager");
+
+        lightingManager.Show();
+
+        // Repopulate tiles
+        EmitSignal(SignalName.OnLightsChanged, Level);
+    }
+
+    private void CreateLightSource()
+    {
+        GD.Print("WARNING: CreateLightSource has been deactivated while I rework a bunch of shit");
+        // TODO place in front of the user instead of on the player.
+        // perhaps storing the direction the player is facing could be good
+        //var playerPos = Level.LocalToMap(player.Position);
+        //// Layer 2 is lights
+        //Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 2, new Vector2I(0, 0));
+        //EmitSignal(SignalName.OnLightsChanged, Level);
+    }
+    public void ApplyFlameToTile(Vector2I affectedTile, string layerName)
+    {
+        // Change affected Tile to linked tile
+        TileData tileData = GetTileData(layerName, affectedTile);
+        Vector2I LinkedTile = tileData.GetCustomData("LinkedTile").AsVector2I();
+        // For now just assume that the linked tile is on the same texture
+        int sourceID = Level.GetCellSourceId(GetLayerNumber("lights"), affectedTile);
+        Level.SetCell(GetLayerNumber(layerName), affectedTile, sourceID, LinkedTile);
+
+        EmitSignal(SignalName.OnLightsChanged, Level);
+    }
 }
-

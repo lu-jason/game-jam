@@ -1,6 +1,9 @@
 using System;
+<<<<<<< HEAD
 using Godot;
+=======
 using static Godot.TextServer;
+>>>>>>> main
 
 // This scene represents anything that can move around on the tile map
 // And requires that logic
@@ -14,6 +17,7 @@ public partial class GameObject : Node2D
 
     // This is mush
     private Vector2 desiredPosition = new Vector2I(0, 0);
+
     private Vector2 originalPosition = new Vector2I(0, 0);
 
     private int currentFrame = 0;
@@ -21,10 +25,14 @@ public partial class GameObject : Node2D
     // idk how many frames we want with this
     const int cAnimationFrames = 20;
 
+<<<<<<< HEAD
+=======
     // Technically would be better to rework this to use some enum rather than passing strings around everywhere
     public string facingDirection = "left";
 
+>>>>>>> main
     public LevelViewer levelViewer;
+
     public LightingManager lightingManager;
 
     // Called when the node enters the scene tree for the first time.
@@ -33,7 +41,6 @@ public partial class GameObject : Node2D
         levelViewer = GetNode<LevelViewer>("/root/Main/LevelViewer");
         lightingManager =
             GetNode<LightingManager>("/root/Main/LevelViewer/LightingManager");
-        SetAnimationState("idle", facingDirection);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,9 +82,13 @@ public partial class GameObject : Node2D
             PlayerManager.SetLockInput(true);
             currentFrame = 0;
 
+<<<<<<< HEAD
+            // TODO set correct animation frames.
+=======
             SetAnimationState("move",direction);
             facingDirection = direction;
 
+>>>>>>> main
             tileCoords = coords;
             GD.Print("Moving to ", tileCoords);
             return true;

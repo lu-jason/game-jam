@@ -1,20 +1,137 @@
-[gd_scene load_steps=4 format=3 uid="uid://yi6ygeviiymu"]
+[gd_scene load_steps=16 format=3 uid="uid://yi6ygeviiymu"]
 
 [ext_resource type="PackedScene" uid="uid://dm80h6dn52mbv" path="res://objects/Player.tscn" id="1_fkj80"]
-[ext_resource type="Texture2D" uid="uid://c1ml38ui0wcln" path="res://assets/Aseprite/Witch.png" id="2_7ue0s"]
+[ext_resource type="Texture2D" uid="uid://c7mob0dqk3oiy" path="res://assets/Aseprite/Witch_set.png" id="2_uchet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4t68y"]
+atlas = ExtResource("2_uchet")
+region = Rect2(192, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_il2ji"]
+atlas = ExtResource("2_uchet")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y3gn"]
+atlas = ExtResource("2_uchet")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_innt1"]
+atlas = ExtResource("2_uchet")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05kcc"]
+atlas = ExtResource("2_uchet")
+region = Rect2(192, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d61yt"]
+atlas = ExtResource("2_uchet")
+region = Rect2(224, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0adb"]
+atlas = ExtResource("2_uchet")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnq35"]
+atlas = ExtResource("2_uchet")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mq711"]
+atlas = ExtResource("2_uchet")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn37v"]
+atlas = ExtResource("2_uchet")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0yw0i"]
+atlas = ExtResource("2_uchet")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7jj5"]
+atlas = ExtResource("2_uchet")
+region = Rect2(160, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2u3l2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_7ue0s")
+"texture": SubResource("AtlasTexture_4t68y")
 }],
 "loop": true,
-"name": &"idle",
-"speed": 5.0
+"name": &"idle_down",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_il2ji")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0y3gn")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_innt1")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05kcc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d61yt")
+}],
+"loop": true,
+"name": &"move_down",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0adb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnq35")
+}],
+"loop": true,
+"name": &"move_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mq711")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qn37v")
+}],
+"loop": true,
+"name": &"move_right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0yw0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7jj5")
+}],
+"loop": true,
+"name": &"move_up",
+"speed": 10.0
 }]
 
 [node name="Witch" instance=ExtResource("1_fkj80")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2u3l2")
+animation = &"idle_down"

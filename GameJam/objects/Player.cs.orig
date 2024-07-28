@@ -52,6 +52,9 @@ public partial class Player : GameObject
         // Do whatever logic here for now return true;
         return false;
     }
+<<<<<<< HEAD
+=======
+
     public override void SetAnimationState(string action, string direction)
     {
         AnimatedSprite2D animSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -79,4 +82,5 @@ public partial class Player : GameObject
         GD.Print("This should be overidden");
         return null;
     }
+>>>>>>> main
 }

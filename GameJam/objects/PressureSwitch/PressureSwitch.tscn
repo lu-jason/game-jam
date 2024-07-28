@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://djleint8a1rce"]
+
+[ext_resource type="Script" path="res://objects/PressureSwitch/PressureSwitch.cs" id="1_dvhhy"]
+[ext_resource type="Texture2D" uid="uid://4axs83i7hugm" path="res://objects/PressureSwitch/PressureSwitch.png" id="2_rb7e4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijrl6"]
+atlas = ExtResource("2_rb7e4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as5qr"]
+atlas = ExtResource("2_rb7e4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vhbye"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijrl6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_as5qr")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xikt0"]
+
+[node name="PressureSwitch" type="Node2D"]
+script = ExtResource("1_dvhhy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
+sprite_frames = SubResource("SpriteFrames_vhbye")
+offset = Vector2(16, 16)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_xikt0")
+
+[connection signal="area_entered" from="Area2D" to="." method="OnTriggerEnter"]
+[connection signal="area_exited" from="Area2D" to="." method="OnTriggerExit"]

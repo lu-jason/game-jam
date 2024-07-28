@@ -1,9 +1,22 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://cxyf44fabq8dx"]
+[gd_resource type="TileSet" load_steps=11 format=3 uid="uid://cxyf44fabq8dx"]
 
+[ext_resource type="Texture2D" uid="uid://c3mrdw4g01vyk" path="res://assets/Aseprite/LightingTilemap.png" id="1_2ruxf"]
+[ext_resource type="Texture2D" uid="uid://4axs83i7hugm" path="res://objects/PressureSwitch/PressureSwitch.png" id="1_nvyg1"]
 [ext_resource type="Texture2D" uid="uid://pjqk1tnjfjtu" path="res://assets/rock_32.png" id="2_esmh6"]
 [ext_resource type="Texture2D" uid="uid://db1tkwqratcn1" path="res://assets/Aseprite/Fire.png" id="3_llmjc"]
-[ext_resource type="Texture2D" uid="uid://dd4aqyjjxhkva" path="res://assets/door.png" id="4_fqmvr"]
 [ext_resource type="Texture2D" uid="uid://cl612j1tfk5tv" path="res://assets/Aseprite/Terrain.png" id="4_qi7xd"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fsjcm"]
+texture = ExtResource("1_nvyg1")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_3 = "Switch:Off"
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/custom_data_3 = "Switch:On"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7lh8"]
 texture = ExtResource("2_esmh6")
@@ -12,6 +25,37 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/custom_data_2 = true
+0:0/0/custom_data_3 = "Rock"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ebejv"]
+texture = ExtResource("1_2ruxf")
+texture_region_size = Vector2i(32, 32)
+0:0/animation_columns = 4
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
+0:0/animation_frame_3/duration = 1.0
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_0 = 8
+0:1/animation_columns = 1
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/custom_data_3 = "ToggleLight"
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/custom_data_0 = 4
+1:1/0/custom_data_3 = "ToggleLight:On"
+2:1/0 = 0
+2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:1/0/physics_layer_0/angular_velocity = 0.0
+3:1/0 = 0
+3:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:1/0/physics_layer_0/angular_velocity = 0.0
+3:1/0/custom_data_0 = 4
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6x27c"]
 resource_name = "Lights"
@@ -28,6 +72,11 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/custom_data_0 = 8
+0:0/0/custom_data_5 = Vector2i(4, 0)
+4:0/0 = 0
+4:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:0/0/physics_layer_0/angular_velocity = 0.0
+4:0/0/custom_data_4 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mtpwg"]
 texture = ExtResource("4_qi7xd")
@@ -42,16 +91,6 @@ texture_region_size = Vector2i(32, 32)
 0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:2/0/physics_layer_0/angular_velocity = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i5e8w"]
-texture = ExtResource("4_fqmvr")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
-0:0/0/custom_data_3 = true
-0:0/0/custom_data_4 = true
-0:0/0/custom_data_5 = 2
-
 [resource]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
@@ -61,13 +100,14 @@ custom_data_layer_1/name = "Hole"
 custom_data_layer_1/type = 1
 custom_data_layer_2/name = "Rock"
 custom_data_layer_2/type = 1
-custom_data_layer_3/name = "Door"
-custom_data_layer_3/type = 1
-custom_data_layer_4/name = "CanInteract"
+custom_data_layer_3/name = "ItemId"
+custom_data_layer_3/type = 4
+custom_data_layer_4/name = "Flammable"
 custom_data_layer_4/type = 1
-custom_data_layer_5/name = "InteractionDistance"
-custom_data_layer_5/type = 2
+custom_data_layer_5/name = "LinkedTile"
+custom_data_layer_5/type = 6
 sources/1 = SubResource("TileSetAtlasSource_t7lh8")
 sources/2 = SubResource("TileSetAtlasSource_6x27c")
 sources/3 = SubResource("TileSetAtlasSource_mtpwg")
-sources/6 = SubResource("TileSetAtlasSource_i5e8w")
+sources/10 = SubResource("TileSetAtlasSource_ebejv")
+sources/0 = SubResource("TileSetAtlasSource_fsjcm")
