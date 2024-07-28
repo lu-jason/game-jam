@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bnllnd844khol"]
+
+[ext_resource type="PackedScene" uid="uid://lhbvgcxp5nq6" path="res://objects/GameObject.tscn" id="1_j2qe4"]
+[ext_resource type="Script" path="res://objects/Door.cs" id="1_td4rk"]
+[ext_resource type="Texture2D" uid="uid://dd4aqyjjxhkva" path="res://assets/door.png" id="2_q03q7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ewd3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q03q7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Door" instance=ExtResource("1_j2qe4")]
+script = ExtResource("1_td4rk")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ewd3p")
+animation = &"idle"

@@ -1,20 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://daq70bu4kme72"]
+[gd_scene load_steps=8 format=3 uid="uid://daq70bu4kme72"]
 
 [ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
 [ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="2_0atgn"]
-[ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/Rock.tscn" id="3_lwloq"]
+[ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/rock.tscn" id="3_lwloq"]
 [ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
+[ext_resource type="PackedScene" uid="uid://bnllnd844khol" path="res://objects/Door.tscn" id="4_ymq3q"]
+[ext_resource type="PackedScene" uid="uid://bqrn22u26pyiq" path="res://interaction/InteractionManager.tscn" id="6_mpdcb"]
 [ext_resource type="PackedScene" uid="uid://cqi3aksygmfb3" path="res://objects/PlayerManager.tscn" id="8_hr6kg"]
 
 [node name="LevelViewer" type="Node2D"]
 script = ExtResource("1_wgqmp")
 Map = ExtResource("2_0atgn")
 RockScene = ExtResource("3_lwloq")
+DoorScene = ExtResource("4_ymq3q")
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
 z_index = 1
 
 [node name="PlayerManager" parent="." instance=ExtResource("8_hr6kg")]
 
+[node name="InteractionManager" parent="." instance=ExtResource("6_mpdcb")]
+
 [connection signal="OnLightsChanged" from="." to="LightingManager" method="OnLightsChanged"]
 [connection signal="OnLoadLevel" from="." to="LightingManager" method="UpdateBaseLevelLighting"]
+[connection signal="OnObjectChanged" from="." to="InteractionManager" method="OnObjectChanged"]
+[connection signal="OnPlayerChanged" from="PlayerManager" to="InteractionManager" method="OnPlayerChanged"]

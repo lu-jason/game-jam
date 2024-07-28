@@ -11,11 +11,17 @@ public partial class LevelViewer : Node2D
 	[Export]
 	public PackedScene RockScene { get; set; }
 
+	[Export]
+	public PackedScene DoorScene { get; set; }
+
 	[Signal]
 	public delegate void OnLoadLevelEventHandler(TileMap LoadedLevel);
 
 	[Signal]
 	public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
+
+	[Signal]
+	public delegate void OnObjectChangedEventHandler(GameObject go, Vector2I position);
 
 	private TileMap Level;
 
@@ -44,6 +50,10 @@ public partial class LevelViewer : Node2D
 		PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
 		playerManager.MovePlayerTo(new Vector2I(10, 10));
 
+		// InteractionManager
+		GetNode<InteractionManager>("InteractionManager").Setup(Level);
+
+		// Instantiating objects
 		CreateObjects();
 	}
 
@@ -60,18 +70,14 @@ public partial class LevelViewer : Node2D
 		gameObjects = new GameObject[tileBounds.X, tileBounds.Y];
 	}
 
-	private void CreateObjects()
-	{
+	private void CreateObjects() {
 		// Iterate through all the objects in the "objects" layer in the tilemap
 		// and create the corresponding object and delete the cell from the map
-		for (int x = 0; x < tileBounds.X; x++)
-		{
-			for (int y = 0; y < tileBounds.Y; y++)
-			{
+		for (int x = 0; x < tileBounds.X; x++) {
+			for (int y = 0; y < tileBounds.Y; y++) {
 				var tileData = GetTileData("objects", new Vector2I(x, y));
 
-				if (tileData != null && tileData.GetCustomData("Rock").AsBool())
-				{
+				if (tileData != null && tileData.GetCustomData("Rock").AsBool()) {
 					var position = new Vector2I(x, y);
 					Level.SetCell(GetLayerNumber("objects"), position, -1);
 					GD.Print("Found rock at ", x, y);
@@ -80,18 +86,32 @@ public partial class LevelViewer : Node2D
 					rock.MoveTo(position, "");
 					AddGameObject(rock, position);
 				}
+				else if (tileData != null && tileData.GetCustomData("Door").AsBool()) {
+					var position = new Vector2I(x, y);
+					Level.SetCell(GetLayerNumber("objects"), position, -1);
+					GD.Print("Found door at ", x, y);
+					var door = DoorScene.Instantiate<Door>();
+					AddChild(door);
+					door.MoveTo(position, "");
+					AddGameObject(door, position);
+				}
 			}
 		}
 	}
 
 	private bool AddGameObject(GameObject obj, Vector2I position)
 	{
-		if (gameObjects[position.X, position.Y] == null)
-		{
-			gameObjects[position.X, position.Y] = obj;
-			return true;
+		// Using try-finally block to trigger a code block after a return
+		try {
+			if (gameObjects[position.X, position.Y] == null)
+			{
+				gameObjects[position.X, position.Y] = obj;
+				return true;
+			}
+			return false;
+		} finally {
+			EmitSignal(SignalName.OnObjectChanged, obj, position);
 		}
-		return false;
 	}
 
 	public bool IsObject(Vector2I position)
@@ -105,47 +125,52 @@ public partial class LevelViewer : Node2D
 
 	public bool MoveObject(Vector2I position, string direction)
 	{
-		if (IsObject(position))
-		{
-			var gameObject = gameObjects[position.X, position.Y];
-			switch (direction)
+		// Using try-finally block to trigger a code block after a return
+		try {
+			if (IsObject(position))
 			{
-				case "left":
-					if (gameObject.MoveLeft())
-					{
-						gameObjects[position.X - 1, position.Y] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				case "right":
-					if (gameObject.MoveRight())
-					{
-						gameObjects[position.X + 1, position.Y] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				case "up":
-					if (gameObject.MoveUp())
-					{
-						gameObjects[position.X, position.Y - 1] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				case "down":
-					if (gameObject.MoveDown())
-					{
-						gameObjects[position.X, position.Y + 1] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
+				var gameObject = gameObjects[position.X, position.Y];
+				switch (direction)
+				{
+					case "left":
+						if (gameObject.MoveLeft())
+						{
+							gameObjects[position.X - 1, position.Y] = gameObject;
+							gameObjects[position.X, position.Y] = null;
+							return true;
+						}
+						break;
+					case "right":
+						if (gameObject.MoveRight())
+						{
+							gameObjects[position.X + 1, position.Y] = gameObject;
+							gameObjects[position.X, position.Y] = null;
+							return true;
+						}
+						break;
+					case "up":
+						if (gameObject.MoveUp())
+						{
+							gameObjects[position.X, position.Y - 1] = gameObject;
+							gameObjects[position.X, position.Y] = null;
+							return true;
+						}
+						break;
+					case "down":
+						if (gameObject.MoveDown())
+						{
+							gameObjects[position.X, position.Y + 1] = gameObject;
+							gameObjects[position.X, position.Y] = null;
+							return true;
+						}
+						break;
+				}
 			}
-		}
 
-		return false;
+			return false;
+		} finally {
+			EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
+		}
 	}
 
 	private int GetLayerNumber(string layerName)

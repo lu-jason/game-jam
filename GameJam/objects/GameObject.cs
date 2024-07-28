@@ -4,20 +4,7 @@ using System;
 // This scene represents anything that can move around on the tile map
 // And requires that logic
 // i.e player, rocks etc.
-public partial class GameObject : Node2D {
-    // Fuck it hard code the pixel size herePixel Size
-    const int cPixelSize = 32;
-
-    public Vector2I tileCoords = new Vector2I(0, 0);
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready() {
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) {
-    }
-
+public partial class GameObject : BaseObject {
     /// <summary>
     /// Moves the character to the provided coords
     /// </summary>
@@ -33,7 +20,7 @@ public partial class GameObject : Node2D {
             // And gradually move our sprite to that positon across multiple frames
             // while blocking movement.
             // While triggering "walk" animation.
-            Position = new Vector2(coords.X * cPixelSize, coords.Y * cPixelSize);
+            Position = new Vector2(coords.X * this.cPixelSize, coords.Y * cPixelSize);
             tileCoords = coords;
             GD.Print("Moving to ", tileCoords);
             return true;
