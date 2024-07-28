@@ -35,24 +35,26 @@ public partial class InteractionManager : Node2D {
 
 	public void OnObjectChanged(GameObject go, Vector2I position) {
 		if (go != null) {
-			GD.Print("The following object has changed: ", go.GetInstanceId());
 			var tileData = levelViewer.GetTileData("objects", position);
 			var canInteract = tileData != null ? tileData.GetCustomData("CanInteract").AsBool() : false;
 			var interactionDistance = tileData != null ? tileData.GetCustomData("InteractionDistance").AsUInt32() : 0;
+			GD.Print("The following object has changed: ", go.GetInstanceId(), "(CanInteract=", canInteract, ", interactionDistance=", interactionDistance, ")");
 
 			// Remove object from interactable list if not interactable anymore
-			if (tileData != null && !canInteract && gameObjects.ContainsKey(go.GetInstanceId())) {
+			if (!canInteract && gameObjects.ContainsKey(go.GetInstanceId())) {
 				GD.Print("Removing object from interable list: ", go.GetInstanceId());
 				gameObjects.Remove(go.GetInstanceId());
 				interactionDistances.Remove(go.GetInstanceId());
 			}
 			// Add new interactable object
-			else if (tileData != null && canInteract && gameObjects.ContainsKey(go.GetInstanceId())) {
+			else if (canInteract && !gameObjects.ContainsKey(go.GetInstanceId())) {
 				GD.Print("Adding object to interable list: ", go.GetInstanceId());
 				gameObjects.Add(go.GetInstanceId(), go);
 				interactionDistances.Add(go.GetInstanceId(), interactionDistance);
 			}
 			HandleInteractions();
+		} else {
+			GD.Print("Changed object is null");
 		}
 	}
 
@@ -63,9 +65,12 @@ public partial class InteractionManager : Node2D {
 	}
 
 	public bool CheckPlayerCanInteractWithObject(GameObject go) {
-		var interactionDistance = interactionDistances[go.GetInstanceId()];
-		var numTilesBetween = GetNumTilesBetween(playerRef.tileCoords, go.tileCoords);
-		return numTilesBetween <= interactionDistance;
+		if (playerRef != null) {
+			var interactionDistance = interactionDistances[go.GetInstanceId()];
+			var numTilesBetween = GetNumTilesBetween(playerRef.tileCoords, go.tileCoords);
+			return numTilesBetween <= interactionDistance;
+		}
+		return false;
 	}
 
 	public uint GetNumTilesBetween(Vector2I posA, Vector2I posB) {
@@ -76,6 +81,7 @@ public partial class InteractionManager : Node2D {
 	}
 
 	public void HandleInteractions() {
+		GD.Print("gameObjects list = ", gameObjects != null ? gameObjects.Count() : "Is Null");
 		if (gameObjects != null && gameObjects.Count() > 0) {
 			var filteredGameObjects = gameObjects.Where(x => CheckPlayerCanInteractWithObject(x.Value));
 			var sortedGameObjects = filteredGameObjects.OrderBy(x => interactionDistances[x.Value.GetInstanceId()]);
