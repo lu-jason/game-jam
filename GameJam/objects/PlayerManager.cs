@@ -86,6 +86,52 @@ public partial class PlayerManager : Node2D {
         } else if (@event.IsActionPressed("morph_gargoyle")) {
             Morph(MorphState.gargoyle);
         }
+
+        if (@event.IsActionPressed("use_ability"))
+        {
+            // Affect the tile in front of the player.
+            string direction = player.facingDirection;
+            Vector2I affectedTile = player.tileCoords;
+            float rotation = 0;
+            if (direction == "up")
+            {
+                affectedTile.Y -= 1;
+
+            }
+            else if (direction == "right")
+            {
+                rotation = 90;
+                affectedTile.X += 1;
+            }
+            else if (direction == "down")
+            {
+                rotation = 180;
+                affectedTile.Y += 1;
+            }
+            else if (direction == "left")
+            {
+                rotation = 270;
+                affectedTile.X -= 1;
+            }
+            else
+            {
+                GD.Print("Using action with no direction properly set.");
+            }
+
+            player.UseAbility(affectedTile);
+            var Animation = player.GetAbilityAnimation();
+            if (Animation != null)
+            {
+                // Add 16 for offset
+                // More hardcoded rubbish
+                Animation.Position = new Vector2(affectedTile.X*32+16, affectedTile.Y * 32+16);
+                Animation.ZIndex = 10;
+                Animation.RotationDegrees = rotation;
+                Animation.Play();
+                AddChild(Animation);
+            }
+
+        }
     }
 
     public void MovePlayerTo(Vector2I coords) {

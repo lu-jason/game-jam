@@ -52,4 +52,31 @@ public partial class Player : GameObject
         // Do whatever logic here for now return true;
         return false;
     }
+    public override void SetAnimationState(string action, string direction)
+    {
+        AnimatedSprite2D animSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        if (animSprite != null)
+        {
+            // Construct animation name
+            string animationName = action + "_" + direction;
+            GD.Print("Setting animation to: ", animationName);
+
+            // This is gonna spam the debugger when we don't have animations set up
+            // Turning off for now
+            animSprite.Play(animationName);
+
+            
+        }
+    }
+
+    public virtual void UseAbility(Vector2I affectedTile)
+    {
+        GD.Print("This should be overidden");
+    }
+
+    public virtual AnimatedSprite2D GetAbilityAnimation()
+    {
+        GD.Print("This should be overidden");
+        return null;
+    }
 }
