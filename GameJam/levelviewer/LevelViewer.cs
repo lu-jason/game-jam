@@ -96,7 +96,7 @@ public partial class LevelViewer : Node2D
                         var rock = RockScene.Instantiate<Rock>();
                         AddChild (rock);
 
-                        rock.MoveTo(position, "");
+                        rock.OverrideTileCoords(position);
                         AddGameObject (rock, position);
                         break;
                     case "Light":
@@ -108,7 +108,7 @@ public partial class LevelViewer : Node2D
                             ToggleLightScene.Instantiate<ToggleLight>();
                         AddChild (obj);
                         obj.SetItemData(itemData);
-                        obj.MoveTo(position, "");
+                        obj.OverrideTileCoords(position);
                         AddGameObject (obj, position);
                         break;
                     case "Switch":
@@ -116,7 +116,7 @@ public partial class LevelViewer : Node2D
                         PressureSwitch pSwitch =PressureSwitchScene.Instantiate<PressureSwitch>();
                         AddChild (pSwitch);
                         pSwitch.SetItemData(itemData);
-                        pSwitch.MoveTo(position, "");
+                        pSwitch.OverrideTileCoords(position);
                         AddGameObject (pSwitch, position);
                         break;
                     default:
