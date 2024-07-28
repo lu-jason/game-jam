@@ -24,6 +24,7 @@ public partial class GameObject : Node2D
     // Technically would be better to rework this to use some enum rather than passing strings around everywhere
     public string facingDirection = "left";
 
+    public LevelViewer levelViewer;
     public LightingManager lightingManager;
 
     // Called when the node enters the scene tree for the first time.
