@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/rock.tscn" id="3_lwloq"]
 [ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
 [ext_resource type="PackedScene" uid="uid://dwjeuw7d0g0qi" path="res://objects/ToggleLight/ToggleLight.tscn" id="4_iaxk6"]
-[ext_resource type="PackedScene" uid="uid://bnllnd844khol" path="res://objects/Door.tscn" id="4_ymq3q"]
+[ext_resource type="PackedScene" path="res://objects/Door.tscn" id="4_ymq3q"]
 [ext_resource type="PackedScene" uid="uid://djleint8a1rce" path="res://objects/PressureSwitch/PressureSwitch.tscn" id="5_bnjtl"]
 [ext_resource type="PackedScene" uid="uid://bqrn22u26pyiq" path="res://interaction/InteractionManager.tscn" id="6_mpdcb"]
 [ext_resource type="PackedScene" uid="uid://cqi3aksygmfb3" path="res://objects/PlayerManager.tscn" id="8_hr6kg"]
