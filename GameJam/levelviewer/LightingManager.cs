@@ -75,6 +75,7 @@ public partial class LightingManager : Node2D
     // NOTE update lights based on the whole Tile map kinda sucks could be way more optimal
     public void OnLightsChanged(TileMap loadedLevel)
     {
+        levelRef = loadedLevel;
         // Update the list of lights based on layer 2 for now
         lights.Clear();
         Vector2I tileBounds = loadedLevel.GetUsedRect().End;
