@@ -11,6 +11,9 @@ public partial class LevelViewer : Node2D
     [Export]
     public PackedScene RockScene { get; set; }
 
+	[Export]
+    public PackedScene DoorScene { get; set; }
+
     [Export]
     public PackedScene ToggleLightScene { get; set; }
 
@@ -22,6 +25,9 @@ public partial class LevelViewer : Node2D
 
     [Signal]
     public delegate void OnLightsChangedEventHandler(TileMap loadedLevel);
+
+    [Signal]
+    public delegate void OnObjectChangedEventHandler(GameObject go, Vector2I position);
 
     private TileMap Level;
 
@@ -49,6 +55,8 @@ public partial class LevelViewer : Node2D
         // For now hardcoded
         PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
         playerManager.MovePlayerTo(new Vector2I(10, 10));
+
+		GetNode<InteractionManager>("InteractionManager").Setup(Level);
 
         CreateObjects();
     }
@@ -95,9 +103,15 @@ public partial class LevelViewer : Node2D
                         GD.Print("Found rock at ", x, y);
                         var rock = RockScene.Instantiate<Rock>();
                         AddChild (rock);
-
                         rock.OverrideTileCoords(position);
                         AddGameObject (rock, position);
+                        break;
+					case "Door":
+                        GD.Print("Found door at ", x, y);
+                        var door = DoorScene.Instantiate<Door>();
+                        AddChild(door);
+                        door.OverrideTileCoords(position);
+                        AddGameObject (door, position);
                         break;
                     case "Light":
                         GD.Print("Found Light at ", x, y);
@@ -113,8 +127,8 @@ public partial class LevelViewer : Node2D
                         break;
                     case "Switch":
                         GD.Print("Found PressureSwitch at ", x, y);
-                        PressureSwitch pSwitch =PressureSwitchScene.Instantiate<PressureSwitch>();
-                        AddChild (pSwitch);
+                        PressureSwitch pSwitch = PressureSwitchScene.Instantiate<PressureSwitch>();
+                        AddChild(pSwitch);
                         pSwitch.SetItemData(itemData);
                         pSwitch.OverrideTileCoords(position);
                         AddGameObject (pSwitch, position);
@@ -128,14 +142,18 @@ public partial class LevelViewer : Node2D
         }
     }
 
-    private bool AddGameObject(GameObject obj, Vector2I position)
-    {
-        if (gameObjects[position.X, position.Y] == null)
-        {
-            gameObjects[position.X, position.Y] = obj;
-            return true;
-        }
-        return false;
+    private bool AddGameObject(GameObject obj, Vector2I position) {
+		// Using a try-finally to execute code block after a return
+		try {
+			if (gameObjects[position.X, position.Y] == null)
+			{
+				gameObjects[position.X, position.Y] = obj;
+				return true;
+			}
+			return false;
+		} finally {
+			EmitSignal(SignalName.OnObjectChanged, obj, position);
+		}
     }
 
     // IsObject returns whether an object is at the provided position.
@@ -154,49 +172,52 @@ public partial class LevelViewer : Node2D
         return IsObject(position) ? gameObjects[position.X, position.Y] : null;
     }
 
-    public bool MoveObject(Vector2I position, string direction)
-    {
-        if (IsObject(position))
-        {
-            var gameObject = gameObjects[position.X, position.Y];
-            switch (direction)
-            {
-                case "left":
-                    if (gameObject.MoveLeft())
-                    {
-                        gameObjects[position.X - 1, position.Y] = gameObject;
-                        gameObjects[position.X, position.Y] = null;
-                        return true;
-                    }
-                    break;
-                case "right":
-                    if (gameObject.MoveRight())
-                    {
-                        gameObjects[position.X + 1, position.Y] = gameObject;
-                        gameObjects[position.X, position.Y] = null;
-                        return true;
-                    }
-                    break;
-                case "up":
-                    if (gameObject.MoveUp())
-                    {
-                        gameObjects[position.X, position.Y - 1] = gameObject;
-                        gameObjects[position.X, position.Y] = null;
-                        return true;
-                    }
-                    break;
-                case "down":
-                    if (gameObject.MoveDown())
-                    {
-                        gameObjects[position.X, position.Y + 1] = gameObject;
-                        gameObjects[position.X, position.Y] = null;
-                        return true;
-                    }
-                    break;
-            }
-        }
+    public bool MoveObject(Vector2I position, string direction) {
+		// Using a try-finally to execute code after a return
+		try {
+			if (IsObject(position)) {
+				var gameObject = gameObjects[position.X, position.Y];
+				switch (direction) {
+				case "left":
+					if (gameObject.MoveLeft())
+					{
+						gameObjects[position.X - 1, position.Y] = gameObject;
+						gameObjects[position.X, position.Y] = null;
+						return true;
+					}
+					break;
+				case "right":
+					if (gameObject.MoveRight())
+					{
+						gameObjects[position.X + 1, position.Y] = gameObject;
+						gameObjects[position.X, position.Y] = null;
+						return true;
+					}
+					break;
+				case "up":
+					if (gameObject.MoveUp())
+					{
+						gameObjects[position.X, position.Y - 1] = gameObject;
+						gameObjects[position.X, position.Y] = null;
+						return true;
+					}
+					break;
+				case "down":
+					if (gameObject.MoveDown())
+					{
+						gameObjects[position.X, position.Y + 1] = gameObject;
+						gameObjects[position.X, position.Y] = null;
+						return true;
+					}
+					break;
+				}
+			}
 
-        return false;
+			return false;
+
+		} finally {
+			EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
+		}
     }
 
     public int GetLayerNumber(string layerName)

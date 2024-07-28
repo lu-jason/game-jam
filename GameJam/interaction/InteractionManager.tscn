@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqrn22u26pyiq"]
+
+[ext_resource type="Script" path="res://interaction/InteractionManager.cs" id="1_58qns"]
+[ext_resource type="PackedScene" uid="uid://cwr2ekgui1u13" path="res://interaction/InteractionText.tscn" id="2_5lq72"]
+
+[node name="InteractionManager" type="Node2D"]
+script = ExtResource("1_58qns")
+
+[node name="InteractionText" parent="." instance=ExtResource("2_5lq72")]
+z_index = 1000
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_right = 48.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Dummy text"
