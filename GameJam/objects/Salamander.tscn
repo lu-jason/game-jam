@@ -166,5 +166,4 @@ SalamanderFireScene = ExtResource("3_jo1gy")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_wq5a5")
-animation = &"idle_down"
-frame_progress = 0.0699677
+animation = &"idle_up"

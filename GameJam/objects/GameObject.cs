@@ -33,6 +33,7 @@ public partial class GameObject : Node2D
         levelViewer = GetNode<LevelViewer>("/root/Main/LevelViewer");
         lightingManager =
             GetNode<LightingManager>("/root/Main/LevelViewer/LightingManager");
+        SetAnimationState("idle", facingDirection);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

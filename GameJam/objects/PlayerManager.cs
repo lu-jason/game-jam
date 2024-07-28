@@ -53,6 +53,7 @@ public partial class PlayerManager : Node2D {
             if (state != currentMorph) {
                 Vector2I oldTileCoords = player.tileCoords;
 
+                string currentDirection = player.facingDirection;
                 player.QueueFree();
                 GD.Print("Morphing to: ", state);
                 switch (state) {
@@ -70,6 +71,8 @@ public partial class PlayerManager : Node2D {
                         break;
                 }
                 currentMorph = state;
+                player.facingDirection = currentDirection;
+                player.SetAnimationState("idle", currentDirection);
                 AddChild(player);
                 player.OverrideTileCoords(oldTileCoords);
                 return true;
