@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cwr2ekgui1u13"]
+
+[node name="InteractionText" type="Label"]
