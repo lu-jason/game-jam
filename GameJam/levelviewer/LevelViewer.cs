@@ -288,9 +288,21 @@ public partial class LevelViewer : Node2D
     {
         // Change affected Tile to linked tile
         TileData tileData = GetTileData(layerName, affectedTile);
-        Vector2I LinkedTile = tileData.GetCustomData("LinkedTile").AsVector2I();
+        Vector2I LinkedTile = tileData.GetCustomData("LinkedFlameTile").AsVector2I();
         // For now just assume that the linked tile is on the same texture
-        int sourceID = Level.GetCellSourceId(GetLayerNumber("lights"), affectedTile);
+        int sourceID = Level.GetCellSourceId(GetLayerNumber(layerName), affectedTile);
+        Level.SetCell(GetLayerNumber(layerName), affectedTile, sourceID, LinkedTile);
+
+        EmitSignal(SignalName.OnLightsChanged, Level);
+    }
+
+    public void ApplyIceToTile(Vector2I affectedTile, string layerName)
+    {
+        // Change affected Tile to linked tile
+        TileData tileData = GetTileData(layerName, affectedTile);
+        Vector2I LinkedTile = tileData.GetCustomData("LinkedIceTile").AsVector2I();
+        // For now just assume that the linked tile is on the same texture
+        int sourceID = Level.GetCellSourceId(GetLayerNumber(layerName), affectedTile);
         Level.SetCell(GetLayerNumber(layerName), affectedTile, sourceID, LinkedTile);
 
         EmitSignal(SignalName.OnLightsChanged, Level);

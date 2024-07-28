@@ -32,6 +32,18 @@ public partial class Salamander : Player
             }
         }
 
+        TileData floorData = levelViewer.GetTileData("floors", affectedTile);
+        if (floorData != null)
+        {
+            var flammable = floorData.GetCustomData("Flammable");
+            if (flammable.AsBool())
+            {
+                // Could do this with signals
+                // TODO
+                levelViewer.ApplyFlameToTile(affectedTile, "floors");
+            }
+        }
+
     }
 
     public override AnimatedSprite2D GetAbilityAnimation()

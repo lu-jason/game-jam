@@ -45,6 +45,13 @@ public partial class Player : GameObject
         // If the walls and shadows are empty we can move there
         if ((wallData == null) && (shadowData == null))
         {
+            // Check if the floor is good
+            bool IsBlocked = floorData.GetCustomData("Blocked").AsBool();
+            if (IsBlocked)
+            {
+                return false;
+            }
+
             return true;
             // TODO - readd hole logic
         }

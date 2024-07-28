@@ -16,6 +16,7 @@ public partial class Fox : Player
 
     public override void UseAbility(Vector2I affectedTile)
     {
+        // TODO Clean this up so there isn't so much terrible code dupe.
 
         // See if anything on the tile is flammable or something like that
         // Call a callback if it is. 
@@ -26,9 +27,18 @@ public partial class Fox : Player
             var iceable = lightData.GetCustomData("Iceable");
             if (iceable.AsBool())
             {
-                // Could do this with signals
-                // TODO
-                //levelViewer.ApplyIceToTile(affectedTile, "lights");
+                levelViewer.ApplyIceToTile(affectedTile, "lights");
+            }
+        }
+
+
+        TileData floorData = levelViewer.GetTileData("floors", affectedTile);
+        if (floorData != null)
+        {
+            var iceable = floorData.GetCustomData("Iceable");
+            if (iceable.AsBool())
+            {
+                levelViewer.ApplyIceToTile(affectedTile, "floors");
             }
         }
     }
