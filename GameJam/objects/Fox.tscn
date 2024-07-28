@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://8si2m1pbvsn0"]
+[gd_scene load_steps=6 format=3 uid="uid://8si2m1pbvsn0"]
 
 [ext_resource type="PackedScene" uid="uid://dm80h6dn52mbv" path="res://objects/Player.tscn" id="1_hkfxh"]
+[ext_resource type="Script" path="res://objects/Fox.cs" id="2_5k8xy"]
 [ext_resource type="Texture2D" uid="uid://bx46lyijhi62f" path="res://assets/Aseprite/Fox.png" id="2_cja1f"]
+[ext_resource type="PackedScene" uid="uid://bjcl7icelw5iv" path="res://objects/FoxIce.tscn" id="3_3eyeh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eirfy"]
 animations = [{
@@ -15,6 +17,8 @@ animations = [{
 }]
 
 [node name="Fox" instance=ExtResource("1_hkfxh")]
+script = ExtResource("2_5k8xy")
+FoxIceScene = ExtResource("3_3eyeh")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_eirfy")

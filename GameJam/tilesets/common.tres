@@ -72,6 +72,11 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/custom_data_0 = 8
+0:0/0/custom_data_5 = Vector2i(4, 0)
+4:0/0 = 0
+4:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:0/0/physics_layer_0/angular_velocity = 0.0
+4:0/0/custom_data_4 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mtpwg"]
 texture = ExtResource("4_qi7xd")
@@ -97,6 +102,10 @@ custom_data_layer_2/name = "Rock"
 custom_data_layer_2/type = 1
 custom_data_layer_3/name = "ItemId"
 custom_data_layer_3/type = 4
+custom_data_layer_4/name = "Flammable"
+custom_data_layer_4/type = 1
+custom_data_layer_5/name = "LinkedTile"
+custom_data_layer_5/type = 6
 sources/1 = SubResource("TileSetAtlasSource_t7lh8")
 sources/2 = SubResource("TileSetAtlasSource_6x27c")
 sources/3 = SubResource("TileSetAtlasSource_mtpwg")

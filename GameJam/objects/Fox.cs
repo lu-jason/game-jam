@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-public partial class Salamander : Player
+public partial class Fox : Player
 {
     [Export]
-    PackedScene SalamanderFireScene { get; set; }
+    PackedScene FoxIceScene { get; set; }
 
     //[Signal]
     //public delegate void OnFlameTileEventHandler(Vector2I affectedTile, string layerName);
@@ -20,22 +20,21 @@ public partial class Salamander : Player
         // See if anything on the tile is flammable or something like that
         // Call a callback if it is. 
         // we should object and layers and whatever but just manually doing it for now.
-
         TileData lightData = levelViewer.GetTileData("lights", affectedTile);
         if (lightData != null)
         {
-            var flammable = lightData.GetCustomData("Flammable");
-            if (flammable.AsBool())
+            var iceable = lightData.GetCustomData("Iceable");
+            if (iceable.AsBool())
             {
                 // Could do this with signals
-                levelViewer.ApplyFlameToTile(affectedTile, "lights");
+                // TODO
+                //levelViewer.ApplyIceToTile(affectedTile, "lights");
             }
         }
-
     }
 
     public override AnimatedSprite2D GetAbilityAnimation()
     {
-        return SalamanderFireScene.Instantiate<AnimatedSprite2D>();
+        return FoxIceScene.Instantiate<AnimatedSprite2D>();
     }
 }

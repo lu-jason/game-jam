@@ -199,7 +199,7 @@ public partial class LevelViewer : Node2D
         return false;
     }
 
-    private int GetLayerNumber(string layerName)
+    public int GetLayerNumber(string layerName)
     {
         return LayerMap[layerName];
     }
@@ -276,13 +276,23 @@ public partial class LevelViewer : Node2D
 
     private void CreateLightSource()
     {
-        GD
-            .Print("WARNING: CreateLightSource has been deactivated while I rework a bunch of shit");
+        GD.Print("WARNING: CreateLightSource has been deactivated while I rework a bunch of shit");
         // TODO place in front of the user instead of on the player.
         // perhaps storing the direction the player is facing could be good
         //var playerPos = Level.LocalToMap(player.Position);
         //// Layer 2 is lights
         //Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 2, new Vector2I(0, 0));
         //EmitSignal(SignalName.OnLightsChanged, Level);
+    }
+    public void ApplyFlameToTile(Vector2I affectedTile, string layerName)
+    {
+        // Change affected Tile to linked tile
+        TileData tileData = GetTileData(layerName, affectedTile);
+        Vector2I LinkedTile = tileData.GetCustomData("LinkedTile").AsVector2I();
+        // For now just assume that the linked tile is on the same texture
+        int sourceID = Level.GetCellSourceId(GetLayerNumber("lights"), affectedTile);
+        Level.SetCell(GetLayerNumber(layerName), affectedTile, sourceID, LinkedTile);
+
+        EmitSignal(SignalName.OnLightsChanged, Level);
     }
 }
