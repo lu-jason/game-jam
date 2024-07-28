@@ -7,15 +7,6 @@ public partial class Player : GameObject
     [Export]
     public int Strength;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
 
     public override bool CanMove(Vector2I coords, string direction)
     {
@@ -65,4 +56,20 @@ public partial class Player : GameObject
         return false;
     }
 
+    public override void SetAnimationState(string action, string direction)
+    {
+        AnimatedSprite2D animSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        if (animSprite != null)
+        {
+            // Construct animation name
+            string animationName = action + "_" + direction;
+            GD.Print("Setting animation to: ", animationName);
+
+            // This is gonna spam the debugger when we don't have animations set up
+            // Turning off for now
+            //animSprite.Play(animationName);
+
+
+        }
+    }
 }
