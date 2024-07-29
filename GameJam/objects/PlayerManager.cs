@@ -19,7 +19,7 @@ public partial class PlayerManager : Node2D {
     [Signal]
     public delegate void OnPlayerChangeEventHandler(GameObject player);
 
-    Player player;
+    public Player player;
     private enum MorphState { witch, fox, salamander, gargoyle };
     private MorphState currentMorph;
 
@@ -30,6 +30,10 @@ public partial class PlayerManager : Node2D {
         player = WitchScene.Instantiate<Player>();
         currentMorph = MorphState.witch;
         AddChild(player);
+    }
+
+    public Player GetPlayerRef() {
+        return player;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -149,8 +153,7 @@ public partial class PlayerManager : Node2D {
 
         }
 
-        if (performedAction)
-        {
+        if (performedAction) {
             EmitSignal(SignalName.OnPlayerChange, player);
         }
     }

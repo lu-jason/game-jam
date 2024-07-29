@@ -30,9 +30,17 @@ public partial class LevelViewer : Node2D
     [Signal]
     public delegate void OnObjectChangedEventHandler(GameObject go, Vector2I position);
 
+    private CanvasLayer gameOverScene;
+
     private TileMap Level;
     private int currentLevelID;
     const int cMAX_LEVEL_NUMBER = 3;
+
+    private LightingManager lightingManager;
+
+    private TileMap shadowTileMap;
+
+    private PlayerManager playerManager;
 
     private Vector2I tileBounds;
 
@@ -45,6 +53,21 @@ public partial class LevelViewer : Node2D
     public override void _Ready()
     {
         currentLevelID = 0;
+        LoadCurrentLevel();
+        lightingManager = GetNode<LightingManager>("LightingManager");
+        shadowTileMap = lightingManager.GetNode<TileMap>("ShadowTileMap");
+        gameOverScene = GetNode<CanvasLayer>("GameOver");
+        gameOverScene.Hide();
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta) {
+        if (CheckIfGameOver()) {
+            DisplayGameOver();
+        }
+    }
+
+    public void LoadCurrentLevel() {
         LoadLevel(currentLevelID);
     }
 
@@ -56,6 +79,7 @@ public partial class LevelViewer : Node2D
         {
             Level.QueueFree();
             LayerMap.Clear();
+            Level = null;
         }
 
         string levelPath = "res://levels/Level" + level.ToString() + ".tscn";
@@ -72,8 +96,7 @@ public partial class LevelViewer : Node2D
 
         CreateObjects();
 
-
-        PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
+        playerManager = GetNode<PlayerManager>("PlayerManager");
         playerManager.MovePlayerTo(witchSpawn);
 
         // Emit Signals
@@ -177,7 +200,7 @@ public partial class LevelViewer : Node2D
 			}
 			return false;
 		} finally {
-			EmitSignal(SignalName.OnObjectChanged, obj, position);
+            EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
 		}
     }
 
@@ -241,7 +264,7 @@ public partial class LevelViewer : Node2D
 			return false;
 
 		} finally {
-			EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
+            EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
 		}
     }
 
@@ -257,11 +280,6 @@ public partial class LevelViewer : Node2D
         {
             CreateLightSource();
         }
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
     }
 
     public TileData GetTileData(string layerName, Vector2I coords)
@@ -337,7 +355,8 @@ public partial class LevelViewer : Node2D
         currentLevelID += 1;
         if (currentLevelID >= cMAX_LEVEL_NUMBER)
         {
-            currentLevelID = 0;
+            DisplayGameOver();
+            return;
         }
         LoadLevel(currentLevelID);
     }
@@ -363,5 +382,39 @@ public partial class LevelViewer : Node2D
         Level.SetCell(GetLayerNumber(layerName), affectedTile, sourceID, LinkedTile);
 
         EmitSignal(SignalName.OnLightsChanged, Level);
+    }
+
+    public bool CheckIfGameOver() {
+        GD.Print("player=", playerManager.GetPlayerRef(), " | shadowTileMap=", shadowTileMap);
+        if (playerManager.GetPlayerRef() != null && shadowTileMap != null) {
+            Vector2I playerCoords = playerManager.GetPlayerRef().tileCoords;
+            TileData shadowData = shadowTileMap.GetCellTileData(0, playerCoords);
+
+            // Detected player is in the shadow
+            if (shadowData != null) {
+                GD.Print("game over detected");
+                return true;
+            }
+        }
+        GD.Print("game over not detected");
+        return false;
+    }
+
+    public void DisplayGameOver() {
+        // Clean up current level if it exists
+        if (Level != null) {
+            Level.ZIndex = 100;
+            Level.QueueFree();
+            LayerMap.Clear();
+            Level = null;
+        }
+        GD.Print("Displaying gameover view");
+        gameOverScene.Show();
+    }
+
+    public void OnPlayerChanged(GameObject player) {
+        if (CheckIfGameOver()) {
+            DisplayGameOver();
+        }
     }
 }
