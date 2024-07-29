@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using System.Xml.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -30,6 +31,8 @@ public partial class LevelViewer : Node2D
     public delegate void OnObjectChangedEventHandler(GameObject go, Vector2I position);
 
     private TileMap Level;
+    private int currentLevelID;
+    const int cMAX_LEVEL_NUMBER = 3;
 
     private Vector2I tileBounds;
 
@@ -37,28 +40,45 @@ public partial class LevelViewer : Node2D
 
     private Dictionary<string, int> LayerMap = new Dictionary<string, int>();
 
+    private Vector2I witchSpawn = Vector2I.Zero;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Level = Map.Instantiate<TileMap>();
+        currentLevelID = 0;
+        LoadLevel(currentLevelID);
+    }
+
+    public void LoadLevel(int level)
+    {
+        GD.Print("Loading Level: ", level);
+        // Clean up old first if it exists
+        if (Level != null)
+        {
+            Level.QueueFree();
+            LayerMap.Clear();
+        }
+
+        string levelPath = "res://levels/Level" + level.ToString() + ".tscn";
+        GD.Print("levelPath: ", levelPath);
+        PackedScene levelScene = GD.Load<PackedScene>(levelPath);
+        Level = levelScene.Instantiate<TileMap>();
         Level.ZIndex = -1;
 
-        AddChild (Level);
-        EmitSignal(SignalName.OnLoadLevel, Level);
+        AddChild(Level);
 
         SetupLevelInfo();
 
-        // Later change this to be called whenever we move a light or something can change it maybe
-        EmitSignal(SignalName.OnLightsChanged, Level);
-
-        // TODO Find spawn point
-        // For now hardcoded
-        PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
-        playerManager.MovePlayerTo(new Vector2I(10, 10));
-
-		GetNode<InteractionManager>("InteractionManager").Setup(Level);
+        GetNode<InteractionManager>("InteractionManager").Setup(Level);
 
         CreateObjects();
+
+
+        PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
+        playerManager.MovePlayerTo(witchSpawn);
+
+        // Emit Signals
+        EmitSignal(SignalName.OnLoadLevel, Level);
+        EmitSignal(SignalName.OnLightsChanged, Level);
     }
 
     private void SetupLevelInfo()
@@ -132,6 +152,11 @@ public partial class LevelViewer : Node2D
                         pSwitch.SetItemData(itemData);
                         pSwitch.OverrideTileCoords(position);
                         AddGameObject (pSwitch, position);
+                        break;
+                    case "WitchSpawn":
+                        GD.Print("Found WitchSpawn at ", x, y);
+                        witchSpawn.X = x;
+                        witchSpawn.Y = y;
                         break;
                     default:
                         continue;
@@ -304,6 +329,17 @@ public partial class LevelViewer : Node2D
         //// Layer 2 is lights
         //Level.SetCell(2, new Vector2I(playerPos.X, playerPos.Y), 2, new Vector2I(0, 0));
         //EmitSignal(SignalName.OnLightsChanged, Level);
+    }
+
+    private void OnIncrementLevelPressed()
+    {
+        GD.Print("Increment Level");
+        currentLevelID += 1;
+        if (currentLevelID >= cMAX_LEVEL_NUMBER)
+        {
+            currentLevelID = 0;
+        }
+        LoadLevel(currentLevelID);
     }
     public void ApplyFlameToTile(Vector2I affectedTile, string layerName)
     {

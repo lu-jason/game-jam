@@ -119,6 +119,10 @@ texture_region_size = Vector2i(32, 32)
 2:1/0/physics_layer_0/angular_velocity = 0.0
 2:1/0/custom_data_4 = true
 2:1/0/custom_data_5 = Vector2i(2, 0)
+1:2/0 = 0
+1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:2/0/physics_layer_0/angular_velocity = 0.0
+1:2/0/custom_data_2 = "WitchSpawn"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cty4q"]
 texture = ExtResource("6_vxhrd")
