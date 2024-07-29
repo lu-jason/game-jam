@@ -1,13 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://daq70bu4kme72"]
+[gd_scene load_steps=11 format=3 uid="uid://daq70bu4kme72"]
 
 [ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
 [ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="2_0atgn"]
 [ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/rock.tscn" id="3_lwloq"]
 [ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
 [ext_resource type="PackedScene" uid="uid://dwjeuw7d0g0qi" path="res://objects/ToggleLight/ToggleLight.tscn" id="4_iaxk6"]
-[ext_resource type="PackedScene" path="res://objects/Door.tscn" id="4_ymq3q"]
+[ext_resource type="PackedScene" uid="uid://bnllnd844khol" path="res://objects/Door.tscn" id="4_ymq3q"]
 [ext_resource type="PackedScene" uid="uid://djleint8a1rce" path="res://objects/PressureSwitch/PressureSwitch.tscn" id="5_bnjtl"]
 [ext_resource type="PackedScene" uid="uid://bqrn22u26pyiq" path="res://interaction/InteractionManager.tscn" id="6_mpdcb"]
+[ext_resource type="PackedScene" uid="uid://bdbxyw0jirrp7" path="res://gameover/GameOver.tscn" id="7_ktjfm"]
 [ext_resource type="PackedScene" uid="uid://cqi3aksygmfb3" path="res://objects/PlayerManager.tscn" id="8_hr6kg"]
 
 [node name="LevelViewer" type="Node2D"]
@@ -17,6 +18,8 @@ RockScene = ExtResource("3_lwloq")
 DoorScene = ExtResource("4_ymq3q")
 ToggleLightScene = ExtResource("4_iaxk6")
 PressureSwitchScene = ExtResource("5_bnjtl")
+
+[node name="GameOver" parent="." instance=ExtResource("7_ktjfm")]
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
 z_index = 1
