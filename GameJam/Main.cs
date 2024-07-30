@@ -31,4 +31,11 @@ public partial class Main : Node2D {
         GetNode<HUD>("HUD").ClearMainMenu();
         GetNode<AudioStreamPlayer>("Music").Play();
     }
+
+    public void OnGameFinished()
+    {
+        GetNode<AudioStreamPlayer>("Music").Stop();
+        GetNode<AudioStreamPlayer>("YouWinMusic").Play();
+        GetNode<HUD>("HUD").DisplayGameFinished();
+    }
 }

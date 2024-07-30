@@ -1,11 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://d12mfu2xb0lvf"]
+[gd_scene load_steps=10 format=3 uid="uid://d12mfu2xb0lvf"]
 
 [ext_resource type="Script" path="res://HUD.cs" id="1_4es27"]
 [ext_resource type="FontFile" uid="uid://dkp7rkn8c5myh" path="res://fonts/CloisterBlack.ttf" id="2_1lix1"]
 [ext_resource type="Texture2D" uid="uid://bjswqs7ga2ox8" path="res://assets/Aseprite/Witch Launch Page Sprite.png" id="2_gdkob"]
+[ext_resource type="Texture2D" uid="uid://cnlisua5bf4q1" path="res://assets/Aseprite/LargeStandingSlamander.png" id="4_v4lku"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_7dxdx"]
-font_size = 40
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8mli"]
+atlas = ExtResource("4_v4lku")
+region = Rect2(0, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnvry"]
+atlas = ExtResource("4_v4lku")
+region = Rect2(960, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_837hv"]
+atlas = ExtResource("4_v4lku")
+region = Rect2(1920, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r81ey"]
+atlas = ExtResource("4_v4lku")
+region = Rect2(2880, 0, 960, 960)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iprc6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8mli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnvry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_837hv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r81ey")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_4es27")
@@ -46,38 +80,39 @@ offset_right = 472.0
 offset_bottom = 628.0
 texture = ExtResource("2_gdkob")
 
-[node name="ToggleLighting" type="Button" parent="."]
-visible = false
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 11.0
-offset_bottom = 11.0
-text = "Toggle Lighting"
+[node name="YouWin" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_left = 134.0
-offset_top = 1.0
-offset_right = 262.0
-offset_bottom = 67.0
-color = Color(0, 0, 0, 1)
+[node name="ColorRect" type="ColorRect" parent="YouWin"]
+offset_right = 1152.0
+offset_bottom = 640.0
+color = Color(0.780392, 0.682353, 1, 1)
 
-[node name="Label" type="Label" parent="."]
-visible = false
-offset_left = 153.0
-offset_top = 6.0
-offset_right = 179.0
-offset_bottom = 61.0
-label_settings = SubResource("LabelSettings_7dxdx")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Salamander" type="AnimatedSprite2D" parent="YouWin"]
+position = Vector2(240, 464)
+scale = Vector2(0.408333, 0.408333)
+sprite_frames = SubResource("SpriteFrames_iprc6")
+autoplay = "default"
 
-[node name="IncrementLevel" type="Button" parent="."]
-visible = false
-offset_left = 264.0
-offset_right = 393.0
-offset_bottom = 31.0
-text = "IncrementLevel
-"
+[node name="Salamander2" type="AnimatedSprite2D" parent="YouWin"]
+position = Vector2(576, 464)
+scale = Vector2(0.408333, 0.408333)
+sprite_frames = SubResource("SpriteFrames_iprc6")
+autoplay = "default"
+
+[node name="Salamander3" type="AnimatedSprite2D" parent="YouWin"]
+position = Vector2(928, 464)
+scale = Vector2(0.408333, 0.408333)
+sprite_frames = SubResource("SpriteFrames_iprc6")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="YouWin"]
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 1093.0
+offset_bottom = 257.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_1lix1")
+theme_override_font_sizes/font_size = 192
+text = "YOU WIN!"
 
 [connection signal="pressed" from="MainMenu/StartButton" to="." method="OnStartButtonPressed"]

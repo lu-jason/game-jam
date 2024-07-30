@@ -33,9 +33,12 @@ public partial class LevelViewer : Node2D
     [Signal]
     public delegate void OnLevelEndEventHandler();
 
+    [Signal]
+    public delegate void OnGameFinishedEventHandler();
+
     private TileMap Level;
     private int currentLevelID;
-    const int cMAX_LEVEL_NUMBER = 3;
+    const int cMAX_LEVEL_NUMBER = 1;
 
     private Vector2I tileBounds;
 
@@ -369,9 +372,12 @@ public partial class LevelViewer : Node2D
         currentLevelID += 1;
         if (currentLevelID >= cMAX_LEVEL_NUMBER)
         {
-            currentLevelID = 0;
+            EmitSignal(SignalName.OnGameFinished);
         }
-        LoadLevel(currentLevelID);
+        else
+        {
+            LoadLevel(currentLevelID);
+        }
     }
     public void ApplyFlameToTile(Vector2I affectedTile, string layerName)
     {
