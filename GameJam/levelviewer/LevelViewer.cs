@@ -38,7 +38,7 @@ public partial class LevelViewer : Node2D
 
     private TileMap Level;
     private int currentLevelID;
-    const int cMAX_LEVEL_NUMBER = 1;
+    const int cMAX_LEVEL_NUMBER = 3;
 
     private Vector2I tileBounds;
 
