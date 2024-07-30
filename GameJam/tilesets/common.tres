@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://cxyf44fabq8dx"]
+[gd_resource type="TileSet" load_steps=15 format=3 uid="uid://cxyf44fabq8dx"]
 
 [ext_resource type="Texture2D" uid="uid://c3mrdw4g01vyk" path="res://assets/Aseprite/LightingTilemap.png" id="1_2ruxf"]
 [ext_resource type="Texture2D" uid="uid://4axs83i7hugm" path="res://objects/PressureSwitch/PressureSwitch.png" id="1_nvyg1"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://db1tkwqratcn1" path="res://assets/Aseprite/Fire.png" id="3_llmjc"]
 [ext_resource type="Texture2D" uid="uid://cl612j1tfk5tv" path="res://assets/Aseprite/Terrain.png" id="4_qi7xd"]
 [ext_resource type="Texture2D" uid="uid://dd4aqyjjxhkva" path="res://assets/door.png" id="6_vxhrd"]
+[ext_resource type="Texture2D" uid="uid://c25n5px46djtp" path="res://assets/Aseprite/tutorial-stones.png" id="7_0jsth"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fsjcm"]
 texture = ExtResource("1_nvyg1")
@@ -163,6 +164,42 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/custom_data_8 = 4
 0:0/0/custom_data_9 = true
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6kio6"]
+texture = ExtResource("7_0jsth")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_1 = true
+0:0/0/custom_data_2 = "WitchTutorialStone"
+0:0/0/custom_data_7 = true
+0:0/0/custom_data_8 = 2
+0:0/0/custom_data_11 = "Transform into the Witch with [1]"
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/custom_data_1 = true
+1:0/0/custom_data_2 = "FoxTutorialStone"
+1:0/0/custom_data_7 = true
+1:0/0/custom_data_8 = 2
+1:0/0/custom_data_11 = "Transform into the Ice Fox with [2]"
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/custom_data_1 = true
+2:0/0/custom_data_2 = "SalamanderTutorialStone"
+2:0/0/custom_data_7 = true
+2:0/0/custom_data_8 = 2
+2:0/0/custom_data_11 = "Transform into the Fire Salamander with [3]"
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0/custom_data_1 = true
+3:0/0/custom_data_2 = "AbilityTutorialStone"
+3:0/0/custom_data_7 = true
+3:0/0/custom_data_8 = 2
+3:0/0/custom_data_11 = "Activate the special ability with [e]"
+
 [resource]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
@@ -188,9 +225,12 @@ custom_data_layer_9/name = "RoomEnd"
 custom_data_layer_9/type = 1
 custom_data_layer_10/name = "Small"
 custom_data_layer_10/type = 1
+custom_data_layer_11/name = "TileText"
+custom_data_layer_11/type = 4
 sources/1 = SubResource("TileSetAtlasSource_t7lh8")
 sources/2 = SubResource("TileSetAtlasSource_6x27c")
 sources/3 = SubResource("TileSetAtlasSource_mtpwg")
 sources/10 = SubResource("TileSetAtlasSource_ebejv")
 sources/0 = SubResource("TileSetAtlasSource_fsjcm")
 sources/4 = SubResource("TileSetAtlasSource_cty4q")
+sources/5 = SubResource("TileSetAtlasSource_6kio6")

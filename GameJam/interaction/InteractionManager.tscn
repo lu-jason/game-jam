@@ -7,7 +7,6 @@
 script = ExtResource("1_58qns")
 
 [node name="InteractionText" parent="." instance=ExtResource("2_5lq72")]
-visible = false
 z_index = 1000
 anchors_preset = 5
 anchor_left = 0.5
@@ -16,4 +15,3 @@ offset_left = -48.0
 offset_right = 48.0
 offset_bottom = 23.0
 grow_horizontal = 2
-text = "Dummy text"

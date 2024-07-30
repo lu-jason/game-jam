@@ -1,16 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://daq70bu4kme72"]
+[gd_scene load_steps=14 format=3 uid="uid://daq70bu4kme72"]
 
 [ext_resource type="Script" path="res://levelviewer/LevelViewer.cs" id="1_wgqmp"]
 [ext_resource type="PackedScene" uid="uid://c3ylj5vtisnom" path="res://tilesets/testMap.tscn" id="2_0atgn"]
 [ext_resource type="PackedScene" uid="uid://bbklp0g64escc" path="res://objects/rock.tscn" id="3_lwloq"]
 [ext_resource type="PackedScene" uid="uid://gbxsupoukqmf" path="res://levelviewer/LightingManager.tscn" id="3_t053p"]
+[ext_resource type="PackedScene" uid="uid://4fk0d4r6gi07" path="res://objects/TutorialStones/WitchTutorialStone.tscn" id="4_5hpgn"]
+[ext_resource type="PackedScene" uid="uid://bnllnd844khol" path="res://objects/Door.tscn" id="5_dn1sh"]
+[ext_resource type="PackedScene" uid="uid://de5adyc2y0c8m" path="res://objects/TutorialStones/SalamanderTutorialStone.tscn" id="5_dypsx"]
+[ext_resource type="PackedScene" uid="uid://bn8e7neq202mg" path="res://objects/TutorialStones/FoxTutorialStone.tscn" id="6_fsfkc"]
+[ext_resource type="PackedScene" uid="uid://dwjeuw7d0g0qi" path="res://objects/ToggleLight/ToggleLight.tscn" id="6_i4m6f"]
 [ext_resource type="PackedScene" uid="uid://bqrn22u26pyiq" path="res://interaction/InteractionManager.tscn" id="6_mpdcb"]
+[ext_resource type="PackedScene" uid="uid://c5wjaw8dnn3m" path="res://objects/TutorialStones/AbilityTutorialStone.tscn" id="7_02lkr"]
+[ext_resource type="PackedScene" uid="uid://djleint8a1rce" path="res://objects/PressureSwitch/PressureSwitch.tscn" id="7_66q65"]
 [ext_resource type="PackedScene" uid="uid://cqi3aksygmfb3" path="res://objects/PlayerManager.tscn" id="8_hr6kg"]
 
 [node name="LevelViewer" type="Node2D"]
 script = ExtResource("1_wgqmp")
 Map = ExtResource("2_0atgn")
 RockScene = ExtResource("3_lwloq")
+WitchTutorialStoneScene = ExtResource("4_5hpgn")
+SalamanderTutorialStoneScene = ExtResource("5_dypsx")
+FoxTutorialStoneScene = ExtResource("6_fsfkc")
+AbilityTutorialStoneScene = ExtResource("7_02lkr")
+DoorScene = ExtResource("5_dn1sh")
+ToggleLightScene = ExtResource("6_i4m6f")
+PressureSwitchScene = ExtResource("7_66q65")
 
 [node name="LightingManager" parent="." instance=ExtResource("3_t053p")]
 z_index = 1
@@ -21,3 +35,5 @@ z_index = 1
 
 [connection signal="OnLightsChanged" from="." to="LightingManager" method="OnLightsChanged"]
 [connection signal="OnLoadLevel" from="." to="LightingManager" method="UpdateBaseLevelLighting"]
+[connection signal="OnObjectChanged" from="." to="InteractionManager" method="OnObjectChanged"]
+[connection signal="OnPlayerChange" from="PlayerManager" to="InteractionManager" method="OnPlayerChanged"]

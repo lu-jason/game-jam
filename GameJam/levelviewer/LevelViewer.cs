@@ -13,6 +13,18 @@ public partial class LevelViewer : Node2D
     public PackedScene RockScene { get; set; }
 
     [Export]
+    public PackedScene WitchTutorialStoneScene { get; set; }
+
+    [Export]
+    public PackedScene SalamanderTutorialStoneScene { get; set; }
+
+    [Export]
+    public PackedScene FoxTutorialStoneScene { get; set; }
+
+    [Export]
+    public PackedScene AbilityTutorialStoneScene { get; set; }
+
+    [Export]
     public PackedScene DoorScene { get; set; }
 
     [Export]
@@ -182,6 +194,42 @@ public partial class LevelViewer : Node2D
                         GD.Print("Found WitchSpawn at ", x, " ", y);
                         witchSpawn.X = x;
                         witchSpawn.Y = y;
+                        break;
+                    case "WitchTutorialStone":
+                        GD.Print("Found WitchTutorialStone at ", x, " ", y);
+                        var witchTutStone = WitchTutorialStoneScene.Instantiate<WitchTutorialStone>();
+                        string tileText = tileData.GetCustomData("TileText").AsString();
+                        witchTutStone.interactionText = tileText;
+                        AddChild(witchTutStone);
+                        witchTutStone.OverrideTileCoords(position);
+                        AddGameObject(witchTutStone, position);
+                        break;
+                    case "SalamanderTutorialStone":
+                        GD.Print("Found SalamanderTutorialStone at ", x, " ", y);
+                        var salTutStone = SalamanderTutorialStoneScene.Instantiate<SalamanderTutorialStone>();
+                        tileText = tileData.GetCustomData("TileText").AsString();
+                        salTutStone.interactionText = tileText;
+                        AddChild(salTutStone);
+                        salTutStone.OverrideTileCoords(position);
+                        AddGameObject(salTutStone, position);
+                        break;
+                    case "FoxTutorialStone":
+                        GD.Print("Found FoxTutorialStone at ", x, " ", y);
+                        var foxTutStone = FoxTutorialStoneScene.Instantiate<FoxTutorialStone>();
+                        tileText = tileData.GetCustomData("TileText").AsString();
+                        foxTutStone.interactionText = tileText;
+                        AddChild(foxTutStone);
+                        foxTutStone.OverrideTileCoords(position);
+                        AddGameObject(foxTutStone, position);
+                        break;
+                    case "AbilityTutorialStone":
+                        GD.Print("Found AbilityTutorialStone at ", x, " ", y);
+                        var abilityTutStone = AbilityTutorialStoneScene.Instantiate<AbilityTutorialStone>();
+                        tileText = tileData.GetCustomData("TileText").AsString();
+                        abilityTutStone.interactionText = tileText;
+                        AddChild(abilityTutStone);
+                        abilityTutStone.OverrideTileCoords(position);
+                        AddGameObject(abilityTutStone, position);
                         break;
                     default:
                         continue;
