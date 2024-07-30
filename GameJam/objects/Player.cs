@@ -10,6 +10,7 @@ public partial class Player : GameObject
             GetNode<LevelViewer>("/root/Main/LevelViewer");
         TileData floorData = levelViewer.GetTileData("floors", coords);
         TileData wallData = levelViewer.GetTileData("walls", coords);
+        TileData objectData = levelViewer.GetTileData("objects", coords);
 
         // For now adding shadows check here as well
         LightingManager lightingManager =
@@ -18,9 +19,20 @@ public partial class Player : GameObject
             lightingManager.GetNode<TileMap>("ShadowTileMap");
         TileData shadowData = shadowTileMap.GetCellTileData(0, coords);
 
+        if (objectData != null)
+        {
+            bool IsEnd = objectData.GetCustomData("RoomEnd").AsBool();
+            if (IsEnd)
+            {
+                sb.EmitSignal(SignalBus.SignalName.OnLevelEnd);
+                return false;
+            }
+        }
+
         if (levelViewer.IsObject(coords))
         {
             GD.Print("Object is here");
+
             GameObject obj = levelViewer.ObjectAtPosition(coords);
 
             // if the object is solid, we cannot move.
@@ -45,12 +57,6 @@ public partial class Player : GameObject
         // If the walls and shadows are empty we can move there
         if ((shadowData == null))
         {
-            bool IsEnd = floorData.GetCustomData("RoomEnd").AsBool();
-            if (IsEnd)
-            {
-                sb.EmitSignal(SignalBus.SignalName.OnLevelEnd);
-                return false;
-            }
             // Check if the floor is good
             bool IsBlocked = floorData.GetCustomData("Blocked").AsBool();
             if (IsBlocked)

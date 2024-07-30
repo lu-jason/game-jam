@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3ro1t67hjq0s"]
+[gd_scene load_steps=5 format=3 uid="uid://c3ro1t67hjq0s"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
-[ext_resource type="AudioStream" uid="uid://bgd5lnjkcnef6" path="res://sounds/Ambient Vol5 Stained Glass Main.wav" id="3_o8ty8"]
-[ext_resource type="AudioStream" uid="uid://clscigv3tut8" path="res://sounds/Rhythmic Vol2 Zebra Main.wav" id="5_6mcke"]
+[ext_resource type="AudioStream" uid="uid://bgd5lnjkcnef6" path="res://sounds/Ambient Vol5 Stained Glass Main.wav" id="4_78ffk"]
 [ext_resource type="PackedScene" uid="uid://d12mfu2xb0lvf" path="res://HUD.tscn" id="5_l3eo3"]
 
 [node name="Main" type="Node2D"]
@@ -17,15 +16,10 @@ scale = Vector2(0.5, 0.498031)
 zoom = Vector2(1.25, 1.25)
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_o8ty8")
+stream = ExtResource("4_78ffk")
 volume_db = -18.0
 
 [node name="HUD" parent="." instance=ExtResource("5_l3eo3")]
 
-[node name="YouWinMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_6mcke")
-volume_db = -18.0
-
-[connection signal="OnGameFinished" from="LevelViewer" to="." method="OnGameFinished"]
 [connection signal="OnObjectChanged" from="LevelViewer" to="LevelViewer/InteractionManager" method="OnObjectChanged"]
 [connection signal="StartGame" from="HUD" to="." method="StartGame"]
