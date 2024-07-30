@@ -2,7 +2,8 @@ using System;
 using Godot;
 
 public partial class Player : GameObject
-{ 
+{
+
     public override bool CanMove(Vector2I coords, string direction)
     {
         // Later we could hold a reference to these so we don't need to look them up with this "hardcodey" way
@@ -43,27 +44,19 @@ public partial class Player : GameObject
         }
 
         // If the walls and shadows are empty we can move there
-        if ((shadowData == null))
+        if ((wallData == null) && (shadowData == null))
         {
+            bool IsEnd = floorData.GetCustomData("RoomEnd").AsBool();
+            if (IsEnd)
+            {
+                sb.EmitSignal(SignalBus.SignalName.OnLevelEnd);
+                return false;
+            }
             // Check if the floor is good
             bool IsBlocked = floorData.GetCustomData("Blocked").AsBool();
             if (IsBlocked)
             {
                 return false;
-            }
-
-            // Yikes code written quickly
-            if (wallData != null)
-            {
-                // If the character can move 
-                if (WallMoveSpecific(wallData))
-                {
-                    return true;
-                }
-                else 
-                {
-                    return false;
-                }
             }
 
             return true;
@@ -73,12 +66,6 @@ public partial class Player : GameObject
         // Do whatever logic here for now return true;
         return false;
     }
-
-    virtual public bool WallMoveSpecific(TileData wallData)
-    {
-        // Never allow walls in general player cases
-        return false;
-    }
     public override void SetAnimationState(string action, string direction)
     {
         AnimatedSprite2D animSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -86,13 +73,12 @@ public partial class Player : GameObject
         {
             // Construct animation name
             string animationName = action + "_" + direction;
-            GD.Print("Setting animation to: ", animationName);
+            // GD.Print("Setting animation to: ", animationName);
 
             // This is gonna spam the debugger when we don't have animations set up
             // Turning off for now
             animSprite.Play(animationName);
 
-            
         }
     }
 

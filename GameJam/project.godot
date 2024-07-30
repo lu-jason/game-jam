@@ -14,6 +14,10 @@ config/name="GameJam"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 
+[autoload]
+
+SignalBus="*res://SignalBus.cs"
+
 [display]
 
 window/size/viewport_height=640

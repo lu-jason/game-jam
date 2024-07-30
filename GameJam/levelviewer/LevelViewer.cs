@@ -12,7 +12,7 @@ public partial class LevelViewer : Node2D
     [Export]
     public PackedScene RockScene { get; set; }
 
-	[Export]
+    [Export]
     public PackedScene DoorScene { get; set; }
 
     [Export]
@@ -30,6 +30,9 @@ public partial class LevelViewer : Node2D
     [Signal]
     public delegate void OnObjectChangedEventHandler(GameObject go, Vector2I position);
 
+    [Signal]
+    public delegate void OnLevelEndEventHandler();
+
     private TileMap Level;
     private int currentLevelID;
     const int cMAX_LEVEL_NUMBER = 3;
@@ -41,6 +44,9 @@ public partial class LevelViewer : Node2D
     private Dictionary<string, int> LayerMap = new Dictionary<string, int>();
 
     private Vector2I witchSpawn = Vector2I.Zero;
+
+    private SignalBus sb;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -50,6 +56,18 @@ public partial class LevelViewer : Node2D
     {
         currentLevelID = 0;
         LoadLevel(currentLevelID);
+
+        sb = GetNode<SignalBus>("/root/SignalBus");
+
+        sb.Connect(SignalBus.SignalName.OnLevelEnd, Callable.From(LevelEnd));
+        // Connect();
+    }
+
+    public void LevelEnd()
+    {
+        GD.Print("Signal received");
+
+        OnIncrementLevelPressed();
     }
 
     public void LoadLevel(int level)
@@ -76,7 +94,6 @@ public partial class LevelViewer : Node2D
 
         CreateObjects();
 
-
         PlayerManager playerManager = GetNode<PlayerManager>("PlayerManager");
         playerManager.MovePlayerTo(witchSpawn);
 
@@ -98,7 +115,8 @@ public partial class LevelViewer : Node2D
         gameObjects = new GameObject[tileBounds.X, tileBounds.Y];
     }
 
-    public static (string, string) GetItemData(string itemString) {
+    public static (string, string) GetItemData(string itemString)
+    {
         if (itemString.Length <= 0) return ("", "");
         string[] parts = itemString.Split(":");
         return (parts[0], (parts.Length >= 2) ? parts[1] : "");
@@ -126,16 +144,16 @@ public partial class LevelViewer : Node2D
                     case "Rock":
                         GD.Print("Found rock at ", x, y);
                         var rock = RockScene.Instantiate<Rock>();
-                        AddChild (rock);
+                        AddChild(rock);
                         rock.OverrideTileCoords(position);
-                        AddGameObject (rock, position);
+                        AddGameObject(rock, position);
                         break;
-					case "Door":
+                    case "Door":
                         GD.Print("Found door at ", x, y);
                         var door = DoorScene.Instantiate<Door>();
                         AddChild(door);
                         door.OverrideTileCoords(position);
-                        AddGameObject (door, position);
+                        AddGameObject(door, position);
                         break;
                     case "Light":
                         GD.Print("Found Light at ", x, y);
@@ -144,10 +162,10 @@ public partial class LevelViewer : Node2D
                         GD.Print("Found ToggleLight at ", x, y);
                         ToggleLight obj =
                             ToggleLightScene.Instantiate<ToggleLight>();
-                        AddChild (obj);
+                        AddChild(obj);
                         obj.SetItemData(itemData);
                         obj.OverrideTileCoords(position);
-                        AddGameObject (obj, position);
+                        AddGameObject(obj, position);
                         break;
                     case "Switch":
                         GD.Print("Found PressureSwitch at ", x, y);
@@ -155,10 +173,10 @@ public partial class LevelViewer : Node2D
                         AddChild(pSwitch);
                         pSwitch.SetItemData(itemData);
                         pSwitch.OverrideTileCoords(position);
-                        AddGameObject (pSwitch, position);
+                        AddGameObject(pSwitch, position);
                         break;
                     case "WitchSpawn":
-                        GD.Print("Found WitchSpawn at ", x, y);
+                        GD.Print("Found WitchSpawn at ", x, " ", y);
                         witchSpawn.X = x;
                         witchSpawn.Y = y;
                         break;
@@ -171,18 +189,22 @@ public partial class LevelViewer : Node2D
         }
     }
 
-    private bool AddGameObject(GameObject obj, Vector2I position) {
-		// Using a try-finally to execute code block after a return
-		try {
-			if (gameObjects[position.X, position.Y] == null)
-			{
-				gameObjects[position.X, position.Y] = obj;
-				return true;
-			}
-			return false;
-		} finally {
-			EmitSignal(SignalName.OnObjectChanged, obj, position);
-		}
+    private bool AddGameObject(GameObject obj, Vector2I position)
+    {
+        // Using a try-finally to execute code block after a return
+        try
+        {
+            if (gameObjects[position.X, position.Y] == null)
+            {
+                gameObjects[position.X, position.Y] = obj;
+                return true;
+            }
+            return false;
+        }
+        finally
+        {
+            EmitSignal(SignalName.OnObjectChanged, obj, position);
+        }
     }
 
     // IsObject returns whether an object is at the provided position.
@@ -201,52 +223,58 @@ public partial class LevelViewer : Node2D
         return IsObject(position) ? gameObjects[position.X, position.Y] : null;
     }
 
-    public bool MoveObject(Vector2I position, string direction) {
-		// Using a try-finally to execute code after a return
-		try {
-			if (IsObject(position)) {
-				var gameObject = gameObjects[position.X, position.Y];
-				switch (direction) {
-				case "left":
-					if (gameObject.MoveLeft())
-					{
-						gameObjects[position.X - 1, position.Y] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				case "right":
-					if (gameObject.MoveRight())
-					{
-						gameObjects[position.X + 1, position.Y] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				case "up":
-					if (gameObject.MoveUp())
-					{
-						gameObjects[position.X, position.Y - 1] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				case "down":
-					if (gameObject.MoveDown())
-					{
-						gameObjects[position.X, position.Y + 1] = gameObject;
-						gameObjects[position.X, position.Y] = null;
-						return true;
-					}
-					break;
-				}
-			}
+    public bool MoveObject(Vector2I position, string direction)
+    {
+        // Using a try-finally to execute code after a return
+        try
+        {
+            if (IsObject(position))
+            {
+                var gameObject = gameObjects[position.X, position.Y];
+                switch (direction)
+                {
+                    case "left":
+                        if (gameObject.MoveLeft())
+                        {
+                            gameObjects[position.X - 1, position.Y] = gameObject;
+                            gameObjects[position.X, position.Y] = null;
+                            return true;
+                        }
+                        break;
+                    case "right":
+                        if (gameObject.MoveRight())
+                        {
+                            gameObjects[position.X + 1, position.Y] = gameObject;
+                            gameObjects[position.X, position.Y] = null;
+                            return true;
+                        }
+                        break;
+                    case "up":
+                        if (gameObject.MoveUp())
+                        {
+                            gameObjects[position.X, position.Y - 1] = gameObject;
+                            gameObjects[position.X, position.Y] = null;
+                            return true;
+                        }
+                        break;
+                    case "down":
+                        if (gameObject.MoveDown())
+                        {
+                            gameObjects[position.X, position.Y + 1] = gameObject;
+                            gameObjects[position.X, position.Y] = null;
+                            return true;
+                        }
+                        break;
+                }
+            }
 
-			return false;
+            return false;
 
-		} finally {
-			EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
-		}
+        }
+        finally
+        {
+            EmitSignal(SignalName.OnObjectChanged, gameObjects[position.X, position.Y], position);
+        }
     }
 
     public int GetLayerNumber(string layerName)
@@ -289,7 +317,7 @@ public partial class LevelViewer : Node2D
     )
     {
         int layer = GetLayerNumber(layerName);
-        Level.SetCell (layer, coords, data, atlasPos);
+        Level.SetCell(layer, coords, data, atlasPos);
     }
 
     public void OnToggleLightingPressed()
@@ -327,7 +355,7 @@ public partial class LevelViewer : Node2D
     private void CreateLightSource()
     {
         GD.Print("WARNING: CreateLightSource has been deactivated while I rework a bunch of shit");
-        // TODO place in front of the user instead of on the player.
+        // TODO place in front of the user instead of on the Lo.
         // perhaps storing the direction the player is facing could be good
         //var playerPos = Level.LocalToMap(player.Position);
         //// Layer 2 is lights
