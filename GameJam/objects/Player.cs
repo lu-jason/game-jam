@@ -3,7 +3,6 @@ using Godot;
 
 public partial class Player : GameObject
 {
-
     public override bool CanMove(Vector2I coords, string direction)
     {
         // Later we could hold a reference to these so we don't need to look them up with this "hardcodey" way
@@ -56,7 +55,7 @@ public partial class Player : GameObject
         }
 
         // If the walls and shadows are empty we can move there
-        if ((wallData == null) && (shadowData == null))
+        if ((shadowData == null))
         {
             // Check if the floor is good
             bool IsBlocked = floorData.GetCustomData("Blocked").AsBool();
@@ -65,11 +64,31 @@ public partial class Player : GameObject
                 return false;
             }
 
+            // Yikes code written quickly
+            if (wallData != null)
+            {
+                // If the character can move 
+                if (WallMoveSpecific(wallData))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             return true;
             // TODO - readd hole logic
         }
 
         // Do whatever logic here for now return true;
+        return false;
+    }
+
+    virtual public bool WallMoveSpecific(TileData wallData)
+    {
+        // Never allow walls in general player cases
         return false;
     }
     public override void SetAnimationState(string action, string direction)

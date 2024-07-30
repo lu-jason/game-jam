@@ -79,7 +79,7 @@ public partial class PlayerManager : Node2D
         }
         Func<MorphState, bool> Morph = (MorphState state) =>
         {
-            if (state != currentMorph)
+            if (state != currentMorph && CanMorph(state))
             {
                 Vector2I oldTileCoords = player.tileCoords;
 
@@ -203,5 +203,23 @@ public partial class PlayerManager : Node2D
     {
         GD.Print("Unlocking input");
         lockInput = false;
+    }
+
+    private bool CanMorph(MorphState state)
+    {
+        // Check position
+        TileData wallData = player.levelViewer.GetTileData("walls", player.tileCoords);
+        bool isSmall = false;
+        if (wallData != null)
+        {
+            isSmall = wallData.GetCustomData("Small").AsBool();
+        }
+
+        if (isSmall && (state == MorphState.witch || state == MorphState.fox))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
