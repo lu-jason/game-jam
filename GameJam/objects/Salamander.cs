@@ -13,7 +13,14 @@ public partial class Salamander : Player
     // Somthing like
     //[Signal]
     //public delegate void OnFlameObjectEventHandler(int objectID);
-
+    public override bool WallMoveSpecific(TileData wallData)
+    {
+        if (wallData == null) return false;
+        
+        
+        // Allow movement on small walls as salamander
+        return wallData.GetCustomData("Small").AsBool();
+    }
     public override void UseAbility(Vector2I affectedTile)
     {
 

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using static Godot.WebSocketPeer;
 
 // This class is used for morphing between players and handling whatever.
 public partial class PlayerManager : Node2D {
@@ -61,7 +62,7 @@ public partial class PlayerManager : Node2D {
             performedAction = true;
         }
         Func<MorphState, bool> Morph = (MorphState state) => {
-            if (state != currentMorph) {
+            if (state != currentMorph && CanMorph(state)) {
                 Vector2I oldTileCoords = player.tileCoords;
 
                 string currentDirection = player.facingDirection;
@@ -92,13 +93,21 @@ public partial class PlayerManager : Node2D {
             return false;
         };
 
-        if (@event.IsActionPressed("morph_witch")) {
+        
+        if (@event.IsActionPressed("morph_witch"))
+        {
             Morph(MorphState.witch);
-        } else if (@event.IsActionPressed("morph_fox")) {
+        }
+        else if (@event.IsActionPressed("morph_fox"))
+        {
             Morph(MorphState.fox);
-        } else if (@event.IsActionPressed("morph_salamander")) {
+        }
+        else if (@event.IsActionPressed("morph_salamander"))
+        {
             Morph(MorphState.salamander);
-        } else if (@event.IsActionPressed("morph_gargoyle")) {
+        }
+        else if (@event.IsActionPressed("morph_gargoyle"))
+        {
             Morph(MorphState.gargoyle);
         }
 
@@ -162,5 +171,23 @@ public partial class PlayerManager : Node2D {
     public static void SetLockInput(bool value)
     {
         lockInput = value;
+    }
+
+    private bool CanMorph(MorphState state)
+    {
+        // Check position
+        TileData wallData = player.levelViewer.GetTileData("walls", player.tileCoords);
+        bool isSmall = false;
+        if (wallData != null)
+        {
+            isSmall = wallData.GetCustomData("Small").AsBool();
+        }
+
+        if (isSmall && (state == MorphState.witch || state == MorphState.fox))
+        {
+            return false;
+        }
+        
+        return true;
     }
 }

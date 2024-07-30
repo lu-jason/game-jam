@@ -21,6 +21,4 @@ volume_db = -18.0
 
 [node name="HUD" parent="." instance=ExtResource("5_l3eo3")]
 
-[connection signal="OnLightsChanged" from="LevelViewer" to="LevelViewer/LightingManager" method="OnLightsChanged"]
-[connection signal="OnObjectChanged" from="LevelViewer" to="LevelViewer/InteractionManager" method="OnObjectChanged"]
 [connection signal="StartGame" from="HUD" to="." method="StartGame"]
