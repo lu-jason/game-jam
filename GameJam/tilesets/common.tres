@@ -145,6 +145,7 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/custom_data_2 = "Door"
 0:0/0/custom_data_7 = true
 0:0/0/custom_data_8 = 4
+0:0/0/custom_data_9 = true
 
 [resource]
 tile_size = Vector2i(32, 32)
@@ -167,6 +168,8 @@ custom_data_layer_7/name = "CanInteract"
 custom_data_layer_7/type = 1
 custom_data_layer_8/name = "InteractionDistance"
 custom_data_layer_8/type = 2
+custom_data_layer_9/name = "RoomEnd"
+custom_data_layer_9/type = 1
 sources/1 = SubResource("TileSetAtlasSource_t7lh8")
 sources/2 = SubResource("TileSetAtlasSource_6x27c")
 sources/3 = SubResource("TileSetAtlasSource_mtpwg")

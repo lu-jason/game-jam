@@ -27,12 +27,16 @@ public partial class GameObject : Node2D
     public LevelViewer levelViewer;
     public LightingManager lightingManager;
 
+    protected SignalBus sb;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         levelViewer = GetNode<LevelViewer>("/root/Main/LevelViewer");
         lightingManager =
             GetNode<LightingManager>("/root/Main/LevelViewer/LightingManager");
+        sb = GetNode<SignalBus>("/root/SignalBus");
+
         SetAnimationState("idle", facingDirection);
     }
 
@@ -42,7 +46,7 @@ public partial class GameObject : Node2D
         // Do some lerp shit here
         if (currentFrame <= cAnimationFrames)
         {
-            float ratio = ((float) currentFrame / (float) cAnimationFrames);
+            float ratio = ((float)currentFrame / (float)cAnimationFrames);
             Position =
                 originalPosition +
                 ((desiredPosition - originalPosition) * ratio);
@@ -75,7 +79,7 @@ public partial class GameObject : Node2D
             PlayerManager.SetLockInput(true);
             currentFrame = 0;
 
-            SetAnimationState("move",direction);
+            SetAnimationState("move", direction);
             facingDirection = direction;
 
             tileCoords = coords;

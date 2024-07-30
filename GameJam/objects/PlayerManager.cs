@@ -1,9 +1,11 @@
 using Godot;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
 // This class is used for morphing between players and handling whatever.
-public partial class PlayerManager : Node2D {
+public partial class PlayerManager : Node2D
+{
     [Export]
     public PackedScene WitchScene { get; set; }
 
@@ -26,17 +28,25 @@ public partial class PlayerManager : Node2D {
     static public bool lockInput = false;
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready() {
+    public override void _Ready()
+    {
         player = WitchScene.Instantiate<Player>();
         currentMorph = MorphState.witch;
         AddChild(player);
+
+        var sb = GetNode<SignalBus>("/root/SignalBus");
+
+        // sb.Connect(SignalBus.SignalName.OnLevelEnd, Callable.From(LockInput));
+        // sb.Connect(SignalBus.SignalName.OnLevelStart, Callable.From(UnlockInput));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) {
+    public override void _Process(double delta)
+    {
     }
 
-    public override void _Input(InputEvent @event) {
+    public override void _Input(InputEvent @event)
+    {
         // Changing this to not use try-finally as it spams these signals every frame
         // try-finally is used to execute code after a return
 
@@ -47,27 +57,37 @@ public partial class PlayerManager : Node2D {
             return;
         }
 
-        if (@event.IsActionPressed("ui_left")) {
+        if (@event.IsActionPressed("ui_left"))
+        {
             player.MoveLeft();
             performedAction = true;
-        } else if (@event.IsActionPressed("ui_right")) {
+        }
+        else if (@event.IsActionPressed("ui_right"))
+        {
             player.MoveRight();
             performedAction = true;
-        } else if (@event.IsActionPressed("ui_up")) {
+        }
+        else if (@event.IsActionPressed("ui_up"))
+        {
             player.MoveUp();
             performedAction = true;
-        } else if (@event.IsActionPressed("ui_down")) {
+        }
+        else if (@event.IsActionPressed("ui_down"))
+        {
             player.MoveDown();
             performedAction = true;
         }
-        Func<MorphState, bool> Morph = (MorphState state) => {
-            if (state != currentMorph) {
+        Func<MorphState, bool> Morph = (MorphState state) =>
+        {
+            if (state != currentMorph)
+            {
                 Vector2I oldTileCoords = player.tileCoords;
 
                 string currentDirection = player.facingDirection;
                 player.QueueFree();
                 GD.Print("Morphing to: ", state);
-                switch (state) {
+                switch (state)
+                {
                     case MorphState.witch:
                         player = WitchScene.Instantiate<Player>();
                         break;
@@ -92,13 +112,20 @@ public partial class PlayerManager : Node2D {
             return false;
         };
 
-        if (@event.IsActionPressed("morph_witch")) {
+        if (@event.IsActionPressed("morph_witch"))
+        {
             Morph(MorphState.witch);
-        } else if (@event.IsActionPressed("morph_fox")) {
+        }
+        else if (@event.IsActionPressed("morph_fox"))
+        {
             Morph(MorphState.fox);
-        } else if (@event.IsActionPressed("morph_salamander")) {
+        }
+        else if (@event.IsActionPressed("morph_salamander"))
+        {
             Morph(MorphState.salamander);
-        } else if (@event.IsActionPressed("morph_gargoyle")) {
+        }
+        else if (@event.IsActionPressed("morph_gargoyle"))
+        {
             Morph(MorphState.gargoyle);
         }
 
@@ -139,7 +166,7 @@ public partial class PlayerManager : Node2D {
             {
                 // Add 16 for offset
                 // More hardcoded rubbish
-                Animation.Position = new Vector2(affectedTile.X*32+16, affectedTile.Y * 32+16);
+                Animation.Position = new Vector2(affectedTile.X * 32 + 16, affectedTile.Y * 32 + 16);
                 Animation.ZIndex = 10;
                 Animation.RotationDegrees = rotation;
                 Animation.Play();
@@ -155,12 +182,26 @@ public partial class PlayerManager : Node2D {
         }
     }
 
-    public void MovePlayerTo(Vector2I coords) {
-        player.OverrideTileCoords(coords);//, "none");
+    public void MovePlayerTo(Vector2I coords)
+    {
+        player.OverrideTileCoords(coords);
     }
 
     public static void SetLockInput(bool value)
     {
+        GD.Print("Setting lock ", value);
         lockInput = value;
+    }
+
+    public static void LockInput()
+    {
+        GD.Print("Locking input");
+        lockInput = true;
+    }
+
+    public static void UnlockInput()
+    {
+        GD.Print("Unlocking input");
+        lockInput = false;
     }
 }

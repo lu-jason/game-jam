@@ -52,7 +52,6 @@ offset_bottom = 31.0
 text = "IncrementLevel
 "
 
-[connection signal="OnLightsChanged" from="LevelViewer" to="LevelViewer/LightingManager" method="OnLightsChanged"]
 [connection signal="OnObjectChanged" from="LevelViewer" to="LevelViewer/InteractionManager" method="OnObjectChanged"]
 [connection signal="pressed" from="HUD/ToggleLighting" to="LevelViewer" method="OnToggleLightingPressed"]
 [connection signal="pressed" from="HUD/IncrementLevel" to="LevelViewer" method="OnIncrementLevelPressed"]

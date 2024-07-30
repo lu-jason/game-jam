@@ -12,12 +12,10 @@ shader = ExtResource("1_vs8yr")
 script = ExtResource("1_3rbk2")
 
 [node name="LightingTileMap" type="TileMap" parent="."]
-z_index = 99
 material = SubResource("ShaderMaterial_8bgtx")
 tile_set = ExtResource("1_cwmam")
 format = 2
 
 [node name="ShadowTileMap" type="TileMap" parent="."]
-z_index = 99
 tile_set = ExtResource("4_ij536")
 format = 2
