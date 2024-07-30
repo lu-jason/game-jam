@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3 uid="uid://scgocpbvyip6"]
+
+[ext_resource type="Script" path="res://HUD.cs" id="1_4es27"]
+[ext_resource type="FontFile" uid="uid://dkp7rkn8c5myh" path="res://fonts/CloisterBlack.ttf" id="2_1lix1"]
+[ext_resource type="Texture2D" uid="uid://bjswqs7ga2ox8" path="res://assets/Aseprite/Witch Launch Page Sprite.png" id="2_gdkob"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7dxdx"]
+font_size = 40
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_4es27")
+
+[node name="MainMenu" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="MainMenu"]
+offset_right = 1152.0
+offset_bottom = 640.0
+color = Color(0.745098, 0.901961, 1, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="StartButton" type="Button" parent="MainMenu"]
+offset_left = 704.0
+offset_top = 432.0
+offset_right = 831.0
+offset_bottom = 469.0
+theme_override_fonts/font = ExtResource("2_1lix1")
+theme_override_font_sizes/font_size = 24
+text = "Start Game!"
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="MainMenu"]
+offset_left = 560.0
+offset_top = 256.0
+offset_right = 1009.0
+offset_bottom = 369.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_1lix1")
+theme_override_font_sizes/font_size = 96
+text = "Witch Way"
+metadata/_edit_use_anchors_ = true
+
+[node name="Witch" type="TextureRect" parent="MainMenu"]
+offset_left = 112.0
+offset_top = 88.0
+offset_right = 472.0
+offset_bottom = 628.0
+texture = ExtResource("2_gdkob")
+
+[node name="ToggleLighting" type="Button" parent="."]
+visible = false
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 11.0
+offset_bottom = 11.0
+text = "Toggle Lighting"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = 134.0
+offset_top = 1.0
+offset_right = 262.0
+offset_bottom = 67.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 153.0
+offset_top = 6.0
+offset_right = 179.0
+offset_bottom = 61.0
+label_settings = SubResource("LabelSettings_7dxdx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IncrementLevel" type="Button" parent="."]
+visible = false
+offset_left = 264.0
+offset_right = 393.0
+offset_bottom = 31.0
+text = "IncrementLevel
+"
+
+[connection signal="pressed" from="MainMenu/StartButton" to="." method="OnStartButtonPressed"]

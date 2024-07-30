@@ -24,12 +24,11 @@ public partial class Main : Node2D {
 		// }
 	}
 
-	void OnDebugButtonPressed() {
-		GD.Print("hit");
-		var levelViewer = GetNode<LevelViewer>("LevelViewer");
-		if (levelViewer != null) {
-			// TODO hook this up (Mabye a debug signal would be better)
-			//levelViewer.DebugPollTileMapData();
-		}
-	}
+	public void StartGame() 
+    {
+        GD.Print("Start Button Pressed");
+        GetNode<LevelViewer>("LevelViewer").StartGame();
+        GetNode<HUD>("HUD").ClearMainMenu();
+        GetNode<AudioStreamPlayer>("Music").Play();
+    }
 }

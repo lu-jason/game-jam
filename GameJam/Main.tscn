@@ -2,10 +2,8 @@
 
 [ext_resource type="Script" path="res://Main.cs" id="1_6on18"]
 [ext_resource type="PackedScene" uid="uid://daq70bu4kme72" path="res://levelviewer/LevelViewer.tscn" id="2_j6pm2"]
-[ext_resource type="Script" path="res://HUD.cs" id="3_tvo1a"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_vpa51"]
-font_size = 40
+[ext_resource type="AudioStream" uid="uid://bgd5lnjkcnef6" path="res://sounds/Ambient Vol5 Stained Glass Main.wav" id="4_78ffk"]
+[ext_resource type="PackedScene" uid="uid://scgocpbvyip6" path="res://HUD.tscn" id="5_l3eo3"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_6on18")
@@ -17,41 +15,11 @@ position = Vector2(464, 256)
 scale = Vector2(0.5, 0.498031)
 zoom = Vector2(1.25, 1.25)
 
-[node name="HUD" type="CanvasLayer" parent="."]
-script = ExtResource("3_tvo1a")
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_78ffk")
+volume_db = -18.0
 
-[node name="ToggleLighting" type="Button" parent="HUD"]
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 11.0
-offset_bottom = 11.0
-text = "Toggle Lighting"
-
-[node name="ColorRect" type="ColorRect" parent="HUD"]
-visible = false
-offset_left = 134.0
-offset_top = 1.0
-offset_right = 262.0
-offset_bottom = 67.0
-color = Color(0, 0, 0, 1)
-
-[node name="Label" type="Label" parent="HUD"]
-visible = false
-offset_left = 153.0
-offset_top = 6.0
-offset_right = 179.0
-offset_bottom = 61.0
-label_settings = SubResource("LabelSettings_vpa51")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="IncrementLevel" type="Button" parent="HUD"]
-offset_left = 264.0
-offset_right = 393.0
-offset_bottom = 31.0
-text = "IncrementLevel
-"
+[node name="HUD" parent="." instance=ExtResource("5_l3eo3")]
 
 [connection signal="OnObjectChanged" from="LevelViewer" to="LevelViewer/InteractionManager" method="OnObjectChanged"]
-[connection signal="pressed" from="HUD/ToggleLighting" to="LevelViewer" method="OnToggleLightingPressed"]
-[connection signal="pressed" from="HUD/IncrementLevel" to="LevelViewer" method="OnIncrementLevelPressed"]
+[connection signal="StartGame" from="HUD" to="." method="StartGame"]
