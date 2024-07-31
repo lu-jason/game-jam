@@ -10,6 +10,8 @@ public partial class GameObject : Node2D
     // Fuck it hard code the pixel size herePixel Size
     public const int cPixelSize = 32;
 
+    public string interactionText = "";
+
     public Vector2I tileCoords = new Vector2I(0, 0);
 
     // This is mush

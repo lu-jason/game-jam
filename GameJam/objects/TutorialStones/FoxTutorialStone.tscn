@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn8e7neq202mg"]
+
+[ext_resource type="PackedScene" uid="uid://lhbvgcxp5nq6" path="res://objects/GameObject.tscn" id="1_iixpb"]
+[ext_resource type="Script" path="res://objects/TutorialStones/FoxTutorialStone.cs" id="2_1u5sw"]
+[ext_resource type="Texture2D" uid="uid://c25n5px46djtp" path="res://assets/Aseprite/tutorial-stones.png" id="2_clarm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66rr4"]
+atlas = ExtResource("2_clarm")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pn6a7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66rr4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="FoxTutorialStone" instance=ExtResource("1_iixpb")]
+script = ExtResource("2_1u5sw")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_pn6a7")
+animation = &"idle"

@@ -26,5 +26,6 @@ volume_db = -18.0
 stream = ExtResource("5_4761w")
 
 [connection signal="OnGameFinished" from="LevelViewer" to="." method="OnGameFinished"]
+[connection signal="OnLightsChanged" from="LevelViewer" to="LevelViewer/LightingManager" method="OnLightsChanged"]
 [connection signal="OnObjectChanged" from="LevelViewer" to="LevelViewer/InteractionManager" method="OnObjectChanged"]
 [connection signal="StartGame" from="HUD" to="." method="StartGame"]

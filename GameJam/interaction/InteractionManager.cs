@@ -88,7 +88,11 @@ public partial class InteractionManager : Node2D {
 			var sortedGameObjectsList = sortedGameObjects.ToList();
 			GD.Print("The number of objects that can be interacted by the player is: ", sortedGameObjects.Count());
 			if (sortedGameObjectsList.Count() > 0) {
-				interactionText.Text = "Press [Space] to interact";
+				string textToDisplay = "Press [Space] to interact";
+				if (sortedGameObjectsList[0].Value.interactionText != "") {
+					textToDisplay = sortedGameObjectsList[0].Value.interactionText;
+				}
+				interactionText.Text = textToDisplay;
 				interactionText.GlobalPosition = new Vector2(
 					sortedGameObjectsList[0].Value.GlobalPosition.X - interactionText.Size.X / 2,
 					sortedGameObjectsList[0].Value.GlobalPosition.Y - 36
