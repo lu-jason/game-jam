@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://objects/Rock.cs" id="1_4q2w2"]
 [ext_resource type="PackedScene" uid="uid://lhbvgcxp5nq6" path="res://objects/GameObject.tscn" id="1_oo6nv"]
-[ext_resource type="Texture2D" uid="uid://pjqk1tnjfjtu" path="res://assets/rock_32.png" id="2_tseqn"]
+[ext_resource type="Texture2D" uid="uid://lr2lw1tk8r5w" path="res://assets/Aseprite/Rock.png" id="3_8rote"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ewd3p"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_tseqn")
+"texture": ExtResource("3_8rote")
 }],
 "loop": true,
 "name": &"idle",

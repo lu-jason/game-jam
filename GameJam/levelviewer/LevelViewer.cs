@@ -47,7 +47,7 @@ public partial class LevelViewer : Node2D
 
     private TileMap Level;
     private int currentLevelID;
-    const int cMAX_LEVEL_NUMBER = 3;
+    const int cMAX_LEVEL_NUMBER = 4;
 
     private Vector2I tileBounds = new Vector2I(0, 0);
 
@@ -66,7 +66,7 @@ public partial class LevelViewer : Node2D
 
     public void StartGame()
     {
-        currentLevelID = 0;
+        currentLevelID = 3;
         LoadLevel(currentLevelID);
 
         sb = GetNode<SignalBus>("/root/SignalBus");
@@ -99,6 +99,11 @@ public partial class LevelViewer : Node2D
                         gameObjects[x, y].QueueFree();
                     }
                 }
+            }
+            var interactionObjects = GetNode<InteractionManager>("InteractionManager").gameObjects;
+            if (interactionObjects != null)
+            {
+                interactionObjects.Clear();
             }
         }
         string levelPath = "res://levels/Level" + level.ToString() + ".tscn";

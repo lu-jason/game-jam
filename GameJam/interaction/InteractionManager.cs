@@ -12,7 +12,7 @@ public partial class InteractionManager : Node2D {
 
 	private GameObject playerRef;
 	private Dictionary<ulong, uint> interactionDistances;
-	private Dictionary<ulong, GameObject> gameObjects;
+	public Dictionary<ulong, GameObject> gameObjects;
 
 	// Pretty sure C# passes by reference
   private TileMap levelRef;

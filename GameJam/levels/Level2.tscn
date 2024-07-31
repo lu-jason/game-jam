@@ -12,4 +12,4 @@ layer_1/tile_data = PackedInt32Array(0, 3, 1, 1, 3, 1, 2, 3, 1, 3, 3, 1, 4, 3, 1
 layer_2/name = "lights"
 layer_2/tile_data = PackedInt32Array(131073, 2, 0, 524289, 2, 0, 524302, 2, 0, 131086, 2, 0)
 layer_3/name = "objects"
-layer_3/tile_data = PackedInt32Array(327681, 65539, 2, 196622, 262147, 2)
+layer_3/tile_data = PackedInt32Array(327681, 65539, 2, 196622, 262147, 2, 524293, 65541, 0)
