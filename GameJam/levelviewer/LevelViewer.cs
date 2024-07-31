@@ -7,9 +7,6 @@ using Godot.Collections;
 public partial class LevelViewer : Node2D
 {
     [Export]
-    public PackedScene Map { get; set; }
-
-    [Export]
     public PackedScene RockScene { get; set; }
 
     [Export]
@@ -52,7 +49,7 @@ public partial class LevelViewer : Node2D
     private int currentLevelID;
     const int cMAX_LEVEL_NUMBER = 3;
 
-    private Vector2I tileBounds;
+    private Vector2I tileBounds = new Vector2I(0, 0);
 
     private GameObject[,] gameObjects;
 
@@ -93,8 +90,17 @@ public partial class LevelViewer : Node2D
         {
             Level.QueueFree();
             LayerMap.Clear();
+            for (int x = 0; x < tileBounds.X; x++)
+            {
+                for (int y = 0; y < tileBounds.Y; y++)
+                {
+                    if (gameObjects[x, y] != null)
+                    {
+                        gameObjects[x, y].QueueFree();
+                    }
+                }
+            }
         }
-
         string levelPath = "res://levels/Level" + level.ToString() + ".tscn";
         GD.Print("levelPath: ", levelPath);
         PackedScene levelScene = GD.Load<PackedScene>(levelPath);

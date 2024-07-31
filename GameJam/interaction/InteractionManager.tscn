@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqrn22u26pyiq"]
+[gd_scene load_steps=4 format=3 uid="uid://bqrn22u26pyiq"]
 
 [ext_resource type="Script" path="res://interaction/InteractionManager.cs" id="1_58qns"]
 [ext_resource type="PackedScene" uid="uid://cwr2ekgui1u13" path="res://interaction/InteractionText.tscn" id="2_5lq72"]
+[ext_resource type="FontFile" uid="uid://dkp7rkn8c5myh" path="res://fonts/CloisterBlack.ttf" id="3_ovfxe"]
 
 [node name="InteractionManager" type="Node2D"]
 script = ExtResource("1_58qns")
@@ -15,3 +16,7 @@ offset_left = -48.0
 offset_right = 48.0
 offset_bottom = 23.0
 grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("3_ovfxe")
