@@ -47,7 +47,7 @@ public partial class LevelViewer : Node2D
 
     private TileMap Level;
     private int currentLevelID;
-    const int cMAX_LEVEL_NUMBER = 4;
+    const int cMAX_LEVEL_NUMBER = 5;
 
     private Vector2I tileBounds = new Vector2I(0, 0);
 
@@ -66,7 +66,7 @@ public partial class LevelViewer : Node2D
 
     public void StartGame()
     {
-        currentLevelID = 3;
+        currentLevelID = 0;
         LoadLevel(currentLevelID);
 
         sb = GetNode<SignalBus>("/root/SignalBus");
